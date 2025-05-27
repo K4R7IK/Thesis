@@ -1,0 +1,56 @@
+This thesis addressed the significant challenge of detecting sophisticated fileless and polymorphic malware, which often evade traditional signature-based and disk-focused security measures. An adaptive detection framework was proposed, developed, and evaluated, integrating memory forensics, computer vision techniques applied to RGB memory images, and machine learning classification.
+
+\section{Summary of Findings}
+\label{sec:summary_findings}
+
+The research presented in this thesis has yielded several key findings and contributions towards enhancing the detection of evasive malware:
+
+\begin{itemize}
+    \item \textbf{Developed an Effective Memory-Based Detection Framework:} A novel methodology was successfully implemented, transforming volatile memory dumps into RGB images and utilizing visual features for classification. This approach proved highly effective, achieving a superior multi-class classification accuracy of 97.49\% using a Linear SVM classifier on the Poly10 dataset, outperforming baseline results \citep{bozkir2021catch}.
+
+    \item \textbf{Validated Robust Feature Fusion:} The study demonstrated the significant benefit of fusing global (GIST) and local (HOG) visual features extracted from the RGB memory images. This combination provided a richer, more discriminative representation, leading to an average accuracy improvement of 3.16\% compared to using GIST features alone, surpassing improvements noted in related baseline work.
+
+    \item \textbf{Pioneered Optimized UMAP for Unknown Malware Detection:} A key contribution was the application and optimization of the UMAP manifold learning technique specifically for enhancing the detection of unknown malware families. By using supervised UMAP with carefully tuned hyperparameters (n=55, min\_dist=1.0, Manhattan distance), the framework achieved substantial improvements in identifying novel threats, boosting accuracy by up to 36.98\% in challenging scenarios and significantly mitigating the issue of high false positives for benign samples.
+
+    \item \textbf{Demonstrated Efficacy on Contemporary Threats:} The framework was validated using the Poly10 dataset, which includes a diverse set of modern fileless (Kovter, Poweliks, FIN7, etc.) and polymorphic (Emotet, Trickbot, DarkHotel) malware families, confirming its relevance and effectiveness against current evasion techniques. The approach offers practical implications, showing viability for memory-based detection with efficient processing suitable for near real-time monitoring.
+\end{itemize}
+
+In essence, this research successfully integrated memory forensics, computer vision, and machine learning, establishing an adaptive framework capable of accurately identifying known evasive malware and, critically, demonstrating a significantly enhanced capability to detect previously unseen threats through the strategic application of UMAP.
+
+\section{Limitations and Future Work}
+\label{sec:limitations_future}
+
+While the proposed framework demonstrates significant promise in detecting fileless and polymorphic malware, it is important to acknowledge certain limitations inherent in the current study. These limitations also pave the way for valuable future research directions.
+
+\subsection{Limitations}
+\label{subsec:limitations}
+
+\begin{itemize}
+    \item \textbf{Dataset Scope and Diversity:} The experiments were conducted using the curated Poly10 dataset. While diverse, containing 10 contemporary malware families, it may not represent the full spectrum of malware variants encountered in the wild. The performance of the framework on malware families or evasion techniques significantly different from those in Poly10 is untested.
+    \item \textbf{Environment and Tool Dependency:} The findings are specific to the Windows 10/11 environments running within VMWare ESXI used for analysis. Malware behavior might differ subtly in other environments or on physical machines. Furthermore, the memory dump quality relies on ProcDump v9.0; different acquisition tools or versions might yield different results.
+    \item \textbf{Focus on Specific Features:} The framework relies heavily on visual features extracted using GIST and HOG descriptors from RGB images. While effective, this approach might miss malicious indicators present in memory that do not manifest strongly as visual patterns detectable by these specific descriptors. It also does not incorporate other potentially valuable memory artifacts (e.g., API call sequences, network connections, registry modifications found directly in memory structures).
+    \item \textbf{Post-Execution Analysis:} The current methodology is based on analyzing memory dumps captured after malware execution has commenced. It primarily focuses on detection rather than real-time prevention or intervention during the initial stages of infection.
+    \item \textbf{Potential for Adversarial Evasion:} As vision-based detection methods become more common, adversaries may develop techniques specifically designed to obfuscate the visual patterns generated from memory dumps, potentially degrading the performance of GIST/HOG-based feature extraction. The robustness against such targeted adversarial attacks was not explicitly evaluated.
+    \item \textbf{UMAP Configuration Sensitivity:} While UMAP significantly improved results, its performance was shown to be dependent on careful hyperparameter tuning. Finding the optimal configuration might require extensive experimentation for different datasets or feature sets.
+\end{itemize}
+
+\subsection{Future Work}
+\label{subsec:future_work}
+
+Based on the findings and limitations of this research, several avenues for future work can be pursued to further enhance the detection capabilities against evasive malware:
+
+\begin{itemize}
+    \item \textbf{Optimizing Memory Acquisition:} Explore alternative memory acquisition techniques or tools beyond ProcDump. Investigate optimal timing strategies for capturing memory dumps to maximize the visibility of malicious activities, potentially using dynamic triggers based on preliminary behavior analysis.
+    \item \textbf{Advanced Feature Engineering and Fusion:} Integrate features derived from other memory analysis techniques (e.g., extracting API call information, strings, network artifacts, process handle information directly from memory structures using tools like Volatility) with the visual features (GIST/HOG). Explore the use of deep learning models (e.g., CNNs, Autoencoders) applied to the memory images to automatically learn features, potentially combining them with handcrafted descriptors for a hybrid approach.
+    \item \textbf{Adaptive and Online Learning:} Develop adaptive learning mechanisms where the detection models can be updated incrementally or continuously as new malware samples or benign software behaviors are observed. This could help the system stay effective against concept drift and rapidly evolving threats.
+    \item \textbf{Expanded Dataset and Cross-Dataset Evaluation:} Evaluate the framework on larger, more diverse, and continuously updated datasets encompassing a wider range of malware families, variants, packers, and obfuscation techniques. Testing across different publicly available memory dump datasets would also strengthen the validation.
+    \item \textbf{Real-Time Detection Exploration:} Investigate the feasibility of adapting the core concepts (memory visualization, feature extraction) for near real-time detection, perhaps by analyzing memory incrementally or focusing on specific critical memory regions, although this poses significant performance challenges.
+    \item \textbf{Robustness Against Adversarial Attacks:} Specifically design and evaluate defenses against adversarial examples crafted to deceive the vision-based detection component. This could involve adversarial training or developing more inherently robust feature representations.
+    \item \textbf{Cross-Platform Analysis:} Extend and adapt the methodology for detecting similar evasive threats on other operating systems, such as Linux and macOS, which also face challenges from sophisticated malware.
+\end{itemize}
+
+Addressing these future research directions, as suggested in part by \citet{kushwaha2024adaptive}[cite: 107], can build upon the foundation laid by this thesis, contributing to the development of even more robust and comprehensive defenses against the evolving landscape of advanced cyber threats.
+
+\bigskip % Add some vertical space before the final concluding sentence
+\noindent In conclusion, the integration of memory forensics, computer vision, and machine learning, particularly enhanced with manifold learning techniques like UMAP, provides a powerful and adaptive approach for tackling the challenges posed by fileless and polymorphic malware, significantly advancing detection capabilities beyond traditional methods.
+

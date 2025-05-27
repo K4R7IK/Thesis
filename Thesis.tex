@@ -1,0 +1,99 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%         Gautam Buddha University, Greater Noida, Utter Pradesh 
+%                      https://gbu.ac.in
+%          SOICT M.Tech  Thesis Template — Custom LaTeX Class
+%         Created by: [Your Name] — Share & Improve via GitHub
+%    GitHub Repository: https://github.com/ashish-kus/SOICT-Latex-Kit
+%    author : Ashish Kushwaha , ashish.kus2408@gmain.com, 7525874187
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass{SOICTthesis}  % Load your custom thesis class (.cls file)
+
+% ========================
+% Thesis Information Setup
+% ========================
+\thesistitle{Your Thesis Title Here}
+\degree{DEGREE NAME}
+\program{PROGRAM NAME}
+\specialization{SPECIALIZATION}
+\authorname{Kartik Kushwaha}
+\enrollmentno{20/ICS/021}
+\supervisor{Supervisor Name}{Designation, Department}
+\university{Gautam Buddha University}
+\submissiondate{May 2025}
+
+% ================
+% Packages
+% ================
+% \RequirePackage{lipsum}     % For generating dummy placeholder text (optional)
+
+\begin{document}
+
+% ====================
+% Abstract Section
+% ====================
+% Set your abstract inside the \theabstract{} command.
+\theabstract{
+    \lipsum[1-2]  % Replace with your real abstract
+}
+
+% ====================
+% Chapters Begin Here
+% ====================
+
+---------------------------------
+\chapter{INTRODUCTION}
+\include{Chapters/Introduction.tex}
+
+
+% ---------------------------------
+\chapter{LITERATURE REVIEW}
+\include{Chapters/Lit_Review.tex}
+
+% ---------------------------------
+\chapter{METHODOLOGY}
+% ---------------------------------
+% \include{Chapters/Methodology.tex}
+
+% ---------------------------------------------
+\chapter{EXPERIMENTAL SETUP AND RESULTS}
+% ---------------------------------------------
+
+% ----------------------
+\chapter{DISCUSSION}
+% ----------------------
+% \section{Findings Analysis}
+% \lipsum[34-36]
+%
+% \section{Comparison with Existing Approaches}
+% \lipsum[37-39]
+% \cite{b12}
+% \include{Chapters/Discussion.tex}
+
+% % ----------------------
+\chapter{CONCLUSION}
+% % ----------------------
+% \section{Summary of Findings}
+% \lipsum[40-42]
+%
+% \section{Limitations and Future Work}
+% \lipsum[43-45]
+% \include{Chapters/Conclusion.tex}
+
+% =====================
+% Bibliography Section
+% =====================
+\bibliographystyle{IEEEtran}
+\newpage
+\bibliography{Bibliography/references}
+
+% =====================
+% Optional Appendices
+% =====================
+% Uncomment to include appendices
+%\appendix
+%\chapter{Appendix A}
+%\include{Appendices/AppendixA}
+
+\end{document}
+
