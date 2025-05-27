@@ -22,8 +22,16 @@
 \contentsline {section}{\numberline {1.6}Thesis Organization}{18}{section.1.6}%
 \contentsline {section}{\numberline {1.7}Summary}{22}{section.1.7}%
 \contentsline {chapter}{\numberline {2}LITERATURE REVIEW}{24}{chapter.2}%
-\contentsline {chapter}{\numberline {3}METHODOLOGY}{25}{chapter.3}%
-\contentsline {chapter}{\numberline {4}EXPERIMENTAL SETUP AND RESULTS}{26}{chapter.4}%
-\contentsline {chapter}{\numberline {5}DISCUSSION}{27}{chapter.5}%
-\contentsline {chapter}{\numberline {6}CONCLUSION}{28}{chapter.6}%
-\contentsline {chapter}{\numberline {7}*}{29}{chapter.7}%
+\contentsline {section}{\numberline {2.1}Introduction}{25}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Existing Approaches}{25}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Memory Forensics for Malware Detection}{26}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Vision-Based Approaches to Malware Analysis}{27}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Feature Extraction Techniques for Malware Classification}{28}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Machine Learning for Fileless and Polymorphic Malware Detection}{29}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Dimension Reduction and Manifold Learning in Malware Analysis}{31}{subsection.2.2.5}%
+\contentsline {section}{\numberline {2.3}Research Gaps}{32}{section.2.3}%
+\contentsline {chapter}{\numberline {3}METHODOLOGY}{34}{chapter.3}%
+\contentsline {chapter}{\numberline {4}EXPERIMENTAL SETUP AND RESULTS}{35}{chapter.4}%
+\contentsline {chapter}{\numberline {5}DISCUSSION}{36}{chapter.5}%
+\contentsline {chapter}{\numberline {6}CONCLUSION}{37}{chapter.6}%
+\contentsline {chapter}{\numberline {7}*}{38}{chapter.7}%

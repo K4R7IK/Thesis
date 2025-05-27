@@ -150,6 +150,9 @@ INPUT .build/Thesis.aux
 INPUT .build/Chapters/Introduction.aux
 INPUT .build/Chapters/Introduction.aux
 INPUT .build/Chapters/Introduction.aux
+INPUT .build/Chapters/Lit_Review.aux
+INPUT .build/Chapters/Lit_Review.aux
+INPUT .build/Chapters/Lit_Review.aux
 OUTPUT .build/Thesis.aux
 INPUT /opt/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 INPUT /opt/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
@@ -236,6 +239,11 @@ INPUT /opt/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 INPUT /opt/texlive/2025/texmf-dist/fonts/tfm/adobe/times/ptmr8c.tfm
 INPUT /opt/texlive/2025/texmf-dist/fonts/vf/adobe/times/ptmr8c.vf
+INPUT ./Chapters/Lit_Review.tex
+OUTPUT .build/Chapters/Lit_Review.aux
+INPUT ./Chapters/Lit_Review.tex
+INPUT ./Chapters/Lit_Review.tex
+INPUT Chapters/Lit_Review.tex
 INPUT ./Thesis.bbl
 INPUT ./Thesis.bbl
 INPUT Thesis.bbl
@@ -243,6 +251,9 @@ INPUT .build/Thesis.aux
 INPUT .build/Chapters/Introduction.aux
 INPUT .build/Chapters/Introduction.aux
 INPUT .build/Chapters/Introduction.aux
+INPUT .build/Chapters/Lit_Review.aux
+INPUT .build/Chapters/Lit_Review.aux
+INPUT .build/Chapters/Lit_Review.aux
 INPUT .build/Thesis.out
 INPUT .build/Thesis.out
 INPUT /opt/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb

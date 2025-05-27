@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.17)  27 MAY 2025 23:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.17)  28 MAY 2025 00:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -391,7 +391,7 @@ LaTeX Info: Redefining \cite on input line 694.
 LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 30.
  (/opt/texlive/2025/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
-) (.build/Thesis.aux (.build/Chapters/Introduction.aux))
+) (.build/Thesis.aux (.build/Chapters/Introduction.aux) (.build/Chapters/Lit_Review.aux))
 \openout1 = `Thesis.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 30.
@@ -477,7 +477,7 @@ Package hyperref Info: Link coloring OFF on input line 30.
 \@outlinefile=\write3
 \openout3 = `Thesis.out'.
 
-<Assets/gbulogo.pdf, id=120, 85.7604pt x 85.7604pt>
+<Assets/gbulogo.pdf, id=152, 85.7604pt x 85.7604pt>
 File: Assets/gbulogo.pdf Graphic file (type pdf)
 <use Assets/gbulogo.pdf>
 Package pdftex.def Info: Assets/gbulogo.pdf  used on input line 38.
@@ -505,29 +505,31 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.i}) has b
 l.38 }
        [1]
 
-[2] (.build/Thesis.toc)
+[2] (.build/Thesis.toc
+
+[3])
 \tf@toc=\write4
 \openout4 = `Thesis.toc'.
 
 
 
-[3]
+[4]
 
-[4] (.build/Thesis.lof)
+[5] (.build/Thesis.lof)
 \tf@lof=\write5
 \openout5 = `Thesis.lof'.
 
 
 
-[5] (.build/Thesis.lot)
+[6] (.build/Thesis.lot)
 \tf@lot=\write6
 \openout6 = `Thesis.lot'.
 
 
 
-[6]
+[7]
 
-[7
+[8
 
 ]
 Chapter 1.
@@ -615,10 +617,126 @@ Chapter 2.
 
 
 ]
+\openout2 = `Chapters/Lit_Review.aux'.
+
+ (./Chapters/Lit_Review.tex
+
+[25
+
+
+]
+
+Package natbib Warning: Author undefined for citation`bozkir2021catch' 
+(natbib)                on page 26 on input line 27.
+
+
+Package natbib Warning: Author undefined for citation`nissim2019volatile' 
+(natbib)                on page 26 on input line 29.
+
+
+Package natbib Warning: Author undefined for citation`kara2022fileless' 
+(natbib)                on page 26 on input line 31.
+
+
+
+[26]
+
+Package natbib Warning: Author undefined for citation`nataraj2011malware' 
+(natbib)                on page 27 on input line 41.
+
+
+Package natbib Warning: Author undefined for citation`zhang2023malware' 
+(natbib)                on page 27 on input line 43.
+
+
+
+[27]
+
+Package natbib Warning: Author undefined for citation`vasan2020image' 
+(natbib)                on page 28 on input line 45.
+
+
+Package natbib Warning: Author undefined for citation`yuan2020byte' 
+(natbib)                on page 28 on input line 47.
+
+
+Package natbib Warning: Author undefined for citation`bozkir2021catch' 
+(natbib)                on page 28 on input line 49.
+
+
+Package natbib Warning: Author undefined for citation`oliva2001modeling' 
+(natbib)                on page 28 on input line 57.
+
+
+
+[28]
+
+Package natbib Warning: Author undefined for citation`dalal2005histograms' 
+(natbib)                on page 29 on input line 59.
+
+
+Package natbib Warning: Author undefined for citation`yajamanam2018deep' 
+(natbib)                on page 29 on input line 61.
+
+
+Package natbib Warning: Author undefined for citation`bozkir2021catch' 
+(natbib)                on page 29 on input line 63.
+
+
+
+[29]
+
+Package natbib Warning: Author undefined for citation`khalid2023insight' 
+(natbib)                on page 30 on input line 71.
+
+
+Package natbib Warning: Author undefined for citation`hossain2024enhanced' 
+(natbib)                on page 30 on input line 71.
+
+
+Package natbib Warning: Author undefined for citation`khoje2024revolutionary' 
+(natbib)                on page 30 on input line 73.
+
+
+Package natbib Warning: Author undefined for citation`hammi2024malware' 
+(natbib)                on page 30 on input line 75.
+
+
+Package natbib Warning: Author undefined for citation`chowdhury2022capturing' 
+(natbib)                on page 30 on input line 75.
+
+
+
+[30]
+
+Package natbib Warning: Author undefined for citation`mcinnes2018umap' 
+(natbib)                on page 31 on input line 87.
+
+
+Package natbib Warning: Author undefined for citation`sharma2018efficacy' 
+(natbib)                on page 31 on input line 89.
+
+
+Package natbib Warning: Author undefined for citation`bozkir2021catch' 
+(natbib)                on page 31 on input line 91.
+
+
+
+[31]
+
+[32]
+Overfull \hbox (0.28139pt too wide) in paragraph at lines 105--106
+[]\OT1/ptm/b/n/12 Improving Ro-bust-ness Against Eva-sion: \OT1/ptm/m/n/12 File-less and poly-mor-phic mal-ware con-stantly evolve
+ []
+
+)
+
+[33]
 Chapter 3.
 
 
-[25
+[34
+
 
 
 
@@ -626,7 +744,7 @@ Chapter 3.
 Chapter 4.
 
 
-[26
+[35
 
 
 
@@ -634,7 +752,7 @@ Chapter 4.
 Chapter 5.
 
 
-[27
+[36
 
 
 
@@ -642,7 +760,7 @@ Chapter 5.
 Chapter 6.
 
 
-[28
+[37
 
 
 
@@ -650,39 +768,39 @@ Chapter 6.
 Chapter 7.
 
 
-[29
+[38
 
 
 
 ]
 
-[30
+[39
 
 ]
 
-[31])
+[40])
 
-[32] (.build/Thesis.aux (.build/Chapters/Introduction.aux))
+[41] (.build/Thesis.aux (.build/Chapters/Introduction.aux) (.build/Chapters/Lit_Review.aux))
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-03-26>
  ***********
 Package rerunfilecheck Info: File `Thesis.out' has not changed.
-(rerunfilecheck)             Checksum: 305C92596EA898F1875646778EDF9DA6;5719.
+(rerunfilecheck)             Checksum: 2D7C94733CDB428A023B2193638314E9;7806.
  ) 
 Here is how much of TeX's memory you used:
- 13019 strings out of 469626
- 204718 string characters out of 5446523
- 705011 words of memory out of 5000000
- 39533 multiletter control sequences out of 15000+600000
+ 13078 strings out of 469626
+ 206073 string characters out of 5446523
+ 707124 words of memory out of 5000000
+ 39567 multiletter control sequences out of 15000+600000
  644605 words of font info for 71 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 90i,6n,93p,725b,675s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 90i,6n,93p,1441b,675s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </opt/texlive/2025/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></opt/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></opt/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on .build/Thesis.pdf (40 pages, 142431 bytes).
+Output written on .build/Thesis.pdf (50 pages, 170915 bytes).
 PDF statistics:
- 392 PDF objects out of 1000 (max. 8388607)
- 337 compressed objects within 4 object streams
- 96 named destinations out of 1000 (max. 500000)
- 238 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 559 PDF objects out of 1000 (max. 8388607)
+ 493 compressed objects within 5 object streams
+ 114 named destinations out of 1000 (max. 500000)
+ 302 words of extra memory for PDF output out of 10000 (max. 10000000)
 
