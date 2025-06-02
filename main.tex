@@ -1,0 +1,31 @@
+\documentclass[12pt, a4paper]{report}
+
+\usepackage{graphicx}      % For images
+\usepackage{amsmath}
+\usepackage{bookmark}
+\usepackage{pdfpages}
+\usepackage{float}
+\usepackage{amsmath}
+\usepackage{amssymb} % For mathematical symbols
+\usepackage{tikz} % For drawing diagrams
+\usetikzlibrary{positioning}
+\usepackage{algorithm} % For algorithm environment
+\usepackage{algpseudocode}
+\algdef{SE}[TRY]{Try}{EndTry}{\textbf{try}}{\textbf{end try}}
+\algdef{C}[TRY]{Catch}{...}{\textbf{catch} #1}
+\usepackage{float} % For better control over float placement (e.g., [H] option)
+
+\input{format/default}
+
+\begin{document}
+\input{sections/default}
+
+
+% References
+\bibliographystyle{IEEEtran}
+\bibliography{references} % Ensure references.bib exists
+
+\pagenumbering{gobble}
+\input{pdfs/default}
+
+\end{document}

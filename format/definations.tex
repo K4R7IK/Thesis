@@ -1,0 +1,50 @@
+\usepackage{geometry}
+\usepackage{titlesec}
+\usepackage{tocbibind}
+\usepackage{nomencl}
+\usepackage{tocloft}
+\usepackage{hyperref}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{array}
+
+\linespread{1.5}
+\geometry{a4paper, margin=1in} % Page Layout
+\setlength{\parskip}{1\baselineskip}
+
+% TOC - Table of contents formatting
+% LOF - List of Figures formatting
+% LOT - List of Tables formatting
+
+\renewcommand{\cftchapleader}{\cftdotfill{\cftdotsep}}
+\titlespacing{\tableofcontents}{0pt}{-8ex}{-2ex}
+\hypersetup{pdfborder=0 0 0} % Remove border around hyperlinks
+
+\renewcommand*\listfigurename{LIST OF FIGURES}
+\renewcommand*\listtablename{LIST OF TABLES}
+\renewcommand*\contentsname{TABLE OF CONTENTS}
+\renewcommand*\tocbibname{REFERENCES}
+
+% Chapter and Sections
+
+\titleformat{\chapter}[display]
+{\centering\LARGE\bfseries}
+{\MakeUppercase{\chaptertitlename}\ \vspace{-16pt}\thechapter}
+{0pt}
+{\MakeUppercase}
+
+% For unnumbered chapters (like Introduction, Conclusion)
+\titleformat{name=\chapter, numberless}
+{\centering\normalfont\huge\bfseries}
+{\MakeUppercase{\thechaptertitlename}}
+{0pt}
+{\MakeUppercase}
+
+
+\titlespacing{\chapter}{0pt}{-8ex}{-1ex}
+\titlespacing*{\section}{0pt}{1ex}{-2ex}
+\titlespacing*{\subsection}{0pt}{1ex}{-2ex}
+\titlespacing*{\subsubsection}{0pt}{1ex}{-2ex}
+
+
+\makenomenclature
