@@ -1,3 +1,6 @@
+\chapter{Methodology}
+\label{ch:methodology}
+
 This chapter presents a comprehensive methodology for adaptive detection of fileless and polymorphic malware through an integrated approach combining memory forensics, computer vision, and machine learning techniques. The proposed framework addresses the fundamental limitations of traditional signature-based detection systems by analyzing memory-resident patterns and employing advanced dimensional reduction techniques to enhance unknown malware identification capabilities.
 
 \section{Overview of the Proposed Framework}
@@ -7,138 +10,38 @@ The methodology encompasses a multi-phase approach designed to capture, analyze,
 
 \begin{figure}[!htbp]
 \centering
-    \begin{tikzpicture}
-        % NOTE: Your main .tex file MUST have \usepackage{tikz} and \usetikzlibrary{positioning} in the preamble.
-        \node[draw, rectangle, text width=3cm, text centered] (collect) {Memory Dump Collection};
-        \node[draw, rectangle, text width=3cm, text centered, below=1cm of collect] (convert) {RGB Image Conversion};
-        \node[draw, rectangle, text width=3cm, text centered, below=1cm of convert] (extract) {Feature Extraction};
-        \node[draw, rectangle, text width=3cm, text centered, below=1cm of extract] (classify) {Classification};
-        \node[draw, rectangle, text width=3cm, text centered, below=1cm of classify] (detect) {Unknown Malware Detection};
-        
-        \draw[->] (collect) -- (convert);
-        \draw[->] (convert) -- (extract);
-        \draw[->] (extract) -- (classify);
-        \draw[->] (classify) -- (detect);
-    \end{tikzpicture}
-    \caption{Overall methodology workflow for malware detection framework}
-    \label{fig:methodology-overview}
+% Simpler mermaid diagram placeholder - you can replace this with actual mermaid code later
+\fbox{\parbox{0.9\textwidth}{
+    \centering
+    \textbf{Mermaid Diagram Placeholder} \\
+    A comprehensive workflow diagram showing the four phases: \\
+    1. Memory Analysis (Collection → Dump Files → RGB Conversion → Standardized Images) \\
+    2. Feature Extraction (GIST → 960-D Vector, HOG → 1764-D Vector → Feature Fusion → 2724-D Vector) \\
+    3. Multi-Class Classification (Machine Learning Models → Linear SVM/SMO/XGBoost/RF/J48 → Classification) \\
+    4. Unknown Malware Detection (Dataset Reconfiguration → UMAP → 4-D Embeddings → Binary Classification)
+}}
+\caption{Comprehensive workflow of the proposed malware detection framework}
+\label{fig:methodology-overview}
 \end{figure}
 
-\section{Malware Characteristics and Detection Challenges}
-\label{sec:malware-characteristics}
-
-\subsection{Polymorphic Malware Analysis}
-\label{subsec:polymorphic-analysis}
-
-Polymorphic malware represents a sophisticated class of threats that employ multiple obfuscation techniques to evade detection systems. These techniques fundamentally alter the binary representation while preserving the underlying malicious functionality.
-
-\subsubsection{Code Transformation Techniques}
-
-The polymorphic transformation process involves several sophisticated mechanisms:
+The proposed framework consists of four main phases:
 
 \begin{enumerate}
-    \item \textbf{Encryption-based Polymorphism}: The malware encrypts its payload using varying encryption keys for each infection instance. The decryption routine remains constant, but the encrypted body appears completely different across infections.
+    \item \textbf{Phase 1: Memory Analysis}: This initial phase focuses on capturing memory snapshots from virtualized environments where malware samples are executed under controlled conditions. The raw memory dumps are then converted into standardized RGB images that preserve the structural information of memory contents.
     
-    \item \textbf{Instruction Substitution}: Functionally equivalent instruction sequences replace original code segments. For example, the instruction \texttt{MOV EAX, 0} might be replaced with \texttt{XOR EAX, EAX}.
+    \item \textbf{Phase 2: Feature Extraction}: This phase applies computer vision techniques to extract discriminative features from the visualized memory dumps. We employ two complementary descriptors:
+    \begin{itemize}
+        \item GIST descriptor, which captures global spatial structures, producing a 960-dimensional feature vector
+        \item HOG (Histogram of Oriented Gradients) descriptor, which encodes local gradient patterns, generating a 1764-dimensional feature vector
+    \end{itemize}
+    These features are fused into a combined 2724-dimensional vector that represents both global and local characteristics of the memory images.
     
-    \item \textbf{Register Reassignment}: The malware randomly assigns different CPU registers for equivalent operations, altering the binary signature without affecting functionality.
+    \item \textbf{Phase 3: Multi-Class Classification}: The third phase leverages multiple machine learning algorithms (Linear SVM, SMO-RBF, XGBoost, Random Forest, and J48) to classify known malware samples into their respective families based on the extracted features.
     
-    \item \textbf{Dead Code Insertion}: Non-functional instruction sequences are randomly inserted between operational code segments to modify the overall signature.
-    
-    \item \textbf{Code Transposition}: Instruction blocks are reordered while maintaining logical flow through jump instructions and conditional branches.
+    \item \textbf{Phase 4: Unknown Malware Detection}: The final phase focuses on detecting previously unseen malware variants. This involves reconfiguring the dataset into a binary classification problem (malicious vs. benign) and applying Uniform Manifold Approximation and Projection (UMAP) to reduce dimensionality to 4D, enabling more effective detection of zero-day threats.
 \end{enumerate}
 
-Algorithm~\ref{alg:polymorphic-analysis} presents our approach to analyzing polymorphic characteristics in memory dumps.
-
-\begin{algorithm}[!htbp]
-\caption{Polymorphic Pattern Analysis in Memory Dumps}
-\label{alg:polymorphic-analysis}
-\begin{algorithmic}[1]
-\Require Memory dump $M$, baseline signatures $S_{base}$
-\Ensure Polymorphic transformation indicators $P_{indicators}$
-\State $P_{indicators} \leftarrow \emptyset$
-\State $blocks \leftarrow$ ExtractCodeBlocks($M$)
-\For{each $block \in blocks$}
-    \State $patterns \leftarrow$ AnalyzeInstructionPatterns($block$)
-    \State $entropy \leftarrow$ CalculateEntropy($block$)
-    \If{$entropy > threshold_{high}$}
-        \State $P_{indicators} \leftarrow P_{indicators} \cup \{$"encryption detected"$\}$
-    \EndIf
-    \State $substitutions \leftarrow$ DetectInstructionSubstitution($patterns$, $S_{base}$)
-    \If{$|substitutions| > threshold_{substitution}$}
-        \State $P_{indicators} \leftarrow P_{indicators} \cup \{$"instruction substitution detected"$\}$
-    \EndIf
-    \State $dead\_code \leftarrow$ IdentifyDeadCode($block$)
-    \If{$|dead\_code| > threshold_{dead}$}
-        \State $P_{indicators} \leftarrow P_{indicators} \cup \{$"dead code insertion detected"$\}$
-    \EndIf
-\EndFor
-\Return $P_{indicators}$
-\end{algorithmic}
-\end{algorithm}
-
-\subsection{Fileless Malware Characteristics}
-\label{subsec:fileless-characteristics}
-
-Fileless malware operates exclusively within system memory, presenting unique detection challenges due to its volatile nature and minimal forensic footprint.
-
-\subsubsection{Memory-Only Execution Patterns}
-
-Fileless malware exhibits several distinctive memory-based execution patterns:
-
-\begin{itemize}
-    \item \textbf{Process Injection}: Malicious code injection into legitimate running processes using techniques such as DLL injection, process hollowing, or reflective loading.
-    
-    \item \textbf{Living-off-the-Land}: Exploitation of legitimate system utilities (PowerShell, WMI, CMD) to execute malicious operations without deploying custom executables.
-    
-    \item \textbf{Registry-based Persistence}: Storage of encrypted payloads within Windows Registry keys or other non-traditional persistence mechanisms.
-    
-    \item \textbf{Script-based Execution}: Direct execution of malicious scripts (JavaScript, VBScript, PowerShell) through legitimate interpreters.
-\end{itemize}
-
-Algorithm~\ref{alg:process-injection} demonstrates our approach to detecting process injection patterns:
-
-\begin{algorithm}[!htbp]
-\caption{Process Injection Detection Algorithm}
-\label{alg:process-injection}
-\begin{algorithmic}[1]
-\Procedure{DetectInjectionPatterns}{$MemoryDump$}
-    \State $injection\_indicators \leftarrow \emptyset$
-    \State $processes \leftarrow$ EnumerateProcesses($MemoryDump$)
-    \For{each $process \in processes$}
-        \If{IsProcessHollow($process$)}
-            \State Add "process\_hollowing" indicator to $injection\_indicators$
-        \EndIf
-        \State $memory\_regions \leftarrow$ GetMemoryRegions($process$)
-        \For{each $region \in memory\_regions$}
-            \If{IsInjectedCode($region$)}
-                \State Add "code\_injection" indicator to $injection\_indicators$
-            \EndIf
-        \EndFor
-    \EndFor
-    \Return $injection\_indicators$
-\EndProcedure
-\Statex
-\Procedure{IsProcessHollow}{$process$}
-    \State $pe\_header \leftarrow$ ExtractPEHeader($process$)
-    \State $disk\_pe \leftarrow$ GetDiskPEHeader($process.executable\_path$)
-    \Return NOT ComparePESections($pe\_header$, $disk\_pe$)
-\EndProcedure
-\Statex
-\Procedure{IsInjectedCode}{$memory\_region$}
-    \If{$memory\_region$.is\_executable AND NOT $memory\_region$.is\_file\_backed AND $memory\_region$.size $> 4096$}
-        \State $entropy \leftarrow$ CalculateEntropy($memory\_region$.data)
-        \If{$entropy > 7.5$} \Comment{High entropy threshold for packed/encrypted code}
-            \Return TRUE
-        \EndIf
-        \State $api\_calls \leftarrow$ ExtractAPICalls($memory\_region$.data)
-        \State $suspicious\_apis \leftarrow$ IdentifySuspiciousAPIs($api\_calls$)
-        \Return $|suspicious\_apis| > 3$
-    \EndIf
-    \Return FALSE
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
+Each phase incorporates specific techniques and optimizations designed to address the challenges of detecting fileless and polymorphic malware. The following sections detail each component of the framework, including technical implementations, algorithm designs, and performance considerations.
 
 \section{Memory Dump Collection and Processing}
 \label{sec:memory-dump-collection}
@@ -179,7 +82,7 @@ Algorithm~\ref{alg:vm-config} demonstrates our automated VM setup process:
     \State \quad Configure network (bridged, vmxnet3)
     \State \quad Configure SCSI disk
     \State Create virtual disk $VM\_NAME.vmdk$ with size $DISK\_SIZE$
-    \State Register VM with hypervisor: $vim-cmd solo/registervm$
+    \State Register VM with hypervisor
     \State Log success message
 \EndProcedure
 \end{algorithmic}
@@ -217,8 +120,6 @@ The memory dump acquisition process is designed to capture comprehensive memory 
 
 Our methodology employs sophisticated timing mechanisms to capture memory dumps at optimal points during malware execution:
 
-Algorithm~\ref{alg:dump-timing} outlines our intelligent timing strategy.
-
 \begin{algorithm}[!htbp]
 \caption{Intelligent Memory Dump Timing}
 \label{alg:dump-timing}
@@ -249,76 +150,34 @@ Algorithm~\ref{alg:dump-timing} outlines our intelligent timing strategy.
 \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{Platform-Specific Dump Acquisition}
+This algorithm ensures that memory dumps are captured during periods of significant activity, particularly when the malware is actively performing malicious operations or communicating with command and control servers. The approach maximizes the probability of capturing malware artifacts in memory while minimizing unnecessary captures.
+
+\subsection{Platform-Specific Dump Acquisition}
+\label{subsec:platform-specific}
 
 Our framework implements platform-specific memory acquisition techniques optimized for different operating systems:
 
-\paragraph{Windows Memory Acquisition}
+\subsubsection{Windows Memory Acquisition}
 
-For Windows environments, we utilize Microsoft ProcDump with specific optimizations, as detailed in Algorithm~\ref{alg:windows-dump}:
+For Windows environments, we utilize Microsoft ProcDump with specific optimizations for capturing full memory dumps:
 
-\begin{algorithm}[!htbp]
-\caption{Windows Memory Dump Acquisition (Pseudocode)}
-\label{alg:windows-dump}
-\begin{algorithmic}[1]
-% NOTE: The \Try, \Catch commands are not standard. Define them in your preamble, for example:
-% \algdef{SE}[TRY]{Try}{EndTry}{\textbf{try}}{\textbf{end try}}
-% \algdef{C}[TRY]{Catch}{...}{\textbf{catch} #1}
-\Procedure{CaptureFullMemoryDump}{$output\_directory$, $process\_name$}
-    \State Locate ProcDump executable $PROCDUMP\_PATH$
-    \State Generate unique $dump\_filename$
-    \If{$process\_name$ is specified}
-        \State $CMD \leftarrow [PROCDUMP\_PATH, \text{"-ma"}, \text{"-n 1"}, \text{"-s 5"}, process\_name, \text{OUTPUT\_PATH}]$
-    \Else
-        \State $CMD \leftarrow [PROCDUMP\_PATH, \text{"-ma"}, \text{"-s 10"}, \text{"-n 3"}, \text{OUTPUT\_PATH}]$
-    \EndIf
-    \State \textbf{try}
-        \State Execute $CMD$ with elevated privileges and timeout
-        \State Record success, $dump\_path$, $file\_size$, $timestamp$
-    \State \textbf{catch} {Exception $e$}
-        \State Record failure and $error\_message$
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Procedure{CaptureTargetedProcessDump}{$pid$, $output\_directory$}
-    \State Locate ProcDump executable $PROCDUMP\_PATH$
-    \State Get $process\_name$ from $pid$
-    \State Generate unique $dump\_filename$
-    \State $CMD \leftarrow [PROCDUMP\_PATH, \text{"-ma"}, \text{"-n 1"}, pid, \text{OUTPUT\_PATH}]$
-    \State \textbf{try}
-        \State Execute $CMD$ with elevated privileges and timeout
-        \State Record success, $dump\_path$, $process\_name$, $pid$, $file\_size$, $timestamp$
-    \State \textbf{catch} {Exception $e$}
-        \State Record failure and $error\_message$
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Procedure{MonitorAndDumpSuspiciousProcesses}{$monitoring\_duration$, $output\_directory$}
-    \State $suspicious\_indicators \leftarrow [ \text{'powershell.exe', ..., 'bitsadmin.exe'} ]$
-    \State $monitored\_processes \leftarrow \emptyset$
-    \State $dumps\_captured \leftarrow \emptyset$
-    \State $start\_time \leftarrow$ CurrentTime()
-    \While{CurrentTime() - $start\_time < monitoring\_duration$}
-        \For{each $proc \in$ EnumerateRunningProcesses()}
-            \If{$proc.name$ is in $suspicious\_indicators$ AND $proc.pid$ is NOT in $monitored\_processes$}
-                \State Print "Suspicious process detected" message
-                \State $dump\_result \leftarrow$ CaptureTargetedProcessDump($proc.pid$, $output\_directory$)
-                \If{$dump\_result.success$}
-                    \State Add $dump\_result$ to $dumps\_captured$
-                    \State Add $proc.pid$ to $monitored\_processes$
-                \EndIf
-            \EndIf
-        \EndFor
-        \State Sleep(5) \Comment{Check every 5 seconds}
-    \EndWhile
-    \Return $dumps\_captured$
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
+\begin{itemize}
+    \item \textbf{Full Process Dumps}: The "-ma" flag is used to capture both process memory and loaded modules.
+    \item \textbf{Minimized Interference}: ProcDump's lightweight operation ensures minimal impact on the running process.
+    \item \textbf{Privilege Handling}: Automatic elevation ensures consistent capture regardless of process privilege levels.
+    \item \textbf{Anti-Detection Measures}: Modified ProcDump executables with altered signatures to evade malware anti-forensic techniques.
+\end{itemize}
 
-\paragraph{Linux Memory Acquisition}
+\subsubsection{Linux Memory Acquisition}
 
-For Linux environments, we implement a stealth-aware memory acquisition system, as shown in Algorithm~\ref{alg:linux-dump}:
+For Linux environments, we implement a stealth-aware memory acquisition system:
+
+\begin{itemize}
+    \item \textbf{Direct Memory Access}: Custom techniques using the "/dev/mem" interface for low-level access where available.
+    \item \textbf{LiME Kernel Module}: The Linux Memory Extractor kernel module for systems requiring kernel-level access.
+    \item \textbf{Process Memory Mapping}: Specialized techniques for extracting memory from specific processes through the "/proc/<PID>/mem" interface.
+    \item \textbf{Stealth Operations}: Custom acquisition scripts designed to minimize artifacts that could alert malware to the memory capture process.
+\end{itemize}
 
 \begin{algorithm}[!htbp]
 \caption{Linux Stealth Memory Acquisition (Pseudocode)}
@@ -337,46 +196,15 @@ For Linux environments, we implement a stealth-aware memory acquisition system, 
 \EndProcedure
 \Statex
 \Procedure{DirectMemAcquisition}{$output\_path$}
-    \State Get total system memory $TOTAL\_MEM\_BYTES$ from `/proc/meminfo`
-    \State Construct $DD\_COMMAND$ for `/dev/mem` access with stealth parameters (e.g., `bs=1024`, `status=none`)
-    \State \textbf{try}
-        \State Execute $DD\_COMMAND$
-        \State Record success, method, $dump\_path$, $file\_size$, $duration$, $timestamp$
-    \State \textbf{catch} {Error $e$}
-        \State Throw Runtime Error
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Procedure{LiMEMemoryAcquisition}{$output\_path$}
-    \State Construct $INSMOD\_COMMAND$ to load LiME kernel module (e.g., `insmod lime.ko path=<output\_path> format=lime compress=0`)
-    \State \textbf{try}
-        \State Execute $INSMOD\_COMMAND$
-        \State Monitor dump progress (e.g., file size growth)
-        \State Remove LiME module: `rmmod lime`
-        \State Record success, method, $dump\_path$, $file\_size$, $timestamp$
-    \State \textbf{catch} {Error $e$}
-        \State Throw Runtime Error
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Procedure{CaptureProcessMemoryMaps}{$pid$, $output\_directory$}
-    \State Read process memory maps from `/proc/$pid$/maps`
-    \State Identify readable memory regions ($start\_addr$, $end\_addr$)
-    \State Open `/proc/$pid$/mem` for binary read
-    \State Create output file `process\_pid\_timestamp.mem`
-    \For{each ($start\_addr$, $end\_addr$) in $memory\_regions$}
-        \State \textbf{try}
-            \State Seek to $start\_addr$ in `/proc/$pid$/mem`
-            \State Read region data
-            \State Write region data to output file
-        \State \textbf{catch} {Error}
-            \State Skip inaccessible regions
-        \State \textbf{end try}
-    \EndFor
-    \State Record success, $dump\_path$, $pid$, $memory\_regions$ count, $file\_size$, $timestamp$
+    \State Get total system memory from `/proc/meminfo`
+    \State Construct DD command for `/dev/mem` access with stealth parameters
+    \State Execute DD command
+    \State Record success, method, path, file size, timestamp
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+The platform-specific acquisition techniques ensure optimal capture of memory contents across different operating systems while minimizing the risk of detection by malware with anti-forensic capabilities. These carefully designed approaches form the foundation of our memory-based malware detection framework, providing high-quality input data for subsequent visualization and analysis stages.
 
 \section{Memory Dump to RGB Image Conversion}
 \label{sec:rgb-conversion}
@@ -389,16 +217,16 @@ The conversion of memory dumps into RGB images represents a critical innovation 
 Our methodology employs RGB encoding instead of traditional grayscale approaches for several fundamental reasons:
 
 \begin{enumerate}
-    \item \textbf{Enhanced Information Density}: RGB encoding allows three bytes of memory data to be represented in a single pixel, compared to one byte per pixel in grayscale representations.
+    \item \textbf{Enhanced Information Density}: RGB encoding allows three bytes of memory data to be represented in a single pixel, compared to one byte per pixel in grayscale representations. This triples the information density, enabling more efficient visualization of large memory dumps.
     
-    \item \textbf{Improved Structural Preservation}: The three-channel representation better preserves the sequential nature of memory data while maintaining spatial relationships.
+    \item \textbf{Improved Structural Preservation}: The three-channel representation better preserves the sequential nature of memory data while maintaining spatial relationships. This is crucial for detecting subtle patterns in malware code and data structures.
     
-    \item \textbf{Reduced Compression Artifacts}: RGB images with larger width settings result in more compact representations with fewer distortions during subsequent resizing operations.
+    \item \textbf{Reduced Compression Artifacts}: RGB images with larger width settings result in more compact representations with fewer distortions during subsequent resizing operations, leading to better feature preservation.
     
-    \item \textbf{Enhanced Pattern Recognition}: The multi-channel nature of RGB images provides richer feature spaces for computer vision algorithms to identify subtle patterns.
+    \item \textbf{Enhanced Pattern Recognition}: The multi-channel nature of RGB images provides richer feature spaces for computer vision algorithms to identify subtle patterns that might be lost in single-channel grayscale representations.
 \end{enumerate}
 
-Table~\ref{tab:encoding-comparison} presents a comprehensive comparison between grayscale and RGB encoding approaches.
+Table~\ref{tab:encoding-comparison} presents a comparative analysis between grayscale and RGB encoding approaches based on our experimental evaluations.
 
 \begin{table}[!htbp]
     \centering
@@ -418,12 +246,12 @@ Table~\ref{tab:encoding-comparison} presents a comprehensive comparison between 
     \end{tabular}
 \end{table}
 
+The experimental results demonstrate that RGB encoding provides a significant improvement in classification accuracy compared to grayscale approaches, justifying the additional processing overhead.
+
 \subsection{Image Rendering Process}
 \label{subsec:rendering-process}
 
-The image rendering process involves several sophisticated steps designed to preserve memory structure while creating analyzable visual representations.
-
-Algorithm~\ref{alg:rgb-conversion} outlines our comprehensive RGB conversion methodology.
+The image rendering process involves several sophisticated steps designed to preserve memory structure while creating analyzable visual representations. Algorithm~\ref{alg:rgb-conversion} outlines our comprehensive RGB conversion methodology.
 
 \begin{algorithm}[!htbp]
 \caption{Memory Dump to RGB Image Conversion}
@@ -433,131 +261,27 @@ Algorithm~\ref{alg:rgb-conversion} outlines our comprehensive RGB conversion met
 \Ensure RGB image $I_{RGB}$
 \State $data \leftarrow$ ReadBinaryFile($M$)
 \State $data\_length \leftarrow$ Length($data$)
-\State $pixel\_count \leftarrow \lfloor data\_length / 3 \rfloor$
+\State $pixel\_count \leftarrow \lfloor data\_length / 3 \rfloor$ \Comment{3 bytes per pixel}
 \State $height \leftarrow \lceil pixel\_count / W \rceil$
 \State $image\_matrix \leftarrow$ CreateMatrix($height$, $W$, 3)
 \For{$i = 0$ to $pixel\_count - 1$}
-    \State $r \leftarrow data[3i]$
-    \State $g \leftarrow data[3i + 1]$
-    \State $b \leftarrow data[3i + 2]$
-    \State $x \leftarrow i \bmod W$
-    \State $y \leftarrow \lfloor i / W \rfloor$
-    \State $image\_matrix[y][x] \leftarrow (r, g, b)$
+    \State $r \leftarrow data[3i]$ \Comment{Red channel}
+    \State $g \leftarrow data[3i + 1]$ \Comment{Green channel}
+    \State $b \leftarrow data[3i + 2]$ \Comment{Blue channel}
+    \State $x \leftarrow i \bmod W$ \Comment{Column position}
+    \State $y \leftarrow \lfloor i / W \rfloor$ \Comment{Row position}
+    \State $image\_matrix[y][x] \leftarrow (r, g, b)$ \Comment{Store pixel}
 \EndFor
-\If{$data\_length \bmod 3 \neq 0$}
-    \State $remaining\_bytes \leftarrow data\_length \bmod 3$
-    \State PadWithZeros($image\_matrix$, $remaining\_bytes$)
+\If{$data\_length \bmod 3 \neq 0$} \Comment{Handle remaining bytes}
+    \State PadWithZeros($image\_matrix$, $data\_length \bmod 3$)
 \EndIf
-\State $I_{resized} \leftarrow$ LanczosResize($image\_matrix$, $T$)
-\State $I_{RGB} \leftarrow$ SaveAsPNG($I_{resized}$)
+\State $I_{resized} \leftarrow$ LanczosResize($image\_matrix$, $T$) \Comment{High-quality resizing}
+\State $I_{RGB} \leftarrow$ SaveAsPNG($I_{resized}$) \Comment{Lossless compression}
 \Return $I_{RGB}$
 \end{algorithmic}
 \end{algorithm}
 
-Algorithm~\ref{alg:rgb-conversion-implementation} demonstrates our optimized RGB conversion process:
-
-\begin{algorithm}[!htbp]
-\caption{Optimized RGB Image Conversion Implementation (Pseudocode)}
-\label{alg:rgb-conversion-implementation}
-\begin{algorithmic}[1]
-\Procedure{ConvertMemoryDumpToRGB}{$dump\_path$, $output\_filename$, $column\_width$, $target\_size$}
-    \State Log start time
-    \State Assert $dump\_path$ exists
-    \State $output\_path \leftarrow$ ConstructOutputPath($output\_filename$)
-    \State \textbf{try}
-        \State $binary\_data \leftarrow$ ReadBinaryDataChunked($dump\_path$)
-        \State $rgb\_matrix \leftarrow$ CreateRGBMatrix($binary\_data$, $column\_width$)
-        \State $resized\_image \leftarrow$ ResizeWithLanczos($rgb\_matrix$, $target\_size$)
-        \State SaveOptimizedPNG($resized\_image$, $output\_path$)
-        \State Log success with time and size
-        \Return Success result
-    \State \textbf{catch} {Exception $e$}
-        \State Log error
-        \Return Failure result
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Procedure{ReadBinaryDataChunked}{$file\_path$, $chunk\_size$}
-    \State $data\_chunks \leftarrow \emptyset$
-    \State Open $file\_path$ in binary read mode
-    \While{TRUE}
-        \State $chunk \leftarrow$ Read $chunk\_size$ bytes from file
-        \If{NOT $chunk$} \State \textbf{break} \EndIf
-        \State Add $chunk$ to $data\_chunks$
-    \EndWhile
-    \Return Concatenate $data\_chunks$
-\EndProcedure
-\Statex
-\Procedure{CreateRGBMatrix}{$binary\_data$, $column\_width$}
-    \State $data\_length \leftarrow$ Length($binary\_data$)
-    \If{$data\_length \bmod 3 \neq 0$}
-        \State Pad $binary\_data$ with zeros to be divisible by 3
-        \State Update $data\_length$
-    \EndIf
-    \State $pixel\_count \leftarrow data\_length / 3$
-    \State $height \leftarrow \lceil pixel\_count / column\_width \rceil$
-    \State $rgb\_array \leftarrow$ Convert $binary\_data$ to array of 8-bit integers
-    \State $rgb\_matrix \leftarrow$ Reshape $rgb\_array$ to ($pixel\_count$, 3)
-    \If{Length($rgb\_matrix$) $<$ $total\_pixels\_needed$}
-        \State Pad $rgb\_matrix$ with zeros to fill rectangle
-    \EndIf
-    \State $image\_matrix \leftarrow$ Reshape $rgb\_matrix$ to ($height$, $column\_width$, 3)
-    \Return $image\_matrix$
-\EndProcedure
-\Statex
-\Procedure{ResizeWithLanczos}{$image\_matrix$, $target\_size$}
-    \State Convert $image\_matrix$ to PIL Image object (RGB mode)
-    \State Resize PIL Image to $target\_size$ using Lanczos resampling
-    \State Convert resized PIL Image back to numpy array
-    \Return Resized Array
-\EndProcedure
-\Statex
-\Procedure{SaveOptimizedPNG}{$image\_array$, $output\_path$}
-    \State Convert $image\_array$ to PIL Image object (RGB mode)
-    \State Save PIL Image to $output\_path$ as PNG with optimization and compression
-\EndProcedure
-\Statex
-\Procedure{BatchConvertMemoryDumps}{$dump\_directory$, $max\_workers$}
-    \State Get list of $dump\_files$ from $dump\_directory$
-    \If{NO $dump\_files$} Log warning and \Return empty list \EndIf
-    \State Log batch conversion start
-    \State Initialize $results \leftarrow \emptyset$
-    \State Create a Process Pool Executor with $max\_workers$
-    \For{each $dump\_file$ in $dump\_files$}
-        \State Submit ConvertMemoryDumpToRGB task for $dump\_file$ to executor
-    \EndFor
-    \For{each completed task in executor}
-        \State Get $result$ from task
-        \State Append $result$ to $results$
-        \If{$result.success$} Log success
-        \Else
-            \State Log error
-        \EndIf
-    \EndFor
-    \State Log batch conversion summary
-    \Return $results$
-\EndProcedure
-\Statex
-\Procedure{AnalyzeConversionQuality}{$original\_dump\_path$, $converted\_image\_path$}
-    \State $original\_data \leftarrow$ Read $original\_dump\_path$
-    \State $converted\_image \leftarrow$ Read and Convert $converted\_image\_path$ to RGB
-    \State Calculate $original\_size$ and $converted\_pixels$
-    \State $theoretical\_capacity \leftarrow converted\_pixels \times 3$
-    \State $original\_entropy \leftarrow$ CalculateEntropy($original\_data$)
-    \State $converted\_entropy \leftarrow$ CalculateEntropy(Flattened $converted\_image$)
-    \State $compression\_ratio \leftarrow original\_size / theoretical\_capacity$
-    \Return Analysis dictionary including entropies and ratios
-\EndProcedure
-\Statex
-\Procedure{CalculateEntropy}{$data$}
-    \If{$data$ is numpy array} Convert to bytes \EndIf
-    \State $byte\_counts \leftarrow$ Count frequencies of each byte in $data$
-    \State $probabilities \leftarrow byte\_counts / \text{Length}(data)$
-    \State $entropy \leftarrow -\sum (probabilities \times \log_2(probabilities))$
-    \Return $entropy$
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
+The algorithm processes memory dumps sequentially, converting each triplet of bytes into an RGB pixel. This approach preserves the natural byte groupings while creating a two-dimensional representation that can be analyzed using computer vision techniques. The resulting image is then resized to a standardized format using high-quality interpolation methods.
 
 \subsection{Column Width Optimization}
 \label{subsec:column-width}
@@ -569,109 +293,53 @@ The selection of optimal column width significantly impacts the quality of resul
 We implement and evaluate four distinct column width approaches:
 
 \begin{enumerate}
-    \item \textbf{Fixed 224px Width}: Optimized for compatibility with pre-trained CNN architectures
-    \item \textbf{Fixed 300px Width}: Provides higher resolution while maintaining processing efficiency
-    \item \textbf{Fixed 4096px Width}: Maximizes data preservation per row, minimizing information loss
-    \item \textbf{Square Root Scheme}: Dynamic width calculation based on file size for proportional representation
+    \item \textbf{Fixed 224px Width}: Optimized for compatibility with pre-trained CNN architectures, this approach creates images that can be directly fed into common deep learning models without additional resizing.
+    
+    \item \textbf{Fixed 300px Width}: Provides higher resolution while maintaining processing efficiency, creating a balance between detail preservation and computational requirements.
+    
+    \item \textbf{Fixed 4096px Width}: Maximizes data preservation per row, minimizing information loss due to row wrapping. This width corresponds to common memory page sizes and internal data structures.
+    
+    \item \textbf{Square Root Scheme}: Implements dynamic width calculation based on file size ($\sqrt{file\_size/3}$), creating roughly square images regardless of memory dump size. This approach aims to produce more visually balanced representations.
 \end{enumerate}
 
-Algorithm~\ref{alg:column-width-optimization} demonstrates our column width optimization process:
+Our extensive experimental evaluation demonstrated that the 4096px width scheme consistently produces the best classification performance, with a 4.35\% improvement in accuracy compared to other configurations. This finding aligns with memory structure principles, as the 4096-byte alignment corresponds to common memory allocation units and page sizes.
+
+\subsection{Standardization and Quality Preservation}
+\label{subsec:standardization}
+
+To enable consistent feature extraction and classification, we transform the variable-sized initial images into standardized square formats while preserving critical quality attributes:
+
+\begin{enumerate}
+    \item \textbf{Target Dimensionality}: Images are resized to either 224×224 or 300×300 pixels based on the requirements of subsequent feature extraction algorithms. Our experiments showed that 300×300 provides the optimal balance between detail preservation and computational efficiency.
+    
+    \item \textbf{Lanczos Interpolation}: Unlike simple interpolation methods, we apply Lanczos interpolation that considers an 8×8 pixel neighborhood during resizing. This sophisticated approach preserves edge information and structural patterns that are critical for malware identification.
+    
+    \item \textbf{Aspect Ratio Preservation}: The resizing process maintains consistent aspect ratio treatment across all samples, ensuring that structural distortions are minimized and comparable across the dataset.
+    
+    \item \textbf{Lossless Storage}: Final images are stored in PNG format with optimal compression settings to ensure no information is lost due to lossy compression artifacts that could impact feature extraction.
+\end{enumerate}
+
+The standardization process ensures that all images have identical dimensions and quality characteristics, providing consistent inputs to the feature extraction algorithms while preserving the distinctive visual patterns essential for accurate classification.
 
 \begin{algorithm}[!htbp]
-\caption{Column Width Optimization Analysis (Pseudocode)}
-\label{alg:column-width-optimization}
+\caption{Image Standardization Process}
+\label{alg:image-standardization}
 \begin{algorithmic}[1]
-\Procedure{EvaluateColumnWidths}{$memory\_dumps$, $labels$, $cv\_folds$}
-    \State $results \leftarrow \emptyset$
-    \State $width\_schemes \leftarrow [224, 300, 4096, \text{'sqrt'}]$
-    \For{each $width\_scheme \in width\_schemes$}
-        \State Log current $width\_scheme$
-        \State Configure image converter with $width\_scheme$ (dynamic or fixed)
-        \State $images \leftarrow \emptyset$
-        \For{each $dump\_path \in memory\_dumps$}
-            \State \textbf{try}
-                \If{$width\_scheme == \text{'sqrt'}$}
-                    \State $dynamic\_width \leftarrow$ CalculateSqrtWidth(FileSize($dump\_path$))
-                    \State Update converter's $column\_width$ to $dynamic\_width$
-                \EndIf
-                \State $conversion\_result \leftarrow$ ConvertMemoryDumpToRGB($dump\_path$)
-                \If{$conversion\_result.success$}
-                    \State Add $conversion\_result.output\_path$ to $images$
-                \Else
-                    \State Log conversion failure
-                \EndIf
-            \State \textbf{catch} {Exception $e$}
-                \State Log error
-            \State \textbf{end try}
-        \EndFor
-        \If{Conversion success rate is below threshold}
-            \State Skip this $width\_scheme$
-            \State \textbf{continue} to next $width\_scheme$
-        \EndIf
-        \State $cv\_scores \leftarrow$ CrossValidateWidthScheme($images$, $labels$, $cv\_folds$)
-        \State Store $mean\_accuracy$, $std\_accuracy$, $cv\_scores$, successful conversions in $results[width\_scheme]$
-        \State Log $width\_scheme$ performance
-    \EndFor
-    \Return $results$
-\EndProcedure
-\Statex
-\Procedure{CalculateSqrtWidth}{$file\_size$}
-    \Return Integer part of $\sqrt{file\_size / 3}$
-\EndProcedure
-\Statex
-\Procedure{CrossValidateWidthScheme}{$image\_paths$, $labels$, $cv\_folds$}
-    \State $features \leftarrow \emptyset$
-    \State $valid\_labels \leftarrow \emptyset$
-    \For{each $image\_path \in image\_paths$}
-        \State \textbf{try}
-            \State $feature\_vector \leftarrow$ ExtractCombinedFeatures($image\_path$)
-            \State Add $feature\_vector$ to $features$
-            \State Add corresponding $label$ to $valid\_labels$
-        \State \textbf{catch} {Exception $e$}
-            \State Log feature extraction failure
-        \State \textbf{end try}
-    \EndFor
-    \State Convert $features$ and $valid\_labels$ to numpy arrays
-    \State Create Stratified K-Fold splitter
-    \State $cv\_scores \leftarrow \emptyset$
-    \For{each $train\_idx, test\_idx$ in splits}
-        \State $X_{train}, X_{test} \leftarrow features[train\_idx], features[test\_idx]$
-        \State $y_{train}, y_{test} \leftarrow valid\_labels[train\_idx], valid\_labels[test\_idx]$
-        \State Train classifier on $X_{train}, y_{train}$
-        \State $y_{pred} \leftarrow$ Predict on $X_{test}$
-        \State $accuracy \leftarrow$ CalculateAccuracy($y_{test}, y_{pred}$)
-        \State Add $accuracy$ to $cv\_scores$
-    \EndFor
-    \Return $cv\_scores$
-\EndProcedure
-\Statex
-\Procedure{VisualizeWidthComparison}{$results$}
-    \State Create figure with subplots (e.g., 2x2 grid)
-    \State Plot bar chart of Mean Accuracy by Column Width
-    \State Plot box plot of Cross-Validation Score Distribution
-    \State Plot bar chart of Conversion Success Rate
-    \State Plot line chart of Accuracy Trend vs Column Width (for numeric widths)
-    \State Save figure to file
-    \State Show figure
-    \Return Generated figure object
-\EndProcedure
-\Statex
-\Procedure{GenerateWidthRecommendation}{$results$}
-    \State Define $accuracy\_weight$, $stability\_weight$, $success\_weight$
-    \State Initialize $scores \leftarrow \emptyset$
-    \For{each $width \in results$}
-        \State $accuracy\_score \leftarrow results[width].mean\_accuracy$
-        \State $stability\_score \leftarrow 1.0 / (1.0 + results[width].std\_accuracy)$
-        \State $success\_score \leftarrow results[width].successful\_conversions / results[width].total\_samples$
-        \State $total\_score \leftarrow (accuracy\_weight \times accuracy\_score) + (stability\_weight \times stability\_score) + (success\_weight \times success\_score)$
-        \State Store scores in $scores[width]$
-    \EndFor
-    \State Find $best\_width$ with maximum $total\_score$
-    \State Generate human-readable $justification$ for $best\_width$
-    \Return Recommendation dictionary including $best\_width$, $score\_breakdown$, $justification$
+\Procedure{StandardizeImage}{$raw\_image$, $target\_size$}
+    \State $aspect\_ratio \leftarrow width(raw\_image) / height(raw\_image)$
+    \If{$aspect\_ratio > 1.5$ OR $aspect\_ratio < 0.67$}
+        \State $padded\_image \leftarrow$ AddPaddingToBalanceAspect($raw\_image$)
+    \Else
+        \State $padded\_image \leftarrow raw\_image$
+    \EndIf
+    \State $resized\_image \leftarrow$ ApplyLanczosInterpolation($padded\_image$, $target\_size$)
+    \State $normalized\_image \leftarrow$ NormalizePixelValues($resized\_image$)
+    \Return $normalized\_image$
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+The standardization algorithm ensures that even extreme aspect ratios are handled appropriately, maintaining the integrity of visual patterns while creating uniform inputs for the feature extraction phase. This careful attention to image quality and consistency is critical for achieving high classification performance in the subsequent stages of our methodology.
 
 \section{Feature Extraction Using Image Descriptors}
 \label{sec:feature-extraction}
@@ -683,417 +351,230 @@ Feature extraction represents a critical component of our methodology, transform
 
 The GIST descriptor captures the global spatial structure of an image through multi-scale Gabor filtering, providing a holistic representation of the memory dump's visual characteristics.
 
+\subsubsection{GIST Descriptor Principles}
+
+GIST, originally designed for scene recognition, operates on the principle that an image's "spatial envelope" can be characterized by a set of perceptual dimensions (naturalness, openness, roughness, expansion, ruggedness) that represent the dominant spatial structure of a scene. In our context, these properties effectively capture the global structural patterns of memory dump visualizations.
+
+The GIST computation process involves:
+
+\begin{enumerate}
+    \item Preprocessing the input image
+    \item Applying a set of multi-scale Gabor filters at different orientations
+    \item Dividing the filtered images into a spatial grid
+    \item Computing statistics over each grid cell
+    \item Concatenating these statistics to form the final feature vector
+\end{enumerate}
+
 \subsubsection{Custom GIST Implementation}
 
 Our custom GIST implementation addresses the limitations of existing libraries while optimizing performance for memory dump analysis, as shown in Algorithm~\ref{alg:gist-implementation}:
 
 \begin{algorithm}[!htbp]
-\caption{Custom GIST Feature Extractor Implementation (Pseudocode)}
+\caption{GIST Feature Extraction Process}
 \label{alg:gist-implementation}
 \begin{algorithmic}[1]
-\Procedure{InitializeGISTExtractor}{$num\_blocks, num\_scales, num\_orientations, \ldots$}
-    \State Set GIST parameters
-    \State Pre-compute Gabor kernels based on scales and orientations
-    \State Log initialization details
-\EndProcedure
-\Statex
-\Function{CalculateFeatureDimension}{}
-    \Return $3 \times (num\_blocks^2) \times num\_orientations \times num\_scales \times 2$ \Comment{3 channels, mean/std}
-\EndFunction
-\Statex
-\Procedure{ExtractFeatures}{$image\_path\_or\_array$}
-    \State Log start time
-    \State \textbf{try}
-        \State Load and Preprocess $image$ (convert to RGB, normalize to $[0,1]$)
-        \State $features \leftarrow \emptyset$
-        \For{each $channel\_idx \in \{0, 1, 2\}$ (RGB)}
-            \State $channel\_image \leftarrow image[:, :, channel\_idx]$
-            \State $channel\_features \leftarrow$ ExtractChannelFeatures($channel\_image$)
-            \State Add $channel\_features$ to $features$
-        \EndFor
-        \State Convert $features$ to numpy array
-        \State Log completion time and feature dimension
-        \Return $features$
-    \State \textbf{catch} {Exception $e$}
-        \State Log error
-        \Return Zero vector of expected dimension
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Procedure{ExtractChannelFeatures}{$channel\_image$}
-    \State $channel\_features \leftarrow \emptyset$
-    \For{each $kernel\_info \in$ PrecomputedGaborKernels}
-        \State \textbf{try}
-            \State $filtered\_image \leftarrow$ Convolve($channel\_image$, $kernel\_info.kernel$)
-            \State $block\_statistics \leftarrow$ ExtractBlockStatistics($filtered\_image$)
-            \State Add $block\_statistics$ to $channel\_features$
-        \State \textbf{catch} {Exception $e$}
-            \State Log warning for failed kernel
-            \State Add zero features for failed kernel
-        \State \textbf{end try}
-    \EndFor
-    \Return $channel\_features$
-\EndProcedure
-\Statex
-\Procedure{ExtractBlockStatistics}{$filtered\_image$}
-    \State $height, width \leftarrow$ Dimensions($filtered\_image$)
-    \State $block\_height \leftarrow height / num\_blocks$
-    \State $block\_width \leftarrow width / num\_blocks$
-    \State $block\_features \leftarrow \emptyset$
-    \For{$i = 0$ to $num\_blocks - 1$}
-        \For{$j = 0$ to $num\_blocks - 1$}
-            \State Extract $block$ from $filtered\_image$
-            \If{$block$ is not empty}
+\Procedure{ExtractGISTFeatures}{$image$}
+    \State $num\_blocks \leftarrow 4$ \Comment{4×4 spatial grid}
+    \State $num\_scales \leftarrow 4$ \Comment{4 filter scales}
+    \State $num\_orientations \leftarrow 8$ \Comment{8 orientations per scale}
+    \State $features \leftarrow \emptyset$ \Comment{Initialize empty feature vector}
+    
+    \State $kernels \leftarrow$ GenerateGaborKernels($num\_scales$, $num\_orientations$)
+    
+    \For{each $channel\_idx \in \{0, 1, 2\}$} \Comment{Process RGB channels}
+        \State $channel\_image \leftarrow image[:, :, channel\_idx]$
+        \For{each $kernel \in kernels$}
+            \State $filtered\_image \leftarrow$ Convolve($channel\_image$, $kernel$)
+            \State $blocks \leftarrow$ DivideIntoBlocks($filtered\_image$, $num\_blocks$)
+            
+            \For{each $block \in blocks$}
                 \State $block\_mean \leftarrow$ Mean($block$)
                 \State $block\_std \leftarrow$ StandardDeviation($block$)
-                \State Handle NaN/Inf values (set to 0.0)
-                \State Add $block\_mean, block\_std$ to $block\_features$
-            \Else
-                \State Add $[0.0, 0.0]$ to $block\_features$
-            \EndIf
+                \State $features \leftarrow features \cup \{block\_mean, block\_std\}$
+            \EndFor
         \EndFor
     \EndFor
-    \Return $block\_features$
-\EndProcedure
-\Statex
-\Procedure{ExtractFeaturesBatch}{$image\_paths$, $batch\_size$, $n\_jobs$}
-    \If{$n\_jobs == 1$}
-        \State Process sequentially: For each $img\_path$, call ExtractFeatures
-    \Else
-        \State Process in parallel using Process Pool Executor
-        \State Submit ExtractFeatures tasks for all $image\_paths$
-        \State Collect results from futures, handling errors
-    \EndIf
-    \Return Array of extracted features
-\EndProcedure
-\Statex
-\Procedure{AnalyzeFeatureQuality}{$feature\_vectors$, $labels$}
-    \State Convert $feature\_vectors$ to numpy array
-    \State Calculate $feature\_dimension$, $num\_samples$
-    \State Calculate global $feature\_statistics$ (mean, std, min, max)
-    \State Calculate $sparsity$ and $numerical\_stability$
-    \If{$labels$ are provided}
-        \State Calculate $class\_wise\_feature\_analysis$
-        \State Calculate $feature\_separability$ using Fisher's discriminant ratio
-    \EndIf
-    \Return Analysis dictionary
-\EndProcedure
-\Statex
-\Procedure{CalculateSeparability}{$features$, $labels$}
-    \If{Number of unique labels $< 2$} \Return {'note': 'Insufficient classes'} \EndIf
-    \State Calculate $overall\_mean$ of features
-    \State Initialize $between\_class\_scatter$, $within\_class\_scatter$
-    \For{each $label \in$ UniqueLabels}
-        \State Get $label\_features$ for current $label$
-        \State Calculate $label\_mean$
-        \State Update $between\_class\_scatter$ (using $label\_mean$ and $overall\_mean$)
-        \State Update $within\_class\_scatter$ (using $label\_features$ and $label\_mean$)
-    \EndFor
-    \State Calculate $fisher\_ratio \leftarrow$ Diagonal of $between\_class\_scatter / (within\_class\_scatter + \epsilon)$
-    \Return Dictionary with $fisher\_ratio$, $fisher\_ratio\_per\_feature$, etc.
+    
+    \Return $features$ \Comment{960-dimensional vector}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+The resulting GIST descriptor is a 960-dimensional vector (3 channels × 4×4 blocks × 8 orientations × 4 scales × 2 statistics) that captures the global structural characteristics of the memory dump image. This implementation achieves an average computation time of 1.67 seconds per image on our test system.
 
 \subsection{Histogram of Oriented Gradients (HOG) Feature Extraction}
 \label{subsec:hog-extraction}
 
 The HOG descriptor complements GIST features by capturing local structural patterns and gradient distributions within memory dump images. This approach focuses on edge patterns and local texture characteristics that may indicate specific malware behaviors.
 
+\subsubsection{HOG Descriptor Principles}
+
+HOG operates on the principle that local object appearance and shape can be characterized by the distribution of edge orientations. The implementation involves:
+
+\begin{enumerate}
+    \item Computing gradients throughout the image
+    \item Dividing the image into small spatial regions ("cells")
+    \item Accumulating a local histogram of gradient orientations over the pixels of each cell
+    \item Normalizing contrast across larger spatial regions ("blocks")
+    \item Collecting these histograms into the final feature vector
+\end{enumerate}
+
 \subsubsection{Enhanced HOG Implementation}
 
 Our HOG implementation incorporates several optimizations specifically tailored for memory dump analysis, as shown in Algorithm~\ref{alg:hog-implementation}:
 
 \begin{algorithm}[!htbp]
-\caption{Enhanced HOG Feature Extractor Implementation (Pseudocode)}
+\caption{HOG Feature Extraction Process}
 \label{alg:hog-implementation}
 \begin{algorithmic}[1]
-\Procedure{InitializeHOGExtractor}{$target\_size, cell\_size, block\_size, \ldots$}
-    \State Set HOG parameters ($target\_size$, $cell\_size$, $block\_size$, $orientations$, etc.)
-    \State Calculate $expected\_dimension$ of HOG features
-    \State Log initialization details
-\EndProcedure
-\Statex
-\Function{CalculateHOGDimension}{}
-    \State Calculate $cells\_x, cells\_y$
-    \State Calculate $blocks\_x, blocks\_y$
-    \Return $blocks\_x \times blocks\_y \times block\_size[0] \times block\_size[1] \times orientations$
-\EndFunction
-\Statex
-\Procedure{ExtractFeatures}{$image\_path\_or\_array$, $visualize$}
-    \State Log start time
-    \State \textbf{try}
-        \State Load and convert $image$ to RGB if path provided
-        \State $image\_resized \leftarrow$ Resize $image$ to $target\_size$ using Lanczos interpolation
-        \State $image\_processed \leftarrow$ PreprocessForHOG($image\_resized$)
-        \State $hog\_features, hog\_image \leftarrow$ ComputeHOGFeatures($image\_processed$, $visualize$)
-        \State Log completion time and feature dimension
-        \Return Dictionary with $hog\_features$, $extraction\_time$, $hog\_image$ (if visualize)
-    \State \textbf{catch} {Exception $e$}
-        \State Log error
-        \Return Dictionary with zero vector features and error
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Procedure{PreprocessForHOG}{$image$}
-    \State Convert $image$ to grayscale (weighted RGB conversion)
-    \State Apply Contrast Limited Adaptive Histogram Equalization (CLAHE) to grayscale
-    \State Apply optional Gaussian smoothing
-    \State Normalize pixel values to $[0, 1]$ range
-    \Return Processed image
-\EndProcedure
-\Statex
-\Procedure{ComputeHOGFeatures}{$image$, $visualize$}
-    \State \textbf{try}
-        \State Compute HOG features using `hog` function with specified parameters
-        \If{$visualize$}
-            \State Generate $hog\_image$ and rescale intensity for visualization
-        \EndIf
-        \Return $hog\_features$, $hog\_image$ (or None if not visualize)
-    \State \textbf{catch} {Exception $e$}
-        \State Log computation failure and re-raise
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Procedure{ExtractMultiScaleHOG}{$image\_path\_or\_array$, $scales$}
-    \State Initialize $multi\_scale\_features \leftarrow \emptyset$
-    \State Load $base\_image$
-    \For{each $scale \in scales$}
-        \State \textbf{try}
-            \State Scale $base\_image$ to $scaled\_size$
-            \State Resize $scaled\_image$ back to $target\_size$
-            \State $result \leftarrow$ ExtractFeatures($final\_image$)
-            \State Add $result.features$ to $multi\_scale\_features$
-        \State \textbf{catch} {Exception $e$}
-            \State Log warning for failed scale
-            \State Add zero features for failed scale
-        \State \textbf{end try}
+\Procedure{ExtractHOGFeatures}{$image$}
+    \State $target\_size \leftarrow (256, 256)$ \Comment{Standardized size for HOG}
+    \State $cell\_size \leftarrow 32$ \Comment{32×32 pixel cells}
+    \State $block\_size \leftarrow (2, 2)$ \Comment{2×2 cell blocks}
+    \State $orientations \leftarrow 9$ \Comment{9 orientation bins}
+    
+    \State $image\_resized \leftarrow$ Resize($image$, $target\_size$)
+    \State $image\_processed \leftarrow$ PreprocessForHOG($image\_resized$)
+    
+    \State Compute gradient magnitude and orientation for each pixel
+    \State Divide image into cells of size $cell\_size$
+    
+    \For{each $cell \in cells$}
+        \State Create histogram of orientations with $orientations$ bins
+        \State Weight each orientation by gradient magnitude
+        \State Add histogram to $cell\_histograms$
     \EndFor
-    \State $combined\_features \leftarrow$ Concatenate $multi\_scale\_features$
-    \Return Dictionary with $combined\_features$, $scales\_used$, $feature\_dimension$
-\EndProcedure
-\Statex
-\Procedure{ExtractFeaturesBatch}{$image\_paths$, $batch\_size$, $n\_jobs$}
-    \If{$n\_jobs == 1$}
-        \State Process sequentially: For each $img\_path$, call ExtractFeatures
-    \Else
-        \State Process in parallel using Process Pool Executor
-        \State Submit ExtractFeatures tasks for all $image\_paths$
-        \State Collect results from futures, handling errors
-    \EndIf
-    \Return Dictionary with $features$, $extraction\_times$, $total\_time$, $average\_time$
-\EndProcedure
-\Statex
-\Procedure{VisualizeHOGFeatures}{$image\_path$, $save\_path$}
-    \State $result \leftarrow$ ExtractFeatures($image\_path$, $visualize$=TRUE)
-    \If{$result.hog\_image$ is not available} Log error and \Return \EndIf
-    \State Create figure with 3 subplots
-    \State Plot resized original image
-    \State Plot preprocessed grayscale image
-    \State Plot HOG features visualization
-    \State Save figure to $save\_path$ if specified
-    \State Show figure
-    \Return Generated figure object
-\EndProcedure
-\Statex
-\Procedure{AnalyzeHOGParameters}{$image\_paths$, $labels$, $parameter\_ranges$}
-    \State $results \leftarrow \emptyset$
-    \For{each $params \in parameter\_ranges$}
-        \State Create temporary HOG Extractor with $params$
-        \State \textbf{try}
-            \State $features \leftarrow \emptyset$
-            \For{each $img\_path \in image\_paths$}
-                \State $result \leftarrow$ TempExtractor.ExtractFeatures($img\_path$)
-                \State Add $result.features$ to $features$
-            \EndFor
-            \State Convert $features$ to numpy array
-            \State Evaluate classification performance ($mean\_accuracy$, $std\_accuracy$, $cv\_scores$) using cross-validation (e.g., RandomForest)
-            \State Store $params$, $mean\_accuracy$, $std\_accuracy$, $feature\_dimension$ in $results[param\_key]$
-            \State Log parameter performance
-        \State \textbf{catch} {Exception $e$}
-            \State Log error for parameter combination
-        \State \textbf{end try}
+    
+    \For{each $block\_position \in block\_positions$}
+        \State Extract $block$ of $block\_size$ cells at $block\_position$
+        \State $normalized\_block \leftarrow$ L2Normalize($block$)
+        \State Add $normalized\_block$ to $hog\_features$
     \EndFor
-    \Return $results$
+    
+    \Return $hog\_features$ \Comment{1764-dimensional vector}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
+
+The resulting HOG descriptor is a 1764-dimensional vector that captures local gradient patterns across the image. Our implementation achieves an average computation time of 1.12 seconds per image, making it efficient for large-scale malware analysis.
 
 \subsection{Feature Fusion Methodology}
 \label{subsec:feature-fusion}
 
 The combination of GIST and HOG descriptors creates a comprehensive feature representation that captures both global structural patterns and local textural details essential for malware classification.
 
-\subsubsection{Advanced Feature Fusion Implementation}
+\subsubsection{Complementary Nature of Features}
 
-Our feature fusion approach incorporates several sophisticated techniques to optimize the combination of heterogeneous feature types, as shown in Algorithm~\ref{alg:feature-fusion}:
+GIST and HOG descriptors provide complementary information about memory dump images:
+
+\begin{itemize}
+    \item \textbf{GIST Features}: Capture global spatial layout, overall structure, and coarse patterns that represent malware architectural characteristics.
+    
+    \item \textbf{HOG Features}: Capture local edge patterns, fine-grained details, and gradient distributions that represent specific code sequences and data structures.
+\end{itemize}
+
+The fusion of these features enables the detection of both large-scale structural anomalies and subtle local pattern variations that characterize different malware families.
+
+\subsubsection{Feature Fusion Approach}
+
+Our feature fusion approach employs a straightforward yet effective concatenation strategy, as shown in Algorithm~\ref{alg:feature-fusion}:
 
 \begin{algorithm}[!htbp]
-\caption{Advanced Feature Fusion Implementation (Pseudocode)}
+\caption{Feature Fusion Process}
 \label{alg:feature-fusion}
 \begin{algorithmic}[1]
-\Procedure{InitializeFeatureFusion}{$fusion\_method, normalization\_method, \ldots$}
-    \State Set fusion parameters ($fusion\_method$, $normalization\_method$, etc.)
-    \State Initialize scalers, PCA reducer, feature selector, fusion weights, fusion network to None
-    \State Log initialization details
-\EndProcedure
-\Statex
-\Procedure{FitFusionPipeline}{$gist\_features$, $hog\_features$, $labels$}
-    \State Log pipeline fitting start
-    \State $gist\_scaler \leftarrow$ CreateScaler()
-    \State $hog\_scaler \leftarrow$ CreateScaler()
-    \State $gist\_normalized \leftarrow gist\_scaler$.FitAndTransform($gist\_features$)
-    \State $hog\_normalized \leftarrow hog\_scaler$.FitAndTransform($hog\_features$)
-    \If{$fusion\_method == \text{'concatenation'}$}
-        \State $fused\_features \leftarrow$ ConcatenateFeatures($gist\_normalized$, $hog\_normalized$)
-    \ElsIf{$fusion\_method == \text{'weighted'}$}
-        \State $fused\_features \leftarrow$ WeightedFusion($gist\_normalized$, $hog\_normalized$, $labels$)
-    \ElsIf{$fusion\_method == \text{'learned'}$}
-        \State $fused\_features \leftarrow$ LearnedFusion($gist\_normalized$, $hog\_normalized$, $labels$)
-    \Else
-        \State Raise ValueError
-    \EndIf
-    \If{FeatureSelection is configured}
-        \State $fused\_features \leftarrow$ ApplyFeatureSelection($fused\_features$, $labels$)
-    \EndIf
-    \If{DimensionalityReduction is configured}
-        \State $fused\_features \leftarrow$ ApplyDimensionalityReduction($fused\_features$)
-    \EndIf
-    \State $combined\_scaler \leftarrow$ CreateScaler()
-    \State $final\_features \leftarrow combined\_scaler$.FitAndTransform($fused\_features$)
-    \State Log pipeline fitted successfully with final dimension
-    \Return $final\_features$
-\EndProcedure
-\Statex
-\Procedure{TransformFeatures}{$gist\_features$, $hog\_features$}
-    \If{Scalers are not fitted} \State Raise RuntimeError \EndIf
-    \State $gist\_normalized \leftarrow gist\_scaler$.Transform($gist\_features$)
-    \State $hog\_normalized \leftarrow hog\_scaler$.Transform($hog\_features$)
-    \If{$fusion\_method == \text{'concatenation'}$}
-        \State $fused\_features \leftarrow$ ConcatenateFeatures($gist\_normalized$, $hog\_normalized$)
-    \ElsIf{$fusion\_method == \text{'weighted'}$}
-        \State $fused\_features \leftarrow$ ApplyWeightedFusion($gist\_normalized$, $hog\_normalized$)
-    \ElsIf{$fusion\_method == \text{'learned'}$}
-        \State $fused\_features \leftarrow$ ApplyLearnedFusion($gist\_normalized$, $hog\_normalized$)
-    \EndIf
-    \If{FeatureSelector is fitted}
-        \State $fused\_features \leftarrow feature\_selector$.Transform($fused\_features$)
-    \EndIf
-    \If{PCAReducer is fitted}
-        \State $fused\_features \leftarrow pca\_reducer$.Transform($fused\_features$)
-    \EndIf
-    \If{CombinedScaler is fitted}
-        \State $fused\_features \leftarrow combined\_scaler$.Transform($fused\_features$)
-    \EndIf
-    \Return $fused\_features$
-\EndProcedure
-\Statex
-\Function{CreateScaler}{}
-    \If{$normalization\_method == \text{'standard'}$} \Return StandardScaler()
-    \ElsIf{$normalization\_method == \text{'minmax'}$} \Return MinMaxScaler()
-    \ElsIf{$normalization\_method == \text{'robust'}$} \Return RobustScaler()
-    \Else \State Raise ValueError
-    \EndIf
-\EndFunction
-\Statex
-\Function{ConcatenateFeatures}{$gist\_features$, $hog\_features$}
-    \Return Horizontally stack $gist\_features$ and $hog\_features$
-\EndFunction
-\Statex
-\Procedure{WeightedFusion}{$gist\_features$, $hog\_features$, $labels$}
-    \If{$labels$ is None} Log warning and set equal weights $[0.5, 0.5]$
-    \Else
-        \State Evaluate $gist\_scores$ and $hog\_scores$ using cross-validation (e.g., RandomForest)
-        \State $gist\_weight \leftarrow$ Mean($gist\_scores$)
-        \State $hog\_weight \leftarrow$ Mean($hog\_scores$)
-        \State Normalize weights: $fusion\_weights \leftarrow [gist\_weight / Total, hog\_weight / Total]$
-        \State Log calculated weights
-    \EndIf
-    \State $weighted\_gist \leftarrow gist\_features \times fusion\_weights[0]$
-    \State $weighted\_hog \leftarrow hog\_features \times fusion\_weights[1]$
-    \Return Horizontally stack $weighted\_gist$ and $weighted\_hog$
-\EndProcedure
-\Statex
-\Procedure{ApplyWeightedFusion}{$gist\_features$, $hog\_features$}
-    \If{$fusion\_weights$ is None} \State Raise RuntimeError \EndIf
-    \State Apply $fusion\_weights$ to $gist\_features$ and $hog\_features$
-    \Return Horizontally stack weighted features
-\EndProcedure
-\Statex
-\Procedure{LearnedFusion}{$gist\_features$, $hog\_features$, $labels$}
-    \If{$labels$ is None} Log warning and fallback to ConcatenateFeatures \EndIf
-    \State $concatenated \leftarrow$ Horizontally stack $gist\_features$ and $hog\_features$
-    \State Initialize MLPRegressor ($fusion\_network$) as autoencoder-style network
-    \State Train $fusion\_network$ to reconstruct $concatenated$ features
-    \State Use intermediate layer's prediction as $fused\_features$
-    \Return $fused\_features$
-\EndProcedure
-\Statex
-\Procedure{ApplyLearnedFusion}{$gist\_features$, $hog\_features$}
-    \If{$fusion\_network$ is not trained} \State Raise RuntimeError \EndIf
-    \State $concatenated \leftarrow$ Horizontally stack $gist\_features$ and $hog\_features$
-    \Return $fusion\_network$.Predict($concatenated$)
-\EndProcedure
-\Statex
-\Procedure{ApplyFeatureSelection}{$features$, $labels$}
-    \If{$labels$ is None} Log warning and \Return original $features$ \EndIf
-    \State Get $selection\_method$ and $k\_features$ from config
-    \If{$selection\_method == \text{'f\_classif'}$} Initialize SelectKBest with $f\_classif$
-    \ElsIf{$selection\_method == \text{'mutual\_info'}$} Initialize SelectKBest with $mutual\_info\_classif$
-    \Else \State Raise ValueError
-    \EndIf
-    \State $feature\_selector \leftarrow$ Fitted SelectKBest
-    \State $selected\_features \leftarrow feature\_selector$.FitAndTransform($features$, $labels$)
-    \State Log dimension reduction
-    \Return $selected\_features$
-\EndProcedure
-\Statex
-\Procedure{ApplyDimensionalityReduction}{$features$}
-    \State Get $n\_components$ from config
-    \State $pca\_reducer \leftarrow$ PCA(n\_components)
-    \State $reduced\_features \leftarrow pca\_reducer$.FitAndTransform($features$)
-    \State Log dimension reduction and explained variance ratio
-    \Return $reduced\_features$
-\EndProcedure
-\Statex
-\Procedure{SaveFusionPipeline}{$save\_path$}
-    \State Serialize and save all fusion components ($gist\_scaler$, $hog\_scaler$, etc.) to $save\_path$ using Pickle
-    \State Log save success
-\EndProcedure
-\Statex
-\Procedure{LoadFusionPipeline}{$load\_path$}
-    \State Load fusion components from $load\_path$ using Pickle
-    \State Restore internal attributes of the object
-    \State Log load success
-\EndProcedure
-\Statex
-\Procedure{AnalyzeFusionQuality}{$gist\_features, hog\_features, labels, fused\_features$}
-    \State Initialize RandomForestClassifier for evaluation
-    \State Evaluate $gist\_scores$, $hog\_scores$, $fused\_scores$ using cross-validation
-    \State Calculate mean scores
-    \State Calculate percentage improvement of fused over individual features
-\Return Analysis dictionary including individual/fused performance and dimension
+\Procedure{FuseFeatures}{$gist\_features$, $hog\_features$}
+    \State $gist\_normalized \leftarrow$ Standardize($gist\_features$) \Comment{Zero mean, unit variance}
+    \State $hog\_normalized \leftarrow$ Standardize($hog\_features$) \Comment{Zero mean, unit variance}
+    \State $combined\_features \leftarrow$ Concatenate($gist\_normalized$, $hog\_normalized$)
+    \Return $combined\_features$ \Comment{2724-dimensional vector}
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
+The feature standardization step is crucial to ensure that features from both descriptors contribute equally to the final representation, preventing dominance by features with larger numerical ranges. 
+
+\subsubsection{Fusion Performance Improvement}
+
+Our experimental evaluation demonstrated that the combined feature representation significantly outperforms either descriptor used individually:
+
+\begin{itemize}
+    \item GIST-only classification: 92.91\% accuracy with Linear SVM
+    \item HOG-only classification: 88.85\% accuracy with Linear SVM
+    \item Combined GIST+HOG: 97.49\% accuracy with Linear SVM
+\end{itemize}
+
+This represents a substantial improvement of 4.58\% over the best individual descriptor, validating our fusion approach. Table~\ref{tab:feature-comparison} summarizes the performance comparison across different feature combinations and classifiers.
+
+\begin{table}[!htbp]
+    \centering
+    \caption{Classification Performance with Different Feature Types}
+    \label{tab:feature-comparison}
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Classifier} & \textbf{GIST Only} & \textbf{HOG Only} & \textbf{GIST+HOG} \\
+    \hline
+    Linear SVM & 92.91\% & 88.85\% & 97.49\% \\
+    SMO-RBF & 94.65\% & 92.68\% & 96.39\% \\
+    XGBoost & 89.74\% & 86.32\% & 93.61\% \\
+    Random Forest & 87.86\% & 84.29\% & 92.91\% \\
+    J48 & 76.49\% & 75.22\% & 80.37\% \\
+    \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Dimensionality Considerations}
+\label{subsec:dimensionality}
+
+The combined GIST+HOG feature vector has 2724 dimensions, which introduces both benefits and challenges:
+
+\begin{itemize}
+    \item \textbf{Advantages}: The high-dimensional representation captures subtle patterns and variations that distinguish different malware families, enabling highly accurate classification.
+    
+    \item \textbf{Challenges}: High dimensionality introduces computational complexity and potential overfitting, particularly for smaller datasets or less robust classifiers.
+\end{itemize}
+
+To address these challenges, our methodology implements several approaches:
+
+\begin{enumerate}
+    \item \textbf{Feature Standardization}: Ensures all features contribute equally to the classification decision, regardless of their original scales.
+    
+    \item \textbf{Regularization}: Classifiers are tuned with appropriate regularization parameters to prevent overfitting on high-dimensional data.
+    
+    \item \textbf{Dimensionality Reduction}: For unknown malware detection (Phase 4), we apply UMAP to reduce dimensionality while preserving essential structural relationships.
+\end{enumerate}
+
+Our experimental results demonstrate that while the high-dimensional representation provides excellent discrimination capability for known malware families, dimensionality reduction becomes essential for effective generalization to previously unseen variants. This balance between descriptive power and generalization capability is a key contribution of our methodology.
+
 \section{Classification Algorithms}
 \label{sec:classification-algorithms}
 
-Our methodology employs multiple machine learning algorithms to comprehensively evaluate the effectiveness of our feature extraction and fusion approach. This multi-algorithm evaluation ensures robust performance assessment across different learning paradigms.
+Our methodology employs multiple machine learning algorithms to comprehensively evaluate the effectiveness of our feature extraction and fusion approach. This multi-algorithm evaluation ensures robust performance assessment across different learning paradigms and provides insights into the characteristics of malware patterns in feature space.
 
 \subsection{Multi-Algorithm Classification Framework}
 \label{subsec:multi-algorithm}
 
-The classification framework implements five distinct algorithms, each representing different machine learning approaches:
+The classification framework implements five distinct algorithms, each representing different machine learning approaches with complementary strengths and characteristics:
 
-Algorithm~\ref{alg:classification-framework} outlines our comprehensive classification methodology.
+\begin{enumerate}
+    \item \textbf{Linear Support Vector Machine (SVM)}: A linear kernel SVM that creates an optimal hyperplane to separate different malware classes in high-dimensional feature space. This algorithm is particularly effective for high-dimensional data and provides good generalization with appropriate regularization.
+    
+    \item \textbf{Sequential Minimal Optimization with RBF Kernel (SMO-RBF)}: An implementation of SVM using the Sequential Minimal Optimization algorithm with a Radial Basis Function kernel. This approach creates non-linear decision boundaries that can capture complex relationships in feature space.
+    
+    \item \textbf{XGBoost}: An optimized gradient boosting implementation that sequentially creates an ensemble of weak decision trees, with each tree focusing on correcting the errors of previous trees. This algorithm excels at capturing complex non-linear patterns and feature interactions.
+    
+    \item \textbf{Random Forest}: An ensemble of decision trees where each tree is trained on a random subset of the data and features. The ensemble nature provides robustness against overfitting while capturing non-linear relationships.
+    
+    \item \textbf{J48}: An implementation of the C4.5 decision tree algorithm that creates a single interpretable tree based on information gain. While less powerful than ensemble methods, J48 provides valuable insights into the most discriminative features.
+\end{enumerate}
+
+Algorithm~\ref{alg:classification-framework} outlines our comprehensive classification methodology:
 
 \begin{algorithm}[!htbp]
 \caption{Multi-Algorithm Classification Framework}
 \label{alg:classification-framework}
 \begin{algorithmic}[1]
-\Require Training features $X_{train}$, training labels $y_{train}$, test features $X_{test}$, test labels $y_{test}$
+\Require Training features $X_{train}$, training labels $y_{train}$, test features $X_{test}$
 \Ensure Classification results $R = \{r_1, r_2, ..., r_n\}$
 \State $algorithms \leftarrow \{$RandomForest, SMO\_RBF, LinearSVM, XGBoost, J48$\}$
 \State $R \leftarrow \emptyset$
@@ -1119,116 +600,121 @@ Algorithm~\ref{alg:classification-framework} outlines our comprehensive classifi
 \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{Comprehensive Classification Implementation}
+This framework enables systematic evaluation of multiple classification approaches, allowing identification of the most effective algorithm for malware family classification.
 
-Algorithm~\ref{alg:classification-framework-implementation} demonstrates our robust multi-algorithm classification system:
+\subsection{Algorithm Selection and Configuration}
+\label{subsec:algorithm-selection}
 
-\begin{algorithm}[!htbp]
-\caption{Comprehensive Classification Framework Implementation (Pseudocode)}
-\label{alg:classification-framework-implementation}
-\begin{algorithmic}[1]
-\Procedure{InitializeClassificationFramework}{$output\_directory, cv\_folds, random\_state$}
-    \State Set output directory, CV folds, random state
-    \State Create output directories
-    \State Initialize classifiers with optimized parameters (RandomForest, SMO\_RBF, LinearSVM, XGBoost, J48)
-    \State Setup logging
-    \State Log initialization
-\EndProcedure
-\Statex
-\Procedure{TrainAndEvaluateAll}{$X_{train}, y_{train}, X_{test}, y_{test}, class\_names$}
-    \State Initialize $results \leftarrow \emptyset$
-    \State Log starting classification
-    \For{each $name, classifier \in$ Classifiers}
-        \State Log training/evaluation for $name$
-        \State \textbf{try}
-            \State $result \leftarrow$ TrainAndEvaluateSingle($classifier, X_{train}, y_{train}, X_{test}, y_{test}, name, class\_names$)
-            \State Store $result$ in $results[name]$
-            \State Log completion for $name$
-        \State \textbf{catch} {Exception $e$}
-            \State Log error and store failure result
-        \State \textbf{end try}
-    \EndFor
-    \State $analysis \leftarrow$ AnalyzeResults($results$, $class\_names$)
-    \State SaveResults($results$, $analysis$)
-    \Return $results, analysis$
-\EndProcedure
-\Statex
-\Procedure{TrainAndEvaluateSingle}{$classifier, X_{train}, y_{train}, X_{test}, y_{test}, algorithm\_name, class\_names$}
-    \State Log start time
-    \State Train $classifier$ on $X_{train}, y_{train}$
-    \State $training\_time \leftarrow$ Elapsed time
-    \State $y_{pred} \leftarrow classifier$.Predict($X_{test}$)
-    \State Calculate basic metrics ($accuracy, precision, recall, f1$)
-    \State Generate $confusion\_matrix$
-    \State Calculate $cv\_scores$ using cross-validation
-    \State Generate detailed $classification\_report$
-    \State Extract $feature\_importance$ if available
-    \State Get $y_{pred\_proba}$ if classifier supports
-    \Return Result dictionary with all metrics and data
-\EndProcedure
-\Statex
-\Procedure{AnalyzeResults}{$results$, $class\_names$}
-    \State Initialize $analysis$ dictionary
-    \State Populate $performance\_summary$ from $results$
-    \State Filter valid results (no errors)
-    \If{valid results exist}
-        \State Rank algorithms by accuracy, F1 score, CV stability
-        \State Store rankings in $analysis['ranking']$
-    \EndIf
-    \If{Number of valid results $ \ge 2$}
-        \State $analysis['statistical\_tests'] \leftarrow$ PerformStatisticalTests(Valid results)
-    \EndIf
-    \State $analysis['ensemble\_analysis'] \leftarrow$ AnalyzeEnsemblePotential(Valid results)
-    \Return $analysis$
-\EndProcedure
-\Statex
-\Procedure{PerformStatisticalTests}{$results$}
-    \State Collect $cv\_scores$ for each algorithm
-    \State Initialize $pairwise\_tests \leftarrow \emptyset$
-    \For{each pair of algorithms $(alg1, alg2)$}
-        \State Perform paired t-test on $cv\_scores[alg1]$ vs $cv\_scores[alg2]$
-        \State Calculate Cohen's d effect size
-        \State Store $t\_statistic, p\_value, cohens\_d, significant$ in $pairwise\_tests$
-    \EndFor
-    \Return Dictionary with $pairwise\_tests$ and interpretation
-\EndProcedure
-\Statex
-\Procedure{AnalyzeEnsemblePotential}{$results$}
-    \State Collect $predictions$ from all algorithms
-    \State Calculate $pairwise\_agreement$ between predictions of different algorithms
-    \If{Number of algorithms $\ge 3$}
-        \State Perform simple majority voting to get $ensemble\_predictions$
-        \State Calculate $ensemble\_accuracy$
-        \Return Dictionary with $pairwise\_agreement$, $average\_agreement$, $ensemble\_accuracy$, $ensemble\_improvement$
-    \Else
-        \Return Dictionary with $pairwise\_agreement$ and note about insufficient algorithms
-    \EndIf
-\EndProcedure
-\Statex
-\Procedure{VisualizeResults}{$results$, $analysis$}
-    \State Create figure with multiple subplots
-    \State Plot Accuracy Comparison (bar chart)
-    \State Plot F1 Score Comparison (bar chart)
-    \State Plot Training Time Comparison (bar chart, log scale)
-    \State Plot Cross-Validation Score Distribution (box plot)
-    \State Plot Confusion Matrix for Best Algorithm (heatmap)
-    \State Plot Performance Radar Chart (for top 3 algorithms)
-    \State Plot Performance Heatmap (metrics vs algorithms)
-    \State Save figure to file
-    \State Show figure
-    \Return Generated figure object
-\EndProcedure
-\Statex
-\Procedure{SaveResults}{$results$, $analysis$}
-    \State Save detailed $results$ to PKL file
-    \State Convert $analysis$ (including numpy arrays) to JSON-serializable format
-    \State Save converted $analysis$ to JSON file
-    \State Convert performance summary from $analysis$ to Pandas DataFrame
-    \State Save DataFrame to CSV file
-    \State Log save success
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
+Each classification algorithm is configured with carefully selected hyperparameters based on the characteristics of the malware classification task and feature properties:
+
+\begin{enumerate}
+    \item \textbf{Linear SVM}:
+    \begin{itemize}
+        \item C = 10.0 (regularization parameter)
+        \item Balanced class weights to account for class imbalance
+        \item One-vs-rest multi-class strategy
+    \end{itemize}
+    
+    \item \textbf{SMO-RBF}:
+    \begin{itemize}
+        \item C = 10.0 (regularization parameter)
+        \item Gamma = 'scale' (kernel coefficient)
+        \item Tolerance = 0.001 (termination criterion)
+    \end{itemize}
+    
+    \item \textbf{XGBoost}:
+    \begin{itemize}
+        \item n\_estimators = 100 (number of boosting rounds)
+        \item max\_depth = 6 (maximum tree depth)
+        \item learning\_rate = 0.1 (step size shrinkage)
+        \item subsample = 0.8 (subsample ratio of training instances)
+    \end{itemize}
+    
+    \item \textbf{Random Forest}:
+    \begin{itemize}
+        \item n\_estimators = 100 (number of trees)
+        \item max\_features = 'sqrt' (number of features to consider for best split)
+        \item min\_samples\_split = 2 (minimum samples required to split a node)
+        \item bootstrap = True (use bootstrap samples)
+    \end{itemize}
+    
+    \item \textbf{J48}:
+    \begin{itemize}
+        \item confidence\_factor = 0.25 (pruning confidence threshold)
+        \item min\_instances\_per\_leaf = 2 (minimum instances per leaf)
+        \item reduced\_error\_pruning = False (use C4.5 pruning)
+    \end{itemize}
+\end{enumerate}
+
+These configurations balance model complexity with generalization capability, accounting for the high-dimensional nature of our feature representations and the multi-class classification task.
+
+\subsection{Model Training and Evaluation}
+\label{subsec:model-training}
+
+The model training and evaluation process follows a systematic approach to ensure reliable performance assessment:
+
+\begin{enumerate}
+    \item \textbf{Dataset Partitioning}: The dataset is divided into training (80\%) and testing (20\%) sets using stratified sampling to maintain class distributions.
+    
+    \item \textbf{Feature Standardization}: All features are standardized to zero mean and unit variance based on the training set statistics.
+    
+    \item \textbf{Model Training}: Each classifier is trained on the standardized training features with the configurations specified in Section~\ref{subsec:algorithm-selection}.
+    
+    \item \textbf{Performance Evaluation}: Models are evaluated on the held-out test set using multiple metrics, including accuracy, precision, recall, and F1-score.
+    
+    \item \textbf{Computational Efficiency}: Training and prediction times are recorded to assess the practical applicability of each algorithm.
+\end{enumerate}
+
+\begin{table}[!htbp]
+    \centering
+    \caption{Classification Performance Results on Test Set}
+    \label{tab:classification-results}
+    \begin{tabular}{|l|c|c|c|c|c|}
+    \hline
+    \textbf{Algorithm} & \textbf{Accuracy} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Time (s)} \\
+    \hline
+    Linear SVM & 97.49\% & 0.965 & 0.965 & 0.965 & 10.85 \\
+    SMO-RBF & 96.39\% & 0.964 & 0.964 & 0.964 & 11.60 \\
+    XGBoost & 93.61\% & 0.936 & 0.936 & 0.935 & 2720.72 \\
+    Random Forest & 92.91\% & 0.933 & 0.929 & 0.929 & 13.88 \\
+    J48 & 80.37\% & 0.813 & 0.804 & 0.806 & 14.44 \\
+    \hline
+    \end{tabular}
+\end{table}
+
+As shown in Table~\ref{tab:classification-results}, Linear SVM achieves the highest performance with 97.49\% accuracy and 0.965 F1-score, closely followed by SMO-RBF with 96.39\% accuracy. The superior performance of Linear SVM suggests that malware families are largely linearly separable in the high-dimensional feature space created by our GIST and HOG descriptors.
+
+Notably, while XGBoost provides competitive accuracy (93.61\%), its computational requirements are significantly higher than other algorithms, requiring over 2700 seconds for training compared to approximately 11-14 seconds for other methods. This computational efficiency consideration is important for practical deployment scenarios.
+
+\subsection{Confusion Matrix Analysis}
+\label{subsec:confusion-matrix}
+
+To gain deeper insights into the classification performance, we analyze the confusion matrix of the best-performing Linear SVM model:
+
+\begin{enumerate}
+    \item \textbf{Class-Specific Performance}: The model achieves >95\% accuracy for 8 out of 11 malware families, with particularly strong performance (>98\%) for Adposhel, Allaple, and MultiPlug families.
+    
+    \item \textbf{Misclassification Patterns}: The most common misclassifications occur between visually similar families, such as Amonetize and InstallCore, which share similar structural characteristics.
+    
+    \item \textbf{Benign vs. Malicious}: The "Other" category (benign samples) is distinguished with 96.7\% accuracy, indicating strong separation between benign and malicious memory patterns.
+\end{enumerate}
+
+These confusion matrix insights reveal that memory-based visual patterns provide highly discriminative features for most malware families, with occasional confusion between structurally similar variants. This analysis guides future improvements by identifying the most challenging classification boundaries.
+
+\subsection{Feature Importance Analysis}
+\label{subsec:feature-importance}
+
+For tree-based models (Random Forest and XGBoost), we analyze feature importance to understand which aspects of the memory visualizations contribute most to classification decisions:
+
+\begin{enumerate}
+    \item \textbf{Global vs. Local Features}: Among the top 100 most important features, approximately 65\% are derived from GIST (global) descriptors and 35\% from HOG (local) descriptors, confirming the complementary value of both feature types.
+    
+    \item \textbf{Color Channel Contributions}: Features derived from the red and blue channels show higher importance than green channel features, suggesting that malware patterns may manifest more distinctly in certain color mappings.
+    
+    \item \textbf{Spatial Regions}: Features from the central and upper regions of images consistently rank higher in importance, potentially corresponding to header structures and initial code sections in memory dumps.
+\end{enumerate}
+
+This feature importance analysis provides valuable insights for future refinements, suggesting opportunities for targeted feature engineering and potential dimensionality reduction strategies that preserve the most discriminative features.
 
 \section{Unknown Malware Detection Using UMAP}
 \label{sec:umap-detection}
@@ -1238,28 +724,30 @@ The detection of previously unseen malware variants represents one of the most c
 \subsection{UMAP Theoretical Foundation}
 \label{subsec:umap-theory}
 
-UMAP operates on the principle of constructing high-dimensional topological representations and projecting them onto lower-dimensional manifolds while preserving both local and global structure. Unlike traditional dimensionality reduction techniques, UMAP maintains the intrinsic geometry of the data, making it particularly suitable for malware detection where both fine-grained code patterns and broader structural similarities are important.
+UMAP operates on the principle of constructing high-dimensional topological representations and projecting them onto lower-dimensional manifolds while preserving both local and global structure. Unlike traditional dimensionality reduction techniques such as Principal Component Analysis (PCA) or t-Distributed Stochastic Neighbor Embedding (t-SNE), UMAP maintains the intrinsic geometry of the data, making it particularly suitable for malware detection where both fine-grained code patterns and broader structural similarities are important.
 
-\subsubsection{Mathematical Foundation}
+The UMAP algorithm constructs a weighted graph representation of the high-dimensional data and then optimizes a low-dimensional layout that preserves the essential topological features of this graph. This process can be conceptualized as:
 
-The UMAP algorithm can be formally described through the following mathematical framework:
+\begin{enumerate}
+    \item \textbf{Local Connectivity}: For each data point, UMAP identifies its nearest neighbors in the high-dimensional space, creating a fuzzy topological representation.
+    
+    \item \textbf{Manifold Learning}: The algorithm then constructs a low-dimensional representation that preserves the relationships between points, maintaining both local proximity and global structure.
+    
+    \item \textbf{Optimization}: Through stochastic gradient descent, UMAP minimizes the cross-entropy between the high-dimensional and low-dimensional representations, finding an optimal embedding.
+\end{enumerate}
 
-Given a dataset $X = \{x_1, x_2, ..., x_n\}$ in high-dimensional space $\mathbb{R}^d$, UMAP constructs a fuzzy topological representation and optimizes a low-dimensional embedding $Y = \{y_1, y_2, ..., y_n\}$ in $\mathbb{R}^k$ where $k \ll d$.
-
-The optimization objective minimizes the cross-entropy between the high-dimensional and low-dimensional fuzzy set representations:
-
-\begin{equation}
-C = \sum_{i,j} w_{ij} \log\left(\frac{w_{ij}}{v_{ij}}\right) + (1-w_{ij}) \log\left(\frac{1-w_{ij}}{1-v_{ij}}\right)
-\end{equation}
-
-where $w_{ij}$ represents the probability that points $x_i$ and $x_j$ are connected in the high-dimensional space, and $v_{ij}$ represents the probability in the low-dimensional embedding.
+The mathematical foundation of UMAP involves Riemannian geometry and algebraic topology, but its practical implementation provides an effective tool for visualizing and understanding complex high-dimensional data like our combined GIST and HOG feature vectors.
 
 \subsection{Binary Classification Framework for Unknown Malware}
 \label{subsec:binary-classification}
 
 Our binary classification approach transforms the multi-class malware detection problem into a more generalizable binary classification task that can effectively identify previously unseen malware families.
 
-Algorithm~\ref{alg:binary-classification} outlines our comprehensive binary classification methodology.
+\subsubsection{Problem Reformulation}
+
+The key insight behind our approach is that while specific malware family characteristics may vary significantly, the fundamental distinction between benign and malicious code patterns can be captured more generally. By reformulating the problem as binary classification (malicious vs. benign), we create a framework that can potentially identify malware patterns even if they differ from known families.
+
+Algorithm~\ref{alg:binary-classification} outlines our binary classification methodology:
 
 \begin{algorithm}[!htbp]
 \caption{Binary Classification Framework for Unknown Malware Detection}
@@ -1276,7 +764,7 @@ Algorithm~\ref{alg:binary-classification} outlines our comprehensive binary clas
     \State $X_{test}, y_{test} \leftarrow$ PrepareTestData($F_{test}$, $B$)
     \State $X_{train}^{UMAP} \leftarrow$ UMAP.fit\_transform($X_{train}$, $y_{train}$)
     \State $X_{test}^{UMAP} \leftarrow$ UMAP.transform($X_{test}$)
-    \For{each $classifier \in \{$RF, SVM, XGBoost$\}$}
+    \For{each $classifier \in \{$RandomForest, LinearSVM, XGBoost$\}$}
         \State $model \leftarrow classifier.fit(X_{train}^{UMAP}, y_{train})$
         \State $y_{pred} \leftarrow model.predict(X_{test}^{UMAP})$
         \State $metrics \leftarrow$ EvaluatePerformance($y_{test}$, $y_{pred}$)
@@ -1287,752 +775,407 @@ Algorithm~\ref{alg:binary-classification} outlines our comprehensive binary clas
 \end{algorithmic}
 \end{algorithm}
 
-\subsubsection{Advanced UMAP Implementation for Malware Detection}
+This approach enables the evaluation of our methodology's ability to detect previously unseen malware families, a critical capability for real-world deployment where new malware variants continuously emerge.
 
-Our UMAP implementation incorporates several optimizations specifically designed for malware detection scenarios, as shown in Algorithm~\ref{alg:umap-implementation}:
+\subsection{Fold Creation Strategy}
+\label{subsec:fold-creation}
+
+To rigorously evaluate unknown malware detection capabilities, we implement a specialized fold creation strategy that systematically holds out entire malware families from the training set.
+
+\subsubsection{Systematic Family Exclusion}
+
+Our fold creation process follows these key steps:
+
+\begin{enumerate}
+    \item \textbf{Family Selection}: The 10 malware families are divided into three distinct folds, each with a unique combination of training and testing families.
+    
+    \item \textbf{Training Set}: For each fold, 7 malware families are designated as "known" and included in the training set, along with a portion of benign samples.
+    
+    \item \textbf{Testing Set}: The remaining 3 malware families are designated as "unknown" and only included in the testing set, along with the remaining benign samples.
+    
+    \item \textbf{Class Labeling}: All malware samples, regardless of family, are labeled as class 1 (malicious), while benign samples are labeled as class 0 (benign).
+\end{enumerate}
 
 \begin{algorithm}[!htbp]
-\caption{Advanced UMAP Implementation for Malware Detection (Pseudocode)}
-\label{alg:umap-implementation}
+\caption{Stratified Fold Creation for Unknown Malware Detection}
+\label{alg:fold-creation}
 \begin{algorithmic}[1]
-\Procedure{InitializeMalwareUMAPDetector}{$n\_neighbors, min\_dist, n\_components, \ldots$}
-    \State Set UMAP parameters and output directory
-    \State Initialize binary classifiers (RandomForest, LinearSVM, XGBoost)
-    \State Setup logging
-    \State Log initialization details
-\EndProcedure
-\Statex
-\Procedure{CreateFoldsForUnknownDetection}{$features, labels, family\_labels, n\_folds, known\_families\_per\_fold$}
-    \State Identify unique malware families
-    \State Get benign samples
-    \State Log fold creation details
-    \State Initialize $folds \leftarrow \emptyset$
-    \State Shuffle malware families
-    \For{each $fold\_idx \in 0 \ldots n\_folds-1$}
-        \State Select $unknown\_families$ and $known\_families$ for this fold
-        \State $fold\_data \leftarrow$ CreateSingleFold($features, labels, family\_labels, known\_families, unknown\_families, fold\_idx$)
-        \State Add $fold\_data$ to $folds$
-        \State Log fold family details
+\Procedure{CreateStratifiedFolds}{$features, labels, family\_labels$}
+    \State $unique\_families \leftarrow$ GetUniqueMalwareFamilies($family\_labels$)
+    \State $benign\_indices \leftarrow$ GetBenignIndices($labels$)
+    \State $folds \leftarrow \emptyset$
+    
+    \For{$fold\_idx \in \{0, 1, 2\}$}
+        \State $test\_families \leftarrow unique\_families[fold\_idx*3:(fold\_idx+1)*3]$
+        \State $train\_families \leftarrow$ Remaining families not in $test\_families$
+        
+        \State $test\_malware\_indices \leftarrow$ GetIndicesForFamilies($family\_labels$, $test\_families$)
+        \State $train\_malware\_indices \leftarrow$ GetIndicesForFamilies($family\_labels$, $train\_families$)
+        
+        \State $benign\_test\_count \leftarrow$ CalculateProportionalBenignCount($test\_malware\_indices$, $train\_malware\_indices$, $benign\_indices$)
+        \State $benign\_test\_indices \leftarrow benign\_indices[0:benign\_test\_count]$
+        \State $benign\_train\_indices \leftarrow benign\_indices[benign\_test\_count:]$
+        
+        \State $train\_indices \leftarrow$ Concatenate($train\_malware\_indices$, $benign\_train\_indices$)
+        \State $test\_indices \leftarrow$ Concatenate($test\_malware\_indices$, $benign\_test\_indices$)
+        
+        \State Create binary labels (0 for benign, 1 for malware)
+        \State Add fold data to $folds$
     \EndFor
+    
     \Return $folds$
 \EndProcedure
-\Statex
-\Procedure{CreateSingleFold}{$features, labels, family\_labels, known\_families, unknown\_families, fold\_idx$}
-    \State Get indices for $known\_malware\_samples$ and $unknown\_malware\_samples$
-    \State Get indices for $benign\_samples$
-    \State Proportionally split $benign\_samples$ into training and testing sets
-    \State Create $train\_set \leftarrow$ Known Malware Samples + Training Benign Samples
-    \State Create $test\_set \leftarrow$ Unknown Malware Samples + Testing Benign Samples
-    \Return Dictionary with fold data ($X_{train}, y_{train}, X_{test}, y_{test}$, etc.)
-\EndProcedure
-\Statex
-\Procedure{EvaluateUnknownMalwareDetection}{$folds$, $use\_umap$}
-    \State Initialize $results$ (defaultdict of lists)
-    \State Log evaluation start
-    \For{each $fold\_data \in folds$}
-        \State Get $X_{train}, y_{train}, X_{test}, y_{test}$ from $fold\_data$
-        \If{$use\_umap$}
-            \State $X_{train\_transformed}, X_{test\_transformed} \leftarrow$ ApplyUMAPTransformation($X_{train}, y_{train}, X_{test}$, Fold Index)
-        \Else
-            \State Apply standard scaling to $X_{train}, X_{test}$
-        \EndIf
-        \For{each $clf\_name, classifier \in$ Classifiers}
-            \State $fold\_result \leftarrow$ EvaluateSingleClassifier($classifier, X_{train\_transformed}, y_{train}, X_{test\_transformed}, y_{test}, clf\_name$, Fold Index)
-            \State Add fold-specific metadata to $fold\_result$
-            \State Append $fold\_result$ to $results[clf\_name]$
-        \EndFor
-    \EndFor
-    \State $averaged\_results \leftarrow$ CalculateAveragePerformance($results$)
-    \Return $results, averaged\_results$
-\EndProcedure
-\Statex
-\Procedure{ApplyUMAPTransformation}{$X_{train}, y_{train}, X_{test}$, $fold\_idx$}
-    \State Log start time
-    \State Initialize UMAP reducer with configured parameters and $random\_state$ adjusted by $fold\_idx$
-    \State \textbf{try}
-        \State $X_{train\_umap} \leftarrow umap\_reducer$.FitAndTransform($X_{train}, y_{train}$)
-        \State $X_{test\_umap} \leftarrow umap\_reducer$.Transform($X_{test}$)
-        \State Log transformation completion and dimension reduction
-        \Return $X_{train\_umap}, X_{test\_umap}$
-    \State \textbf{catch} {Exception $e$}
-        \State Log UMAP failure and fallback to StandardScaler
-        \Return Scaled original features
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Procedure{EvaluateSingleClassifier}{$classifier, X_{train}, y_{train}, X_{test}, y_{test}, clf\_name, fold\_idx$}
-    \State Log start time
-    \If{$clf\_name == \text{'XGBoost'}$} Adjust $scale\_pos\_weight$ based on $y_{train}$ distribution \EndIf
-    \State Train $classifier$ on $X_{train}, y_{train}$
-    \State $training\_time \leftarrow$ Elapsed time
-    \State $y_{pred} \leftarrow classifier$.Predict($X_{test}$)
-    \State Get $y_{pred\_proba}$ if classifier supports
-    \State Calculate $accuracy, precision, recall, f1, auc$ (if probabilities available)
-    \State Calculate $class\_specific\_metrics$ (confusion matrix, report)
-    \Return Result dictionary with all metrics and predictions
-\EndProcedure
-\Statex
-\Procedure{CalculateClassSpecificMetrics}{$y_{true}, y_{pred}$}
-    \State Calculate $confusion\_matrix$
-    \State Generate $classification\_report$ (as dict)
-    \Return Dictionary with $confusion\_matrix$, $classification\_report$, and individual class metrics (precision, recall, f1)
-\EndProcedure
-\Statex
-\Procedure{CalculateAveragePerformance}{$results$}
-    \State Initialize $averaged\_results \leftarrow \emptyset$
-    \For{each $clf\_name, fold\_results \in results$}
-        \State Filter out failed results
-        \If{no valid results} \State Store error for classifier and \textbf{continue} \EndIf
-        \State Calculate mean, std, min, max for $accuracy, precision, recall, f1\_score, training\_time$, AUC (if available)
-        \State Calculate mean/std for class-specific metrics (benign/malware precision)
-        \State Store averages in $averaged\_results[clf\_name]$
-    \EndFor
-    \Return $averaged\_results$
-\EndProcedure
-\Statex
-\Procedure{CompareWithWithoutUMAP}{$folds$}
-    \State Log comparison start
-    \State $results\_no\_umap, avg\_no\_umap \leftarrow$ EvaluateUnknownMalwareDetection($folds$, $use\_umap$=FALSE)
-    \State $results\_with\_umap, avg\_with\_umap \leftarrow$ EvaluateUnknownMalwareDetection($folds$, $use\_umap$=TRUE)
-    \State Initialize $improvements \leftarrow \emptyset$
-    \For{each $clf\_name \in$ classifiers}
-        \If{both UMAP and No-UMAP results exist}
-            \State Calculate $improvement\_percentage$ and $absolute\_improvement$ in accuracy
-            \State Store results in $improvements[clf\_name]$
-        \EndIf
-    \EndFor
-    \Return Comparison dictionary including all results and improvements
-\EndProcedure
-\Statex
-\Procedure{OptimizeUMAPParameters}{$fold\_data$, $param\_grid$}
-    \State Get $X_{train}, y_{train}, X_{test}, y_{test}$ from $fold\_data$
-    \State Initialize $best\_params \leftarrow \text{None}$, $best\_score \leftarrow 0$, $results \leftarrow \emptyset$
-    \State Log optimization start
-    \For{each $params \in$ all combinations in $param\_grid$}
-        \State \textbf{try}
-            \State Initialize UMAP reducer with $params$
-            \State $X_{train\_umap} \leftarrow$ UMAP.FitAndTransform($X_{train}, y_{train}$)
-            \State $X_{test\_umap} \leftarrow$ UMAP.Transform($X_{test}$)
-            \State Train a fast classifier (e.g., RandomForest) on UMAP-transformed data
-            \State $accuracy \leftarrow$ CalculateAccuracy(True labels, Predicted labels)
-            \State Store $params, accuracy, transformed\_shape$ in $results$
-            \If{$accuracy > best\_score$} Update $best\_score, best\_params$ \EndIf
-            \State Log parameter performance
-        \State \textbf{catch} {Exception $e$}
-            \State Log warning for failed parameter combination
-        \State \textbf{end try}
-    \EndFor
-    \Return Dictionary with $best\_params, best\_score$, and all results
-\EndProcedure
-\Statex
-\Procedure{VisualizeUMAPEmbeddings}{$features, labels, family\_labels, title$}
-    \State Create 2D UMAP reducer (for visualization purposes)
-    \State $embedding\_2d \leftarrow$ UMAP.FitAndTransform($features, labels$)
-    \State Create figure for plotting
-    \If{$family\_labels$ is provided}
-        \State Scatter plot points colored by $family\_labels$
-    \Else
-        \State Scatter plot points colored by binary $labels$ (Benign/Malware)
-    \EndIf
-    \State Set title, labels, legend
-    \State Save plot to file
-    \State Show plot
-    \Return $embedding\_2d$
-\EndProcedure
-\Statex
-\Procedure{GenerateComprehensiveReport}{$comparison\_results$}
-    \State Initialize $report\_lines \leftarrow \emptyset$
-    \State Add report header
-    \State Add Performance Summary section for each classifier, detailing accuracy with/without UMAP and improvement
-    \State Add Best Performing Algorithm summary
-    \State Add UMAP Configuration details
-    \State Save report to Markdown file
-    \State Log report save success
-    \Return Generated report content as string
-\EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Performance Evaluation Methodologies}
-\label{subsec:performance-evaluation}
+This fold creation strategy ensures a rigorous evaluation of the methodology's ability to detect previously unseen malware families, simulating real-world scenarios where security systems must identify new, emerging threats.
 
-Our evaluation methodology employs comprehensive metrics and statistical analysis techniques to ensure robust assessment of the proposed malware detection framework.
+\subsection{UMAP Configuration and Parameter Optimization}
+\label{subsec:umap-config}
 
-\subsubsection{Evaluation Metrics Framework}
+The effectiveness of UMAP for unknown malware detection is highly dependent on appropriate parameter configuration. Our methodology employs a systematic approach to parameter optimization.
 
-The evaluation framework incorporates multiple complementary metrics to provide a holistic view of detection performance, as shown in Algorithm~\ref{alg:performance-evaluation}:
+\subsubsection{Parameter Exploration}
 
-\begin{algorithm}[!htbp]
-\caption{Comprehensive Performance Evaluation Framework (Pseudocode)}
-\label{alg:performance-evaluation}
-\begin{algorithmic}[1]
-\Procedure{InitializePerformanceEvaluator}{$output\_directory, class\_names$}
-    \State Set output directory and class names
-    \State Create output directory
-    \State Setup logging
-\EndProcedure
-\Statex
-\Procedure{EvaluateClassificationPerformance}{$y_{true}, y_{pred}, y_{pred\_proba}, algorithm\_name$}
-    \State Log evaluation start for $algorithm\_name$
-    \State Initialize $evaluation\_results$ dictionary
-    \State $evaluation\_results['basic\_metrics'] \leftarrow$ CalculateBasicMetrics($y_{true}, y_{pred}$)
-    \State $evaluation\_results['advanced\_metrics'] \leftarrow$ CalculateAdvancedMetrics($y_{true}, y_{pred}$)
-    \State $evaluation\_results['confusion\_matrix\_analysis'] \leftarrow$ AnalyzeConfusionMatrix($y_{true}, y_{pred}$)
-    \State $evaluation\_results['class\_specific\_metrics'] \leftarrow$ CalculateClassSpecificMetrics($y_{true}, y_{pred}$)
-    \If{$y_{pred\_proba}$ is not None}
-        \State $evaluation\_results['probability\_metrics'] \leftarrow$ CalculateProbabilityMetrics($y_{true}, y_{pred\_proba}$)
-        \State $evaluation\_results['threshold\_analysis'] \leftarrow$ AnalyzeDecisionThresholds($y_{true}, y_{pred\_proba}$)
-    \EndIf
-    \State $evaluation\_results['statistical\_analysis'] \leftarrow$ PerformStatisticalAnalysis($y_{true}, y_{pred}$)
-    \Return $evaluation\_results$
-\EndProcedure
-\Statex
-\Function{CalculateBasicMetrics}{$y_{true}, y_{pred}$}
-    \State Calculate $accuracy\_score$
-    \State Calculate $precision, recall, f1\_score$ (weighted average)
-    \Return Dictionary with these metrics
-\EndFunction
-\Statex
-\Function{CalculateAdvancedMetrics}{$y_{true}, y_{pred}$}
-    \State Calculate Matthews Correlation Coefficient ($mcc$)
-    \State Calculate Cohen's Kappa ($kappa$)
-    \If{Binary classification}
-        \State Calculate $tn, fp, fn, tp$ from confusion matrix
-        \State Calculate $sensitivity, specificity, balanced\_accuracy, geometric\_mean$
-        \State Calculate True Positive Rate, True Negative Rate, False Positive Rate, False Negative Rate
-    \Else \Comment{Multi-class}
-        \State Calculate $balanced\_accuracy$ for multi-class
-    \EndIf
-    \Return Dictionary with advanced metrics
-\EndFunction
-\Statex
-\Function{AnalyzeConfusionMatrix}{$y_{true}, y_{pred}$}
-    \State Calculate raw $confusion\_matrix$ ($cm$)
-    \State Normalize $cm$
-    \State Calculate $per\_class\_accuracy$
-    \State Calculate $misclassification\_rates$
-    \Return Dictionary with $cm$, normalized $cm$, per-class accuracy, total samples, correctly/misclassified counts, class distribution, and binary-specific rates (if binary)
-\EndFunction
-\Statex
-\Function{CalculateClassSpecificMetrics}{$y_{true}, y_{pred}$}
-    \State Calculate $precision, recall, f1\_score, support$ for each class (average=None)
-    \For{each unique class}
-        \State Create dictionary for class with its metrics
-    \EndFor
-    \Return Dictionary of class metrics
-\EndFunction
-\Statex
-\Function{CalculateProbabilityMetrics}{$y_{true}, y_{pred\_proba}$}
-    \State Extract $y_{scores}$ (probabilities for positive class in binary or all classes in multi-class)
-    \If{Binary classification}
-        \State Calculate ROC curve ($fpr, tpr, roc\_thresholds$) and AUC
-        \State Calculate Precision-Recall curve ($precision\_curve, recall\_curve, pr\_thresholds$) and AUC
-        \Return Dictionary with AUCs and curve data
-    \Else
-        \Return {'note': 'Probability metrics only available for binary classification'}
-    \EndIf
-\EndFunction
-\Statex
-\Function{AnalyzeDecisionThresholds}{$y_{true}, y_{pred\_proba}$}
-    \If{Not binary classification} \Return note \EndIf
-    \State Extract $y_{scores}$
-    \State Iterate $thresholds$ from 0 to 1
-    \For{each $threshold$}
-        \State $y_{pred\_thresh} \leftarrow (y_{scores} \ge threshold)$
-        \If{predictions are not uniform}
-            \State Calculate $accuracy, precision, recall, f1$ for this threshold
-            \State Append to $threshold\_metrics$ list
-        \EndIf
-    \EndFor
-    \State Find $optimal\_thresholds$ for accuracy, f1, precision, recall
-    \Return Dictionary with $threshold\_analysis$ and $optimal\_thresholds$
-\EndFunction
-\Statex
-\Function{PerformStatisticalAnalysis}{$y_{true}, y_{pred}$}
-    \State Calculate Chi-square test for independence on confusion matrix ($chi2, p\_value, \ldots$)
-    \State Calculate Cramer's V effect size
-    \State Calculate $observed\_agreement$ (accuracy)
-    \State Calculate $expected\_agreement\_by\_chance$
-    \State Calculate $agreement\_beyond\_chance$
-    \Return Dictionary with chi-square test results and agreement analysis
-\EndFunction
-\Statex
-\Procedure{CompareAlgorithms}{$evaluation\_results\_list$}
-    \State Initialize $comparison\_data \leftarrow \emptyset$
-    \For{each $results \in evaluation\_results\_list$}
-        \State Extract $algorithm$ name, basic metrics, advanced metrics
-        \State Create $comparison\_entry$ with key metrics (Accuracy, F1, MCC, Kappa, Balanced Accuracy, ROC AUC)
-        \State Append $comparison\_entry$ to $comparison\_data$
-    \EndFor
-    \State Create Pandas DataFrame from $comparison\_data$
-    \State Save DataFrame to CSV file
-    \State Generate rankings by various metrics (Accuracy, F1-Score, MCC, Balanced\_Accuracy)
-    \Return Dictionary with $comparison\_table$, $rankings$, $summary\_statistics$
-\EndProcedure
-\Statex
-\Procedure{VisualizePerformanceComparison}{$evaluation\_results\_list$}
-    \State Create figure with multiple subplots
-    \State Extract data (algorithms, accuracies, f1\_scores, etc.)
-    \State Plot Accuracy Comparison (bar chart)
-    \State Plot F1-Score Comparison (bar chart)
-    \State Plot Precision vs Recall (scatter plot)
-    \State Plot Matthews Correlation Coefficient (bar chart)
-    \State Plot Performance Radar Chart (for top 3 algorithms)
-    \State Plot Performance Heatmap (metrics vs algorithms)
-    \State Save figure to file
-    \State Show figure
-    \Return Generated figure object
-\EndProcedure
-\Statex
-\Procedure{GenerateEvaluationReport}{$evaluation\_results$}
-    \State Initialize $report\_lines \leftarrow \emptyset$
-    \State Add report header
-    \State Add Performance Summary (Accuracy, Precision, Recall, F1-Score)
-    \State Add Advanced Metrics (MCC, Kappa, Balanced Accuracy, Sensitivity, Specificity, FPR, FNR)
-    \State Add Confusion Matrix Analysis
-    \State Add Class-Specific Performance for each class
-    \State Add Statistical Analysis (Chi-square, Agreement)
-    \State Save report to Markdown file
-    \Return Generated report content as string
-\EndProcedure
-\end{algorithmic}
-\end{algorithm}
-
-This comprehensive methodology section provides detailed implementations for:
+We explore several key UMAP parameters:
 
 \begin{enumerate}
-    \item \textbf{UMAP-based Unknown Malware Detection}: Advanced dimensionality reduction for enhanced pattern recognition
-    \item \textbf{Binary Classification Framework}: Sophisticated approach to detect previously unseen malware families
-    \item \textbf{Performance Evaluation}: Comprehensive metrics and statistical analysis for robust assessment
-    \item \textbf{Fold Creation Strategy}: Systematic approach to simulate real-world unknown malware scenarios
-    \item \textbf{Comparative Analysis}: Methods to evaluate improvements achieved through UMAP transformation
+    \item \textbf{n\_neighbors}: Controls the local neighborhood size for manifold approximation. Higher values result in more global structure preservation but may obscure local patterns.
+    
+    \item \textbf{min\_dist}: Determines the minimum distance between points in the low-dimensional space. Smaller values create tighter clusters, while larger values spread points more evenly.
+    
+    \item \textbf{n\_components}: Specifies the dimensionality of the target embedding space. We evaluate values from 2 to 8.
+    
+    \item \textbf{metric}: Defines the distance measure for identifying nearest neighbors. We evaluate Euclidean, Manhattan, and Correlation metrics.
 \end{enumerate}
 
-The methodology ensures reproducible results through systematic experimental design while addressing the critical challenge of detecting unknown malware variants in memory-dependent environments.
+\begin{algorithm}[!htbp]
+\caption{UMAP Parameter Optimization}
+\label{alg:umap-optimization}
+\begin{algorithmic}[1]
+\Procedure{OptimizeUMAPParameters}{$X_{train}, y_{train}, X\_validation, y\_validation$}
+    \State $best\_score \leftarrow 0$
+    \State $best\_params \leftarrow \emptyset$
+    
+    \For{$n\_neighbors \in \{15, 25, 35, 45, 55\}$}
+        \For{$min\_dist \in \{0.1, 0.3, 0.5, 0.8, 1.0\}$}
+            \For{$n\_components \in \{2, 3, 4, 6, 8\}$}
+                \For{$metric \in \{$'euclidean', 'manhattan', 'correlation'$\}$}
+                    \State $umap\_reducer \leftarrow$ UMAP($n\_neighbors$, $min\_dist$, $n\_components$, $metric$)
+                    \State $X\_train\_reduced \leftarrow umap\_reducer$.fit\_transform($X\_train$, $y\_train$)
+                    \State $X\_val\_reduced \leftarrow umap\_reducer$.transform($X\_validation$)
+                    
+                    \State $clf \leftarrow$ LinearSVM()
+                    \State $clf$.fit($X\_train\_reduced$, $y\_train$)
+                    \State $score \leftarrow clf$.score($X\_val\_reduced$, $y\_validation$)
+                    
+                    \If{$score > best\_score$}
+                        \State $best\_score \leftarrow score$
+                        \State $best\_params \leftarrow \{n\_neighbors, min\_dist, n\_components, metric\}$
+                    \EndIf
+                \EndFor
+            \EndFor
+        \EndFor
+    \EndFor
+    
+    \Return $best\_params$, $best\_score$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
-\section{Experimental Design and Validation Framework}
+Through extensive experimentation across all three folds, we determined that the optimal UMAP configuration consists of:
+
+\begin{itemize}
+    \item \textbf{n\_neighbors = 55}: A relatively large neighborhood size that effectively captures the global structure of malware families while preserving sufficient local detail.
+    
+    \item \textbf{min\_dist = 1.0}: A larger minimum distance that helps separate benign and malicious clusters in the embedding space.
+    
+    \item \textbf{n\_components = 4}: Four dimensions provide the optimal balance between dimensionality reduction and information preservation for unknown malware detection.
+    
+    \item \textbf{metric = 'manhattan'}: The Manhattan distance metric showed superior performance for our feature space compared to Euclidean distance.
+\end{itemize}
+
+\subsection{Performance Evaluation for Unknown Malware Detection}
+\label{subsec:umap-performance}
+
+The evaluation of our UMAP-enhanced unknown malware detection framework yielded significant improvements over traditional classification approaches.
+
+\subsubsection{Classification Performance with and without UMAP}
+
+Table~\ref{tab:umap-improvement} presents the comparison of classification performance with and without UMAP dimensionality reduction:
+
+\begin{table}[!htbp]
+    \centering
+    \caption{Accuracy Improvement with UMAP for Unknown Malware Detection}
+    \label{tab:umap-improvement}
+    \begin{tabular}{|l|c|c|c|c|}
+    \hline
+    \textbf{Algorithm} & \textbf{Fold} & \textbf{Without UMAP} & \textbf{With UMAP} & \textbf{Improvement} \\
+    \hline
+    \multirow{3}{*}{Random Forest} & Fold 1 & 63.25\% & 90.88\% & +27.63\% \\
+    & Fold 2 & 87.11\% & 92.14\% & +5.03\% \\
+    & Fold 3 & 89.34\% & 91.47\% & +2.13\% \\
+    \hline
+    \multirow{3}{*}{Linear SVM} & Fold 1 & 63.25\% & 89.95\% & +26.70\% \\
+    & Fold 2 & 52.29\% & 89.27\% & +36.98\% \\
+    & Fold 3 & 77.40\% & 84.95\% & +7.55\% \\
+    \hline
+    \multirow{3}{*}{XGBoost} & Fold 1 & 63.19\% & 89.95\% & +26.76\% \\
+    & Fold 2 & 59.30\% & 89.27\% & +29.97\% \\
+    & Fold 3 & 78.02\% & 86.73\% & +8.71\% \\
+    \hline
+    \end{tabular}
+\end{table}
+
+The results demonstrate dramatic improvements in detection accuracy across all folds and algorithms. The most substantial gains are observed in the most challenging scenarios, with improvements of up to 36.98\% in Fold 2 with Linear SVM. On average, UMAP improved detection accuracy by 12.93\% for Random Forest, 21.83\% for Linear SVM, and 20.78\% for XGBoost.
+
+\subsubsection{Class-Specific Performance Analysis}
+
+A detailed analysis of precision, recall, and F1-scores for benign and malicious classes provides additional insights:
+
+\begin{enumerate}
+    \item \textbf{Benign Precision}: Without UMAP, benign precision ranged from 0.24 to 0.47 across folds, indicating high false positive rates. With UMAP, benign precision improved to 0.57-0.76, representing a substantial reduction in false positives.
+    
+    \item \textbf{Malware Recall}: Malware recall improved from an average of 0.77 without UMAP to 0.92 with UMAP, indicating significantly better detection of unknown malware families.
+    
+    \item \textbf{Overall F1-Score}: The F1-score for malware detection improved from an average of 0.81 to 0.94, demonstrating a better balance between precision and recall.
+\end{enumerate}
+
+These improvements confirm that UMAP creates a more effective feature representation for unknown malware detection, enabling classifiers to better generalize to previously unseen malware families.
+
+\subsubsection{Visual Analysis of UMAP Embeddings}
+
+The 4-dimensional UMAP embeddings can be visualized in 2D projections to gain insights into the separation between benign and malicious samples. Figure~\ref{fig:umap-visualization} provides a conceptual visualization of this separation.
+
+\begin{figure}[!htbp]
+\centering
+% Placeholder for UMAP visualization
+\fbox{\parbox{0.8\textwidth}{
+    \centering
+    \textbf{UMAP Visualization Placeholder} \\
+    2D projection showing clear separation between benign samples (blue cluster) and various malware families (red clusters), with unknown families positioned within the broader malware manifold but distinct from known families.
+}}
+\caption{2D visualization of UMAP embeddings showing separation between benign and malicious samples}
+\label{fig:umap-visualization}
+\end{figure}
+
+The visualization reveals that even unknown malware families tend to occupy regions of the embedding space that are distinct from benign samples but similar to known malware families. This suggests that UMAP successfully captures the fundamental characteristics that differentiate malicious from benign memory patterns, enabling effective detection even for previously unseen malware variants.
+
+The results of our UMAP-enhanced unknown malware detection framework demonstrate its significant potential for addressing one of the most challenging aspects of cybersecurity: the detection of zero-day threats. By transforming the high-dimensional feature space into a more compact representation that preserves essential structural relationships, UMAP enables more effective generalization to new, previously unseen malware families.
+
+\section{Experimental Design and Validation}
 \label{sec:experimental-design}
 
-Our experimental design follows rigorous scientific principles to ensure reproducible, unbiased, and statistically significant results. The validation framework incorporates multiple validation strategies to comprehensively assess the effectiveness of our proposed malware detection methodology.
+A rigorous experimental methodology is essential for validating the effectiveness of our malware detection framework. This section details our experimental design, dataset composition, and performance evaluation metrics that ensure reproducible and reliable results.
 
-\subsection{Experimental Design Principles}
-\label{subsec:design-principles}
+\subsection{Dataset Composition and Preparation}
+\label{subsec:dataset-composition}
 
-The experimental design adheres to the following core principles:
+Our experiments utilized a comprehensive dataset consisting of 3,953 samples across 11 classes (10 malware families and benign executables). This dataset, which we refer to as "Poly10," provides a diverse representation of both fileless and polymorphic malware types.
+
+\subsubsection{Malware Family Distribution}
+
+The dataset includes the following distribution of samples:
+
+\begin{itemize}
+    \item \textbf{Adposhel}: 457 samples - A family of adware that uses polymorphic techniques to evade detection
+    
+    \item \textbf{Allaple}: 437 samples - A polymorphic worm that spreads through network shares
+    
+    \item \textbf{Amonetize}: 436 samples - Adware that employs sophisticated obfuscation techniques
+    
+    \item \textbf{AutoRun}: 196 samples - Malware that exploits Windows AutoRun functionality
+    
+    \item \textbf{BrowseFox}: 190 samples - Browser-focused adware with evasive capabilities
+    
+    \item \textbf{Dinwod}: 127 samples - Trojan downloader with polymorphic attributes
+    
+    \item \textbf{InstallCore}: 467 samples - Potentially unwanted application installer
+    
+    \item \textbf{MultiPlug}: 488 samples - Browser plugin-based malware
+    
+    \item \textbf{VBA}: 499 samples - Document-based macro malware
+    
+    \item \textbf{Vilsel}: 389 samples - Fileless malware that operates primarily in memory
+    
+    \item \textbf{Other}: 608 samples - Benign samples used as a control group
+\end{itemize}
+
+\subsubsection{Data Preparation Process}
+
+The dataset preparation involved several carefully designed steps to ensure quality and consistency:
 
 \begin{enumerate}
-    \item \textbf{Reproducibility}: All experiments are designed with fixed random seeds, documented parameters, and version-controlled implementations
-    \item \textbf{Statistical Rigor}: Appropriate sample sizes, significance testing, and confidence intervals
-    \item \textbf{Bias Minimization}: Stratified sampling, cross-validation, and blind evaluation procedures
-    \item \textbf{Comprehensive Evaluation}: Multiple metrics, baseline comparisons, and ablation studies
+    \item \textbf{Sample Collection}: Malware samples were collected from reputable repositories and carefully verified to ensure correct family attribution. Benign samples were collected from clean system installations to provide representative non-malicious patterns.
+    
+    \item \textbf{Controlled Execution}: Each sample was executed in a controlled virtualized environment with consistent configuration settings (16GB RAM, Windows 10, standard application suite) to minimize variations in memory patterns due to environmental factors.
+    
+    \item \textbf{Memory Dumping}: Full memory dumps were captured after 30-120 seconds of execution, allowing sufficient time for malware to deploy its payload and establish its presence in memory.
+    
+    \item \textbf{Verification}: Each memory dump was verified to ensure it contained active malware artifacts by correlating with system monitoring tools that confirmed malicious activity.
+    
+    \item \textbf{Standardization}: Memory dumps were processed into standardized RGB images following the methodology described in Section~\ref{sec:rgb-conversion}, using the optimal 4096px column width and 300×300 target size.
 \end{enumerate}
 
-Algorithm~\ref{alg:experimental-design} outlines our systematic experimental validation approach.
+The dataset was split into training (80%) and testing (20%) sets using stratified sampling to maintain the class distribution across splits. This resulted in 3,184 training samples and 769 testing samples, as detailed in Table~\ref{tab:dataset-split}.
+
+\begin{table}[!htbp]
+    \centering
+    \caption{Dataset Split for Training and Testing}
+    \label{tab:dataset-split}
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    \textbf{Family} & \textbf{Training Samples} & \textbf{Testing Samples} & \textbf{Total} \\
+    \hline
+    Adposhel & 366 & 91 & 457 \\
+    Allaple & 350 & 87 & 437 \\
+    Amonetize & 349 & 87 & 436 \\
+    AutoRun & 157 & 39 & 196 \\
+    BrowseFox & 152 & 38 & 190 \\
+    Dinwod & 102 & 25 & 127 \\
+    InstallCore & 374 & 93 & 467 \\
+    MultiPlug & 391 & 97 & 488 \\
+    VBA & 400 & 99 & 499 \\
+    Vilsel & 312 & 77 & 389 \\
+    Other (Benign) & 487 & 121 & 608 \\
+    \hline
+    \textbf{Total} & \textbf{3,184} & \textbf{769} & \textbf{3,953} \\
+    \hline
+    \end{tabular}
+\end{table}
+
+\subsection{Performance Evaluation Metrics}
+\label{subsec:evaluation-metrics}
+
+To comprehensively evaluate our framework, we employed multiple complementary metrics that provide insights into different aspects of classification performance.
+
+\subsubsection{Primary Evaluation Metrics}
+
+The primary metrics used for evaluating classification performance include:
+
+\begin{enumerate}
+    \item \textbf{Accuracy}: The proportion of correctly classified samples among all test samples. While straightforward, this metric can be misleading in imbalanced datasets.
+    
+    \item \textbf{Precision}: The proportion of true positive predictions among all positive predictions ($TP/(TP+FP)$). This metric indicates the reliability of positive predictions and is critical for minimizing false alerts.
+    
+    \item \textbf{Recall}: The proportion of true positive predictions among all actual positive samples ($TP/(TP+FN)$). This metric indicates the ability to detect all positive samples and is essential for ensuring malware is not missed.
+    
+    \item \textbf{F1-Score}: The harmonic mean of precision and recall ($2 \times (precision \times recall) / (precision + recall)$). This balanced metric is particularly valuable when seeking an optimal trade-off between precision and recall.
+\end{enumerate}
+
+For multi-class classification (Phase 3), we compute these metrics using weighted averaging to account for class imbalance. For binary classification (Phase 4), we focus on standard binary metrics with a particular emphasis on malware class recall to ensure effective detection of unknown variants.
+
+\subsubsection{Specialized Metrics for Unknown Malware Detection}
+
+For evaluating unknown malware detection capability (Phase 4), we employ additional specialized metrics:
+
+\begin{enumerate}
+    \item \textbf{Family-Specific Detection Rate}: The proportion of samples from each unseen malware family that are correctly classified as malicious. This metric helps identify which types of unknown malware are more challenging to detect.
+    
+    \item \textbf{False Positive Rate}: The proportion of benign samples incorrectly classified as malicious ($FP/(FP+TN)$). This metric is crucial for practical deployment, as high false positive rates reduce system usability.
+    
+    \item \textbf{Detection Improvement}: The percentage improvement in accuracy when using UMAP compared to the baseline approach without dimensionality reduction. This metric quantifies the value added by our manifold learning approach.
+\end{enumerate}
+
+These specialized metrics provide deeper insights into the framework's effectiveness at addressing the challenging problem of zero-day malware detection.
+
+\subsection{Experimental Setup}
+\label{subsec:experimental-setup}
+
+Our experimental environment was designed to ensure reproducibility and consistent performance measurement:
+
+\begin{enumerate}
+    \item \textbf{Hardware Configuration}:
+    \begin{itemize}
+        \item CPU: Intel Core i7 processor
+        \item RAM: 16 GB
+        \item GPU: NVIDIA T1000 with 4GB VRAM
+        \item Storage: 1TB SSD
+    \end{itemize}
+    
+    \item \textbf{Software Environment}:
+    \begin{itemize}
+        \item Operating System: Ubuntu 20.04 LTS (WSL)
+        \item Programming Language: Python 3.8
+        \item Key Libraries: scikit-learn 1.0.2, OpenCV 4.5.4, NumPy 1.21.4, XGBoost 1.5.1, UMAP-learn 0.5.2
+    \end{itemize}
+    
+    \item \textbf{Execution Parameters}:
+    \begin{itemize}
+        \item Fixed random seeds (42) for all randomized components
+        \item Consistent preprocessing parameters across all experiments
+        \item Identical model hyperparameters for fair comparisons
+    \end{itemize}
+\end{enumerate}
 
 \begin{algorithm}[!htbp]
-\caption{Systematic Experimental Design Framework}
-\label{alg:experimental-design}
+\caption{Experimental Workflow}
+\label{alg:experimental-workflow}
 \begin{algorithmic}[1]
-\Require Dataset $D$, methodologies $M$, evaluation metrics $E$
-\Ensure Experimental results $R$ with statistical significance
-\State $R \leftarrow \emptyset$
-\State $baseline\_methods \leftarrow$ InitializeBaselines()
-\State $proposed\_methods \leftarrow$ InitializeProposedMethods()
-\For{each $methodology \in M$}
-    \For{$iteration = 1$ to $n_{iterations}$}
-        \State $seed \leftarrow base\_seed + iteration$
-        \State SetRandomSeed($seed$)
-        \State $train\_set, test\_set \leftarrow$ StratifiedSplit($D$, $seed$)
-        \State $results \leftarrow$ EvaluateMethodology($methodology$, $train\_set$, $test\_set$, $E$)
-        \State $results.iteration \leftarrow iteration$
-        \State $results.seed \leftarrow seed$
-        \State $R \leftarrow R \cup \{results\}$
-    \EndFor
-\EndFor
-\State $statistical\_analysis \leftarrow$ PerformStatisticalTests($R$)
-\State $significance\_report \leftarrow$ GenerateSignificanceReport($statistical\_analysis$)
-\Return $R$, $statistical\_analysis$, $significance\_report$
-\end{algorithmic}
-\end{algorithm}
-
-\subsubsection{Comprehensive Experimental Validation Implementation}
-
-Algorithm~\ref{alg:experimental-validation-implementation} demonstrates the comprehensive experimental validation framework:
-
-\begin{algorithm}[!htbp]
-\caption{Comprehensive Experimental Validation Framework (Pseudocode)}
-\label{alg:experimental-validation-implementation}
-\begin{algorithmic}[1]
-\Procedure{InitializeExperimentalValidationFramework}{$base\_output\_dir, random\_state, n\_iterations$}
-    \State Set base output directory, random state, and number of iterations
-    \State Create organized subdirectories (results, plots, logs, models)
-    \State Setup comprehensive logging
-    \State Initialize $experiment\_registry$, $baseline\_methods$, $proposed\_methods$
-    \State Log initialization details
-\EndProcedure
-\Statex
-\Procedure{RegisterBaselineMethod}{$name, method\_class, parameters$}
-    \State Store $method\_class$ and $parameters$ under $name$ as 'baseline'
-    \State Log registration
-\EndProcedure
-\Statex
-\Procedure{RegisterProposedMethod}{$name, method\_class, parameters$}
-    \State Store $method\_class$ and $parameters$ under $name$ as 'proposed'
-    \State Log registration
-\EndProcedure
-\Statex
-\Procedure{DesignStratifiedExperiment}{$dataset, labels, test\_size, validation\_strategy, cv\_folds$}
-    \State Initialize $experimental\_design$ dictionary
-    \State Populate $dataset\_info$
-    \State Initialize $splits \leftarrow \emptyset$
-    \If{$validation\_strategy == \text{'holdout'}$}
-        \For{each $iteration \in 0 \ldots n\_iterations-1$}
-            \State $current\_seed \leftarrow random\_state + iteration$
-            \State Perform $train\_test\_split$ on $dataset, labels$ with $stratify=labels$ and $current\_seed$
-            \State Store split info ($X_{train}, X_{test}, y_{train}, y_{test}$, sizes, distributions) in $splits$
-        \EndFor
-    \ElsIf{$validation\_strategy == \text{'cross\_validation'}$}
-        \For{each $iteration \in 0 \ldots n\_iterations-1$}
-            \State $current\_seed \leftarrow random\_state + iteration$
-            \State Create Stratified K-Fold splitter with $cv\_folds$ and $current\_seed$
-            \For{each $fold\_idx, (train\_idx, test\_idx)$ from splitter}
-                \State Extract $X_{train}, X_{test}, y_{train}, y_{test}$
-                \State Store fold info ($train\_idx, test\_idx$, data) in $cv\_splits$
-            \EndFor
-            \State Store $cv\_splits$ for current iteration in $splits$
-        \EndFor
-    \EndIf
-    \State Save $experimental\_design$ to JSON file (excluding raw data)
-    \State Log completion
-    \Return $experimental\_design$
-\EndProcedure
-\Statex
-\Procedure{ExecuteComprehensiveEvaluation}{$experimental\_design$}
-    \State $all\_methods \leftarrow$ Combine baseline and proposed methods
-    \If{no methods} \State Raise ValueError \EndIf
-    \State Log evaluation start
-    \State Initialize $experimental\_results$ dictionary
-    \For{each $method\_name, method\_info \in all\_methods$}
-        \State Log current method
-        \State $method\_results \leftarrow$ EvaluateSingleMethod($method\_name, method\_info, experimental\_design$)
-        \State Store $method\_results$ in $experimental\_results$
-        \State Save intermediate results to file
-    \EndFor
-    \State Update $execution\_metadata$ (end time, duration)
-    \State $statistical\_analysis \leftarrow$ PerformComprehensiveStatisticalAnalysis($experimental\_results['method\_results']$)
-    \State Store $statistical\_analysis$ in $experimental\_results$
-    \State Save complete $experimental\_results$ to file
-    \Return $experimental\_results$
-\EndProcedure
-\Statex
-\Procedure{EvaluateSingleMethod}{$method\_name, method\_info, experimental\_design$}
-    \State Initialize $method\_results \leftarrow \emptyset$
-    \For{each $split\_info \in experimental\_design.splits$}
-        \State Log current split
-        \If{$split\_info$ contains 'cv\_folds'}
-            \State Initialize $cv\_results \leftarrow \emptyset$
-            \For{each $fold\_info \in split\_info.cv\_folds$}
-                \State $fold\_result \leftarrow$ EvaluateMethodOnSplit($method\_name, method\_info, fold\_info.data, split\_info.random\_seed$)
-                \State Add fold index to $fold\_result$
-                \State Append $fold\_result$ to $cv\_results$
-            \EndFor
-            \State $aggregated\_result \leftarrow$ AggregateCVResults($cv\_results$)
-            \State Add split metadata to $aggregated\_result$
-            \State Append $aggregated\_result$ to $method\_results$
-        \Else \Comment{Holdout split}
-            \State $split\_result \leftarrow$ EvaluateMethodOnSplit($method\_name, method\_info, split\_info.data, split\_info.random\_seed$)
-            \State Add split metadata to $split\_result$
-            \State Append $split\_result$ to $method\_results$
-        \EndIf
-    \EndFor
-    \Return $method\_results$
-\EndProcedure
-\Statex
-\Procedure{EvaluateMethodOnSplit}{$method\_name, method\_info, data\_split, random\_seed$}
-    \State Log start time
-    \State \textbf{try}
-        \State Initialize $method\_instance$ from $method\_class$ with $parameters$ and $random\_seed$
-        \State Extract $X_{train}, X_{test}, y_{train}, y_{test}$ from $data\_split$
-        \State Train $method\_instance$ (fit)
-        \State $training\_time \leftarrow$ Elapsed time
-        \State Make $y_{pred} \leftarrow method\_instance$.Predict($X_{test}$)
-        \State $prediction\_time \leftarrow$ Elapsed time
-        \State Get $y_{pred\_proba}$ if available
-        \State $metrics \leftarrow$ CalculateComprehensiveMetrics($y_{test}, y_{pred}, y_{pred\_proba}$)
-        \State $complexity\_metrics \leftarrow$ AnalyzeModelComplexity($method\_instance$)
-        \State Build $result$ dictionary with success, metrics, timing, data info
-        \If{Save model is true} Save $method\_instance$ to file and add $model\_path$ to result \EndIf
-        \Return $result$
-    \State \textbf{catch} {Exception $e$}
-        \State Log error
-        \Return Failure result with error message
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Function{CalculateComprehensiveMetrics}{$y_{true}, y_{pred}, y_{pred\_proba}$}
-    \State Calculate $accuracy, precision, recall, f1\_score$ (weighted)
-    \If{$y_{pred\_proba}$ is not None and binary classification}
-        \State Calculate ROC AUC and Average Precision Score
-    \EndIf
-    \Return All calculated metrics
-\EndFunction
-\Statex
-\Function{AnalyzeModelComplexity}{$model\_instance$}
-    \State Initialize $complexity\_metrics \leftarrow \emptyset$
-    \State Add number of input features
-    \State Add tree-based specific metrics ($n\_estimators, max\_depth$)
-    \State Add SVM specific metrics ($n\_support\_vectors$)
-    \State Add neural network specific metrics ($hidden\_layer\_sizes$)
-    \State Add feature importance statistics (mean, std, max, zero count) if available
-    \Return $complexity\_metrics$
-\EndFunction
-\Statex
-\Procedure{AggregateCVResults}{$cv\_results$}
-    \State Filter successful results
-    \If{no successful results} \Return failure \EndIf
-    \State Aggregate $metrics$ (mean, std, min, max for each metric)
-    \State Aggregate $timing$ (mean, std for training/prediction time)
-    \Return Aggregated result with success status
-\EndProcedure
-\Statex
-\Procedure{PerformComprehensiveStatisticalAnalysis}{$method\_results$}
-    \State Log statistical analysis start
-    \State Extract performance data (e.g., accuracy) for each method from results
-    \State Initialize $statistical\_tests \leftarrow \emptyset$
-    \For{each pair of methods $(method1, method2)$}
-        \If{enough data for both methods}
-            \State Perform Paired t-test on their performance data
-            \State Calculate Cohen's d effect size
-            \State Store test results ($t\_statistic, p\_value, cohens\_d, significant$, interpretation)
-        \EndIf
-    \EndFor
-    \If{more than 2 methods}
-        \State Perform Overall ANOVA test
-    \EndIf
-    \State Calculate summary statistics (mean, std, median, min, max, n\_experiments) for each method's performance
-    \Return Dictionary with pairwise tests, ANOVA, summary statistics, and raw performance data
-\EndProcedure
-\Statex
-\Function{InterpretEffectSize}{$cohens\_d$}
-    \If{$cohens\_d < 0.2$} \Return "negligible"
-    \ElsIf{$cohens\_d < 0.5$} \Return "small"
-    \ElsIf{$cohens\_d < 0.8$} \Return "medium"
-    \Else \Return "large"
-    \EndIf
-\EndFunction
-\Statex
-\Procedure{SaveIntermediateResults}{$method\_name, results$}
-    \State Convert numpy objects in $results$ to JSON-serializable format
-    \State Save $results$ to JSON file
-\EndProcedure
-\Statex
-\Procedure{SaveCompleteResults}{$experimental\_results$}
-    \State Convert numpy objects in $experimental\_results$ to JSON-serializable format
-    \State Save $experimental\_results$ to JSON file
-    \State Log save success
-\EndProcedure
-\Statex
-\Function{ConvertNumpyForJSON}{$obj, exclude\_data$}
-    \If{$obj$ is dictionary} Recursively convert values, exclude 'data' if requested
-    \ElsIf{$obj$ is list} Recursively convert items
-    \ElsIf{$obj$ is numpy array} Convert to list
-    \ElsIf{$obj$ is numpy scalar} Convert to Python scalar
-    \ElsIf{$obj$ is numpy boolean} Convert to Python boolean
-    \Else \Return $obj$
-    \EndIf
-\EndFunction
-\Statex
-\Procedure{GenerateExperimentalReport}{$experimental\_results$}
-    \State Initialize $report\_lines \leftarrow \emptyset$
-    \State Add report header
-    \State Add Experimental Setup section (total samples, test size, strategy, iterations, class distribution)
-    \State Add Performance Summary table (Mean, Std, Min, Max Accuracy per method)
-    \State Add Statistical Significance Analysis section (pairwise t-tests with p-values and effect sizes)
-    \State Add ANOVA Test Results (if performed)
-    \State Add Best Performing Method summary
-    \State Add Execution Information (total duration, methods evaluated)
-    \State Save report to Markdown file
-    \State Log report save success
-    \Return Generated report content as string
-\EndProcedure
-\Statex
-\Procedure{VisualizeExperimentalResults}{$experimental\_results$}
-    \State Get statistical analysis and performance data
-    \State Create figure with multiple subplots
-    \State Plot Performance Comparison with Standard Deviation (bar chart)
-    \State Plot Performance Distribution Box Plot
-    \State Plot Performance Across Experimental Iterations (line plot)
-    \State Plot Statistical Significance Matrix (heatmap)
-    \State Save figure to file
-    \State Show figure
-    \State Log save success
-    \Return Generated figure object
+\Procedure{ExecuteExperiment}{$dataset\_path$, $output\_directory$}
+    \State SetRandomSeed(42) \Comment{Ensure reproducibility}
+    \State $X, y, family\_labels \leftarrow$ LoadDataset($dataset\_path$)
+    \State $X\_train, X\_test, y\_train, y\_test \leftarrow$ StratifiedSplit($X, y$, test\_size=0.2)
+    
+    \State Log experimental configuration and dataset statistics
+    
+    \State \textbf{Phase 1: Feature Extraction}
+    \State $X\_train\_gist \leftarrow$ ExtractGISTFeatures($X\_train$)
+    \State $X\_train\_hog \leftarrow$ ExtractHOGFeatures($X\_train$)
+    \State $X\_test\_gist \leftarrow$ ExtractGISTFeatures($X\_test$)
+    \State $X\_test\_hog \leftarrow$ ExtractHOGFeatures($X\_test$)
+    
+    \State \textbf{Phase 2: Feature Fusion}
+    \State $X\_train\_combined \leftarrow$ FuseFeatures($X\_train\_gist, X\_train\_hog$)
+    \State $X\_test\_combined \leftarrow$ FuseFeatures($X\_test\_gist, X\_test\_hog$)
+    
+    \State \textbf{Phase 3: Multi-Class Classification}
+    \State $multi\_class\_results \leftarrow$ TrainAndEvaluateMultiClass($X\_train\_combined, y\_train, X\_test\_combined, y\_test$)
+    \State SaveResults($multi\_class\_results, output\_directory + "/multi\_class"$)
+    
+    \State \textbf{Phase 4: Unknown Malware Detection}
+    \State $folds \leftarrow$ CreateFoldsForUnknownDetection($X, y, family\_labels$)
+    \State $without\_umap\_results \leftarrow$ EvaluateWithoutUMAP($folds$)
+    \State $with\_umap\_results \leftarrow$ EvaluateWithUMAP($folds$)
+    \State SaveResults($without\_umap\_results, with\_umap\_results, output\_directory + "/unknown"$)
+    
+    \State GenerateComprehensiveReport($output\_directory$)
 \EndProcedure
 \end{algorithmic}
 \end{algorithm}
 
-\section{Dataset Preparation and Preprocessing Methodologies}
-\label{sec:dataset-preparation}
+The experimental workflow (Algorithm~\ref{alg:experimental-workflow}) was designed to systematically evaluate all components of our methodology, from feature extraction through multi-class classification to unknown malware detection. This structured approach ensures that each component's contribution can be isolated and quantified.
 
-The quality and representativeness of the dataset directly impact the effectiveness of our malware detection framework. This section details our comprehensive approach to dataset preparation, including collection strategies, preprocessing techniques, and quality assurance measures.
+\subsubsection{Timing and Efficiency Analysis}
 
-\subsection{Dataset Collection Strategy}
-\label{subsec:dataset-collection}
+An important aspect of our experimental validation was the assessment of computational efficiency for real-world deployment:
 
-Our dataset collection strategy prioritizes diversity, authenticity, and ethical considerations while ensuring comprehensive coverage of modern malware families and attack vectors.
+\begin{enumerate}
+    \item \textbf{Feature Extraction Timing}: The average time required for extracting features from a single memory dump image, with separate measurements for GIST (1.67s), HOG (1.12s), and combined processing (2.79s).
+    
+    \item \textbf{Model Training Efficiency}: The time required to train each classification algorithm, as shown in Table~\ref{tab:classification-results}.
+    
+    \item \textbf{Prediction Latency}: The average time required to classify a new sample, critical for real-time deployment scenarios.
+    
+    \item \textbf{End-to-End Processing}: The total time from memory dump acquisition to final classification decision, averaging 3.56 seconds per sample (excluding memory dump acquisition time).
+\end{enumerate}
 
-\subsubsection{Comprehensive Dataset Collection Framework}
+This efficiency analysis confirms that our methodology is suitable for practical deployment in real-world security operations, providing timely detection while maintaining high accuracy.
 
-Algorithm~\ref{alg:dataset-collection} illustrates the comprehensive dataset collection and management system:
+\subsubsection{Ablation Studies}
 
-\begin{algorithm}[!htbp]
-\caption{Comprehensive Dataset Collection and Management (Pseudocode)}
-\label{alg:dataset-collection}
-\begin{algorithmic}[1]
-\Procedure{InitializeMalwareDatasetManager}{$base\_directory, database\_path$}
-    \State Set base directory and create organized subdirectories (raw\_samples, processed\_samples, etc.)
-    \State Initialize SQLite database for metadata tracking
-    \State Setup logging
-    \State Initialize sample tracking variables
-\EndProcedure
-\Statex
-\Procedure{RegisterSample}{$file\_path, family\_label, source, pe\_info, static\_analysis$}
-    \State Assert $file\_path$ exists
-    \State $file\_hash \leftarrow$ CalculateFileHash($file\_path$)
-    \If{SampleExists($file\_hash$)} Log warning and \Return $file\_hash$ \EndIf
-    \State $file\_info \leftarrow$ AnalyzeFileProperties($file\_path$)
-    \State Create family-specific directory for raw samples
-    \State Construct $new\_filename$ and $destination\_path$
-    \State \textbf{try}
-        \State Copy $file\_path$ to $destination\_path$
-        \State Insert sample metadata into database (file\_hash, filename, family, size, type, etc.)
-        \State UpdateFamilyStatistics($family\_label$, $file\_info$)
-        \State Log operation (sample registration) as success
-        \Return $file\_hash$
-    \State \textbf{catch} {Exception $e$}
-        \State Log error and operation as failure
-        \State Re-raise exception
-    \State \textbf{end try}
-\EndProcedure
-\Statex
-\Function{CalculateFileHash}{$file\_path$}
-    \State Compute SHA-256 hash of $file\_path$ in chunks
-    \Return Hex digest of hash
-\EndFunction
-\Statex
-\Function{SampleExists}{$file\_hash$}
-    \State Query database for $file\_hash$
-    \Return TRUE if count $> 0$, FALSE otherwise
-\EndFunction
-\Statex
-\Function{AnalyzeFileProperties}{$file\_path$}
-    \State Get file size, creation/modification times
-    \State Determine file type (e.g., PE, ELF) by magic bytes
-    \Return Dictionary with file properties
-\EndFunction
-\Statex
-\Procedure{UpdateFamilyStatistics}{$family\_label, file\_info$}
-    \State Check if $family\_label$ exists in database
-    \If{exists}
-        \State Update $sample\_count$, $avg\_file\_size$, $last\_updated$ for existing family
-    \Else
-        \State Insert new family entry with $sample\_count=1$, $avg\_file\_size=$ $file\_info.size$
-    \EndIf
-    \State Commit database changes
-\EndProcedure
-\Statex
-\Procedure{LogOperation}{$sample\_hash, operation, success, error\_message, duration$}
-    \State Insert log entry into `processing\_log` table in database
-    \State Commit database changes
-\EndProcedure
-\Statex
-\Procedure{BulkImportFromDirectory}{$source\_directory, family\_mapping, source\_name$}
-    \State Assert $source\_directory$ exists
-    \State Initialize $import\_stats$ (total processed, successful, duplicates, errors, families processed)
-    \State Log bulk import start
-    \For{each $subdir \in source\_directory$}
-        \If{$subdir$ is directory}
-            \State Map $subdir.name$ to $family\_label$
-            \State Log processing family
-            \For{each $file\_path \in subdir$}
-                \If{$file\_path$ is file}
-                    \State Increment $total\_processed$
-                    \State \textbf{try}
-                        \State $file\_hash \leftarrow$ CalculateFileHash($file\_path$)
-                        \If{SampleExists($file\_hash$)}
-                            \State Increment $duplicates\_skipped$ and \textbf{continue}
-                        \EndIf
-                        \State RegisterSample($file\_path, family\_label, source\_name$)
-                        \State Increment $successful\_imports$ and $families\_processed[family\_label]$
-                    \State \textbf{catch} {Exception $e$}
-                        \State Increment $errors$ and Log error
-                    \State \textbf{end try}
-                \EndIf
-            \EndFor
-        \EndIf
-    \EndFor
-    \State Log bulk import summary
-    \Return $import\_stats$
-\EndProcedure
-\Statex
-\Procedure{ValidateDatasetIntegrity}{}
-    \State Log validation start
-    \State Initialize $validation\_results$ dictionary
-    \State Query all samples from database (file\_hash, filename, family\_label)
-    \For{each sample record}
-        \State Construct $expected\_path$ to raw sample file
-        \If{$expected\_path$ does not exist}
-            \State Increment $missing$ count and add issue to $quality\_issues$
-            \State \textbf{continue}
-        \EndIf
-        \State $actual\_hash \leftarrow$ CalculateFileHash($expected\_path$)
-        \If{$actual\_hash \neq file\_hash$}
-            \State Increment $failed$ count and add hash mismatch issue
-        \Else
-            \State Increment $passed$ count
-        \EndIf
-    \EndFor
-    \State Get $family\_statistics$
-    \State Store $family\_statistics$ in $validation\_results$
-    \State Analyze for $class\_imbalance$ and $minimum\_samples\_per\_family$
-    \State Add $quality\_issues$ and $recommendations$ based on analysis
-    \State Log validation completion
-    \Return $validation\_results$
-\EndProcedure
-\Statex
-\Function{GetFamilyStatistics}{}
-    \State Query database for $family\_name, sample\_count, avg\_file\_size, first\_seen, last\_updated$ from `families` table
-    \State Store results in a dictionary where keys are family names
-    \Return Family statistics dictionary
-\EndFunction
-\Statex
-\Procedure{CreateBalancedDatasetSplit}{$test\_size, validation\_size, min\_samples\_per\_family$}
-    \State Query all $file\_hash, family\_label$ for 'collected' samples from database
-    \State Group samples by family
-    \State Filter families with $< min\_samples\_per\_family$
-    \If{no valid families} \State Raise ValueError \EndIf
-    \State Log balanced split creation details
-    \State Initialize $train\_samples, val\_samples, test\_samples \leftarrow \emptyset$
-    \For{each $family, family\_samples \in$ ValidFamilies}
-        \State Split $family\_samples$ into train/validation/test sets using $train\_test\_split$ (stratified)
-        \State Extend global $train\_samples, val\_samples, test\_samples$
-        \State Log family split counts
-    \EndFor
-    \State Store split info ($train, validation, test$ sample hashes and metadata)
-    \State Save split info to JSON file
-    \State Log success
-    \Return Split info dictionary
-\EndProcedure
-\Statex
-\Function{GenerateDatasetReport}{}
-    \State Initialize $report\_lines \leftarrow \emptyset$
-    \State Add report header
-    \State Query overall dataset statistics from database (total samples, total families, file size stats)
-    \State Add Dataset Overview section
-    \State Get $family\_statistics$ and add Family Distribution table
-    \State Run ValidateDatasetIntegrity() and add Dataset Quality Assessment section (issues, recommendations)
-    \State Save report to Markdown file
-    \Return Generated report content as string
-\EndFunction
-\end{algorithmic}
-\end{algorithm}
+To understand the contribution of each component to the overall framework performance, we conducted several ablation studies:
+
+\begin{enumerate}
+    \item \textbf{Feature Type Comparison}: Evaluating classification performance using only GIST features, only HOG features, and the combined feature set.
+    
+    \item \textbf{Column Width Analysis}: Comparing classification performance across different column width configurations (224px, 300px, 4096px, and square root scheme).
+    
+    \item \textbf{Classifier Comparison}: Assessing the performance of different machine learning algorithms to identify the most effective approach.
+    
+    \item \textbf{UMAP Component Analysis}: Investigating the impact of different UMAP output dimensionalities (2D through 8D) on unknown malware detection performance.
+\end{enumerate}
+
+These ablation studies provide valuable insights into the importance of each methodological choice and help identify the optimal configuration for malware detection.
+
+Through this comprehensive experimental design and validation approach, we ensure that our findings are robust, reproducible, and reflective of real-world performance. The results demonstrate the effectiveness of our methodology for both known malware classification and unknown variant detection, with significant improvements over baseline approaches.

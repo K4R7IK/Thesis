@@ -1,0 +1,168 @@
+\begin{thebibliography}{24}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Ali et~al.(2019)Ali, Jones, Xie, and Williams]{ali2019timeCluster}
+Mohammed Ali, Mark~W. Jones, Xianghua Xie, and Mark Williams.
+\newblock Timecluster: dimension reduction applied to temporal data for visual
+  analytics.
+\newblock \emph{The Visual Computer}, 35:\penalty0 1013--1026, 2019.
+
+\bibitem[Becht et~al.(2019)Becht, McInnes, Healy, Dutertre, Kwok, Ng, Ginhoux,
+  and Newell]{becht2019dimensionality}
+Etienne Becht, Leland McInnes, John Healy, Charles-Antoine Dutertre,
+  Immanuel~W.H. Kwok, Lai~Guan Ng, Florent Ginhoux, and Evan~W. Newell.
+\newblock Dimensionality reduction for visualizing single-cell data using umap.
+\newblock \emph{Nature Biotechnology}, 37\penalty0 (1):\penalty0 38--44, 2019.
+
+\bibitem[Bozkir et~al.(2021)Bozkir, Tahillioglu, Aydos, and
+  Kara]{bozkir2021catch}
+Ahmet~Selman Bozkir, Ersan Tahillioglu, Murat Aydos, and Ilker Kara.
+\newblock Catch them alive: A malware detection approach through memory
+  forensics, manifold learning and computer vision.
+\newblock \emph{Computers \& Security}, 103:\penalty0 102166, 2021.
+
+\bibitem[Chowdhury and Bhowmik(2022)]{chowdhury2022capturing}
+Ipshita~Roy Chowdhury and Deepayan Bhowmik.
+\newblock Capturing malware behaviour with ontology-based knowledge graphs.
+\newblock In \emph{IEEE International Conference on Dependable Systems and
+  Networks}. IEEE, 2022.
+
+\bibitem[Dai et~al.(2018)Dai, Li, Qian, and Lu]{dai2018malware}
+Y.~Dai, H.~Li, Y.~Qian, and X.~Lu.
+\newblock A malware classification method based on memory dump grayscale image.
+\newblock \emph{Digital Investigation}, 27:\penalty0 30--37, 2018.
+
+\bibitem[Dalal and Triggs(2005)]{dalal2005histograms}
+Navneet Dalal and Bill Triggs.
+\newblock Histograms of oriented gradients for human detection.
+\newblock \emph{IEEE Computer Society Conference on Computer Vision and Pattern
+  Recognition}, 1:\penalty0 886--893, 2005.
+
+\bibitem[Gibert et~al.(2020)Gibert, Mateu, and Planes]{gibert2020rise}
+Daniel Gibert, Carles Mateu, and Jordi Planes.
+\newblock The rise of machine learning for detection and classification of
+  malware: Research developments, trends and challenges.
+\newblock \emph{Journal of Network and Computer Applications}, 153, 2020.
+
+\bibitem[Hammi et~al.(2024)Hammi, Hachem, Rachini, and
+  Khatoun]{hammi2024malware}
+Badis Hammi, J.~Hachem, A.~Rachini, and R.~Khatoun.
+\newblock Malware detection through windows system call analysis.
+\newblock In \emph{Proceedings of the Institut Polytechnique de Paris}, 2024.
+
+\bibitem[Hanchenko and Gakhov(2024)]{hanchenko2024analysis}
+Mariia Hanchenko and Serhii Gakhov.
+\newblock Analysis of methods for detecting fileless malware in the
+  energy-dependent memory of an organization's information system assets.
+\newblock In \emph{Ricerche scientifiche e metodi della loro realizzazione},
+  2024.
+
+\bibitem[Hossain and Islam(2024)]{hossain2024enhanced}
+M.~A. Hossain and M.~S. Islam.
+\newblock Enhanced detection of obfuscated malware in memory dumps: A machine
+  learning approach for advanced cybersecurity.
+\newblock \emph{Cybersecurity}, 7:\penalty0 16, 2024.
+
+\bibitem[Kara(2022)]{kara2022fileless}
+I.~Kara.
+\newblock Fileless malware threats: Recent advances, analysis approach through
+  memory forensics and research challenges.
+\newblock \emph{Expert Systems with Applications}, page 119133, 2022.
+
+\bibitem[Khalid et~al.(2023)Khalid, Ullah, Ahmad, Saeed, Alabbad, Aslam,
+  Buriro, and Ahmad]{khalid2023insight}
+O.~Khalid, S.~Ullah, T.~Ahmad, S.~Saeed, D.~A. Alabbad, M.~Aslam, A.~Buriro,
+  and R.~Ahmad.
+\newblock An insight into the machine-learning-based fileless malware
+  detection.
+\newblock \emph{Sensors}, 23\penalty0 (2):\penalty0 612, 2023.
+
+\bibitem[Khoje et~al.(2024)Khoje, Kaswan, and Pawar]{khoje2024revolutionary}
+Madhavi~Arun Khoje, A.~Kaswan, and J.~Pawar.
+\newblock Revolutionary feature engineering for polymorphic malware detection:
+  Achieving high accuracy with k-nn.
+\newblock \emph{JJTU Journal of Renewable Energy Exchange}, 12\penalty0
+  (3):\penalty0 251--260, 2024.
+
+\bibitem[McInnes et~al.(2018)McInnes, Healy, and Melville]{mcinnes2018umap}
+Leland McInnes, John Healy, and James Melville.
+\newblock Umap: Uniform manifold approximation and projection for dimension
+  reduction.
+\newblock \emph{arXiv preprint arXiv:1802.03426}, 2018.
+
+\bibitem[Nataraj et~al.(2011)Nataraj, Karthikeyan, Jacob, and
+  Manjunath]{nataraj2011malware}
+Lakshmanan Nataraj, Sreejith Karthikeyan, Gregoire Jacob, and Bangalore~S
+  Manjunath.
+\newblock Malware images: Visualization and automatic classification.
+\newblock In \emph{Proceedings of the 8th International Symposium on
+  Visualization for Cyber Security}. ACM, 2011.
+
+\bibitem[Nissim et~al.(2019)Nissim, Lahav, Cohen, Elovici, and
+  Rokach]{nissim2019volatile}
+N.~Nissim, O.~Lahav, A.~Cohen, Y.~Elovici, and L.~Rokach.
+\newblock Volatile memory analysis using the minhash method for efficient and
+  secured detection of malware in private cloud.
+\newblock \emph{Computers \& Security}, 87, 2019.
+
+\bibitem[Oliva and Torralba(2001)]{oliva2001modeling}
+Aude Oliva and Antonio Torralba.
+\newblock Modeling the shape of the scene: A holistic representation of the
+  spatial envelope.
+\newblock \emph{International Journal of Computer Vision}, 42\penalty0
+  (3):\penalty0 145--175, 2001.
+
+\bibitem[Sharma and Raglin(2018)]{sharma2018efficacy}
+Prakash~K. Sharma and Adrienne Raglin.
+\newblock Efficacy of nonlinear manifold learning in malware image pattern
+  analysis.
+\newblock In \emph{17th IEEE International Conference on Machine Learning and
+  Applications}. IEEE, 2018.
+
+\bibitem[Sihag et~al.(2021)Sihag, Choudhary, Vardhan, and
+  Singh]{sihag2021assistive}
+V.~Sihag, G.~Choudhary, M.~Vardhan, and P.~Singh.
+\newblock An assistive tool for fileless malware detection.
+\newblock In \emph{Proceedings of the World Automation Congress}. IEEE, 2021.
+
+\bibitem[Sihwail et~al.(2019)Sihwail, Omar, Ariffin, and
+  Al~Afghani]{sihwail2019malware}
+Raid Sihwail, Khairuddin Omar, Khairul Akram~Zainol Ariffin, and Siti
+  Al~Afghani.
+\newblock Malware detection approach based on artifacts in memory image and
+  dynamic analysis.
+\newblock \emph{Applied Sciences}, 9\penalty0 (18):\penalty0 3680, 2019.
+
+\bibitem[Vasan et~al.(2020)Vasan, Alazab, Wassan, Safaei, and
+  Zheng]{vasan2020image}
+Divya Vasan, Mamoun Alazab, Sobia Wassan, Babak Safaei, and Qin Zheng.
+\newblock Image-based malware classification using ensemble of cnn
+  architectures (imcec).
+\newblock \emph{Computers \& Security}, 92:\penalty0 101748, 2020.
+
+\bibitem[Yajamanam et~al.(2018)Yajamanam, Selvin, Di~Troia, and
+  Stamp]{yajamanam2018deep}
+S.~Yajamanam, V.~R.~S. Selvin, F.~Di~Troia, and M.~Stamp.
+\newblock Deep learning versus gist descriptors for image-based malware
+  classification.
+\newblock In \emph{Proceedings of the 2nd International Conference on
+  Information Systems Security and Privacy (ICISSP)}, pages 553--561, 2018.
+
+\bibitem[Yuan et~al.(2020)Yuan, Wang, Liu, Gao, Wu, and Bao]{yuan2020byte}
+Boyu Yuan, Junyi Wang, Dacheng Liu, Wei Gao, Pan Wu, and Xintao Bao.
+\newblock Byte-level malware classification based on markov images and deep
+  learning.
+\newblock \emph{Computers \& Security}, 92:\penalty0 101740, 2020.
+
+\bibitem[Zhang et~al.(2023)Zhang, Hu, Wang, Mihaljevic, Xu, and
+  Lan]{zhang2023malware}
+S.~Zhang, C.~Hu, L.~Wang, M.~J. Mihaljevic, S.~Xu, and T.~Lan.
+\newblock A malware detection approach based on deep learning and memory
+  forensics.
+\newblock \emph{Symmetry}, 15:\penalty0 758, 2023.
+
+\end{thebibliography}

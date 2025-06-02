@@ -8,24 +8,33 @@
 \usepackage{amsmath}
 \usepackage{amssymb} % For mathematical symbols
 \usepackage{tikz} % For drawing diagrams
-\usetikzlibrary{positioning}
+\usetikzlibrary{
+    arrows.meta,
+    positioning,
+    fit,
+    shapes.geometric
+}
 \usepackage{algorithm} % For algorithm environment
 \usepackage{algpseudocode}
-\algdef{SE}[TRY]{Try}{EndTry}{\textbf{try}}{\textbf{end try}}
-\algdef{C}[TRY]{Catch}{...}{\textbf{catch} #1}
 \usepackage{float} % For better control over float placement (e.g., [H] option)
+\usepackage{natbib}
+% \usepackage{cite}
 
 \input{format/default}
 
 \begin{document}
-\input{sections/default}
+% Define Try/Catch blocks for algorithms
+% \algdef{SE}[TRY]{Try}{EndTry}{\textbf{try}}{\textbf{end try}}
+% \algdef{C}[TRY]{Catch}{}{\textbf{catch} #1}
 
+
+\input{sections/default}
 
 % References
 \bibliographystyle{IEEEtran}
-\bibliography{references} % Ensure references.bib exists
+\bibliography{./references} % Ensure references.bib exists
 
-\pagenumbering{gobble}
+% \pagenumbering{gobble}
 \input{pdfs/default}
-
+%
 \end{document}

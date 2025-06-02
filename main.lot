@@ -1,0 +1,10 @@
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\addvspace {10\p@ }
+\contentsline {table}{\numberline {3.1}{\ignorespaces Comparison of Grayscale vs RGB Encoding for Memory Visualization}}{51}{table.3.1}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Classification Performance with Different Feature Types}}{60}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Classification Performance Results on Test Set}}{65}{table.3.3}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Accuracy Improvement with UMAP for Unknown Malware Detection}}{73}{table.3.4}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Dataset Split for Training and Testing}}{77}{table.3.5}%
+\addvspace {10\p@ }
+\addvspace {10\p@ }
