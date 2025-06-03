@@ -3,8 +3,8 @@
 \contentsline {chapter}{ACKNOWLEDGEMENTS}{iii}{Doc-Start}%
 \contentsline {chapter}{ABSTRACT}{iv}{Doc-Start}%
 \contentsline {chapter}{TABLE OF CONTENTS}{v}{section*.1}%
-\contentsline {chapter}{LIST OF FIGURES}{viii}{section*.2}%
-\contentsline {chapter}{LIST OF TABLES}{ix}{section*.3}%
+\contentsline {chapter}{LIST OF FIGURES}{vi}{section*.2}%
+\contentsline {chapter}{LIST OF TABLES}{vii}{section*.3}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Background and Motivation}{1}{section.1.1}%
 \contentsline {subsection}{\numberline {1.1.1}Fileless and Polymorphic Malware}{1}{subsection.1.1.1}%
@@ -19,12 +19,12 @@
 \contentsline {section}{\numberline {2.2}Existing Approaches}{11}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Memory Forensics for Malware Detection}{11}{subsection.2.2.1}%
 \contentsline {subsection}{\numberline {2.2.2}Vision-Based Approaches to Malware Analysis}{13}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Feature Extraction Techniques for Malware Classification}{15}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.3}Feature Extraction Techniques for Malware Classification}{14}{subsection.2.2.3}%
 \contentsline {subsection}{\numberline {2.2.4}Machine Learning for Fileless and Polymorphic Malware Detection}{16}{subsection.2.2.4}%
 \contentsline {subsection}{\numberline {2.2.5}Dimension Reduction and Manifold Learning in Malware Analysis}{18}{subsection.2.2.5}%
 \contentsline {section}{\numberline {2.3}Research Gaps}{20}{section.2.3}%
-\contentsline {chapter}{\numberline {3}Methodology}{23}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Overview of the Proposed Framework}{23}{section.3.1}%
+\contentsline {chapter}{\numberline {3}Methodology}{22}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Overview of the Proposed Framework}{22}{section.3.1}%
 \contentsline {section}{\numberline {3.2}Memory Dump Collection and Processing}{24}{section.3.2}%
 \contentsline {subsection}{\numberline {3.2.1}Virtualized Environment Configuration}{24}{subsection.3.2.1}%
 \contentsline {subsubsection}{Hypervisor Selection and Configuration}{24}{subsection.3.2.1}%

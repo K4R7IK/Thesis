@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.17)  3 JUN 2025 12:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.4.17)  3 JUN 2025 13:37
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -839,91 +839,14 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (
 \c@lstlisting=\count368
 Package tocbasic Info: omitting babel extension for `lol'
 (tocbasic)             because of missing \bbl@set@language on input line 27.
- (./sections/default.tex (./sections/front/default.tex (./sections/front/title.tex
-<figures/GBU_logo.png, id=7, 508.90125pt x 493.845pt>
-File: figures/GBU_logo.png Graphic file (type png)
-<use figures/GBU_logo.png>
-Package pdftex.def Info: figures/GBU_logo.png  used on input line 24.
-(pdftex.def)             Requested size: 142.26378pt x 138.05711pt.
-
-
-[1
-
-{/opt/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map} <./figures/GBU_logo.png>]) (./sections/front/certificate.tex
-File: figures/GBU_logo.png Graphic file (type png)
-<use figures/GBU_logo.png>
-Package pdftex.def Info: figures/GBU_logo.png  used on input line 5.
-(pdftex.def)             Requested size: 85.35826pt x 82.82974pt.
-
-
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.i}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.41 \clearpage
-                [1]) (./sections/front/declaration.tex
-File: figures/GBU_logo.png Graphic file (type png)
-<use figures/GBU_logo.png>
-Package pdftex.def Info: figures/GBU_logo.png  used on input line 3.
-(pdftex.def)             Requested size: 113.81102pt x 110.43967pt.
-) (./sections/front/acknowledgment.tex
-
-[2
-
-]
-
-[3]) (./sections/front/abstract.tex
-
-[4
-
-]) (./main.toc
-LaTeX Font Info:    Trying to load font information for U+msa on input line 1.
- (/opt/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-) (/opt/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
-File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 1.
- (/opt/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (/opt/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
-File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)
-
-[5
-
-]
-
-[6])
-\tf@toc=\write5
-\openout5 = `main.toc'.
-
-
-
-[7] (./main.lof)
-\tf@lof=\write6
-\openout6 = `main.lof'.
-
-
-
-[8
-
-] (./main.lot)
-\tf@lot=\write7
-\openout7 = `main.lot'.
-
-
-
-[9
-
-]) (./sections/content/default.tex (./sections/content/intro.tex
+ (./sections/default.tex (./sections/content/default.tex (./sections/content/intro.tex
 Chapter 1.
 
 
 [1
 
 
-]
+{/opt/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
 [2{/opt/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc}]
 
@@ -971,25 +894,43 @@ Chapter 2.
 
 [22]
 Chapter 3.
-
-LaTeX Warning: Reference `fig:methodology-overview' on page 23 undefined on input line 9.
-
+<figures/methodology.png, id=317, 3128.68875pt x 3854.4pt>
+File: figures/methodology.png Graphic file (type png)
+<use figures/methodology.png>
+Package pdftex.def Info: figures/methodology.png  used on input line 9.
+(pdftex.def)             Requested size: 407.66833pt x 502.20705pt.
 
 
 [23
 
 ]
 
-[24]
-Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 73.
+[24
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.32 
+      <./figures/methodology.png>]
 
-Underfull \hbox (badness 1694) in paragraph at lines 76--77
+[25]
+Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on input line 65.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 68.
+ (/opt/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+) (/opt/texlive/2025/texmf-dist/tex/latex/microtype/mt-msa.cfg
+File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 68.
+ (/opt/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+) (/opt/texlive/2025/texmf-dist/tex/latex/microtype/mt-msb.cfg
+File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
+)
+Underfull \hbox (badness 1694) in paragraph at lines 68--69
 []\OT1/cmr/bx/n/12 (+20) pro-ce-dure \OT1/cmr/m/sc/12 (+20) Con-fig-ureVM\OT1/cmr/m/n/12 (+20) ($\OML/cmm/m/it/12 VM[]NAME$\OT1/cmr/m/n/12 (+20) , $\OML/cmm/m/it/12 MEMORY[]SIZE$\OT1/cmr/m/n/12 (+20) , $\OML/cmm/m/it/12 CPU[]CORES$\OT1/cmr/m/n/12 (+20) ,
  []
 
 
-
-[25]
 
 [26]
 
@@ -1001,23 +942,23 @@ Underfull \hbox (badness 1694) in paragraph at lines 76--77
 
 [30]
 
-[31
+[31]
+
+[32
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.299 
+l.291 
       ]
 
-[32]
-
 [33]
-Underfull \hbox (badness 10000) in paragraph at lines 336--338
+
+[34]
+Underfull \hbox (badness 10000) in paragraph at lines 328--330
 [] $\OML/cmm/m/it/12 normalized[]image \OMS/cmsy/m/n/12  $ \OT1/cmr/m/n/12 (+20) NormalizePixelValues($\OML/cmm/m/it/12 resized[]image$\OT1/cmr/m/n/12 (+20) ) \OT1/cmr/bx/n/12 (+20) re-turn
  []
 
 
-
-[34]
 
 [35]
 
@@ -1029,14 +970,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 336--338
 
 [39]
 
-[40
+[40]
+
+[41
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.545 \end{enumerate}
+l.537 \end{enumerate}
                      ]
-
-[41]
 
 [42]
 
@@ -1044,97 +985,99 @@ l.545 \end{enumerate}
 
 [44]
 
-[45
+[45]
+
+[46
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.699     \item \textbf
+l.691     \item \textbf
                        {Benign vs. Malicious}: The "Other" category (benign ...]
 
-[46]
-Overfull \hbox (6.64375pt too wide) in paragraph at lines 729--730
+[47]
+Overfull \hbox (6.64375pt too wide) in paragraph at lines 721--722
 []\OT1/cmr/m/n/12 (-20) The UMAP al-go-rithm con-structs a weighted graph rep-re-sen-ta-tion of the high-dimensional
  []
 
 
 
-[47]
-
 [48]
 
 [49]
-Underfull \hbox (badness 10000) in paragraph at lines 813--814
+
+[50]
+Underfull \hbox (badness 10000) in paragraph at lines 805--806
 [] $\OML/cmm/m/it/12 train[]malware[]indices \OMS/cmsy/m/n/12  $ \OT1/cmr/m/n/12 (+20) GetIndicesForFamilies($\OML/cmm/m/it/12 family[]labels$\OT1/cmr/m/n/12 (+20) ,
  []
 
 
-Overfull \hbox (5.81866pt too wide) in paragraph at lines 815--816
+Overfull \hbox (5.81866pt too wide) in paragraph at lines 807--808
 [] $\OML/cmm/m/it/12 benign[]test[]count \OMS/cmsy/m/n/12  $ \OT1/cmr/m/n/12 (-20) CalculateProportionalBenignCount($\OML/cmm/m/it/12 test[]malware[]indices$\OT1/cmr/m/n/12 (-20) ,
  []
 
 
 
-[50]
-
 [51]
 
 [52]
 
-[53
+[53]
+
+[54
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.940 
+l.932 
       ]
 
-[54
-pdfTeX warning (ext4): destination with the same identifier (name{figure.3.1}) has been already used, duplicate ignored
+[55
+pdfTeX warning (ext4): destination with the same identifier (name{figure.3.2}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.966 \section{Experimental Design and Validation}
+l.958 \section{Experimental Design and Validation}
                                                   ]
 
-[55]
-
 [56]
-Overfull \hbox (26.55527pt too wide) in paragraph at lines 1063--1064
+
+[57]
+Overfull \hbox (26.55527pt too wide) in paragraph at lines 1055--1056
 []\OT1/cmr/bx/n/12 (-20) F1-Score\OT1/cmr/m/n/12 (-20) : The har-monic mean of pre-ci-sion and re-call ($2 \OMS/cmsy/m/n/12 ^^B \OT1/cmr/m/n/12 (-20) (\OML/cmm/m/it/12 precision \OMS/cmsy/m/n/12 ^^B \OML/cmm/m/it/12 recall\OT1/cmr/m/n/12 (-20) )\OML/cmm/m/it/12 =\OT1/cmr/m/n/12 (-20) (\OML/cmm/m/it/12 precision \OT1/cmr/m/n/12 (-20) +
  []
 
 
 
-[57
+[58
 pdfTeX warning (ext4): destination with the same identifier (name{table.3.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.1064 \end{enumerate}
+l.1056 \end{enumerate}
                       ]
 
-[58]
-Overfull \hbox (122.25417pt too wide) in paragraph at lines 1133--1134
+[59]
+Overfull \hbox (122.25417pt too wide) in paragraph at lines 1125--1126
 [] $\OML/cmm/m/it/12 multi[]class[]results \OMS/cmsy/m/n/12  $ \OT1/cmr/m/n/12 (-20) TrainAndEvaluateMultiClass($\OML/cmm/m/it/12 X[]train[]combined; y[]train; X[]test[]combined; y[]test$\OT1/cmr/m/n/12 (-20) ) 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1140--1141
+Underfull \hbox (badness 10000) in paragraph at lines 1132--1133
 [] \OT1/cmr/m/n/12 (+20) SaveResults($\OML/cmm/m/it/12 without[]umap[]results; with[]umap[]results; output[]directory \OT1/cmr/m/n/12 (+20) +
  []
 
 
 
-[59]
+[60]
 
-[60]) (./sections/content/result.tex
+[61]) (./sections/content/result.tex
 
-[61]
+[62]
 Chapter 4.
 
 
-[62
+[63
 
 ]
 
-[63
+[64
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -1146,14 +1089,14 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.4.2}) ha
 l.62 
      ]
 
-[64
+[65
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.3}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.113 
       ]
 
-[65
+[66
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -1185,14 +1128,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 168--169
 
 
 
-[66
+[67
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.5}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.195 
       ]
 
-[67
+[68
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.6}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -1209,7 +1152,7 @@ Overfull \hbox (1.5967pt too wide) in paragraph at lines 223--234
 
 
 
-[68
+[69
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.8}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -1221,7 +1164,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{table.4.9}) ha
 l.238 ...tion{Class-Specific Performance Analysis}
                                                   ]
 
-[69
+[70
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.10}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
@@ -1238,35 +1181,35 @@ Overfull \hbox (25.6947pt too wide) in paragraph at lines 301--313
 
 
 
-[70
+[71
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.12}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.344 
       ]
 
-[71
+[72
 pdfTeX warning (ext4): destination with the same identifier (name{table.4.13}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
 l.358 
       ]) (./sections/content/conclusion.tex
 
-[72]
+[73]
 Chapter 5.
 
 
-[73
+[74
 
 ]
 
-[74]
-
 [75]
 
-[76]))) (./main.bbl
+[76]
 
-[77]
+[77]))) (./main.bbl
+
+[78]
 ./main.bbl:1: Undefined control sequence.
 <inserted text> \thechaptertitlename 
                                      
@@ -1280,160 +1223,35 @@ and I'll forget about whatever was undefined.
 
 
 
-[78
+[79
 
 ]
 
-[79]) (./pdfs/default.tex
+[80])
 
-[80]
-<pdfs/report.pdf, id=951, 597.73312pt x 845.40843pt>
-File: pdfs/report.pdf Graphic file (type pdf)
-<use pdfs/report.pdf>
-Package pdftex.def Info: pdfs/report.pdf  used on input line 10.
-(pdftex.def)             Requested size: 597.73166pt x 845.40636pt.
-<pdfs/report.pdf, id=953, page=1, 597.73312pt x 845.40843pt>
-File: pdfs/report.pdf Graphic file (type pdf)
-<use pdfs/report.pdf, page 1>
-Package pdftex.def Info: pdfs/report.pdf , page1 used on input line 10.
-(pdftex.def)             Requested size: 597.73166pt x 845.40636pt.
-File: pdfs/report.pdf Graphic file (type pdf)
-<use pdfs/report.pdf, page 1>
-Package pdftex.def Info: pdfs/report.pdf , page1 used on input line 10.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-File: pdfs/report.pdf Graphic file (type pdf)
-<use pdfs/report.pdf, page 1>
-Package pdftex.def Info: pdfs/report.pdf , page1 used on input line 10.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-File: pdfs/report.pdf Graphic file (type pdf)
-<use pdfs/report.pdf, page 1>
-Package pdftex.def Info: pdfs/report.pdf , page1 used on input line 10.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-
-
-File: pdfs/report.pdf Graphic file (type pdf)
-<use pdfs/report.pdf, page 1>
-Package pdftex.def Info: pdfs/report.pdf , page1 used on input line 10.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-[81
-
-
- <./pdfs/report.pdf>]
-<pdfs/paper.pdf, id=967, 597.73312pt x 845.40843pt>
-File: pdfs/paper.pdf Graphic file (type pdf)
-<use pdfs/paper.pdf>
-Package pdftex.def Info: pdfs/paper.pdf  used on input line 11.
-(pdftex.def)             Requested size: 597.73166pt x 845.40636pt.
-<pdfs/paper.pdf, id=969, page=1, 597.73312pt x 845.40843pt>
-File: pdfs/paper.pdf Graphic file (type pdf)
-<use pdfs/paper.pdf, page 1>
-Package pdftex.def Info: pdfs/paper.pdf , page1 used on input line 11.
-(pdftex.def)             Requested size: 597.73166pt x 845.40636pt.
-File: pdfs/paper.pdf Graphic file (type pdf)
-<use pdfs/paper.pdf, page 1>
-Package pdftex.def Info: pdfs/paper.pdf , page1 used on input line 11.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-File: pdfs/paper.pdf Graphic file (type pdf)
-<use pdfs/paper.pdf, page 1>
-Package pdftex.def Info: pdfs/paper.pdf , page1 used on input line 11.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-File: pdfs/paper.pdf Graphic file (type pdf)
-<use pdfs/paper.pdf, page 1>
-Package pdftex.def Info: pdfs/paper.pdf , page1 used on input line 11.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-
-
-File: pdfs/paper.pdf Graphic file (type pdf)
-<use pdfs/paper.pdf, page 1>
-Package pdftex.def Info: pdfs/paper.pdf , page1 used on input line 11.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-[82
-
- <./pdfs/paper.pdf>]
-<pdfs/acceptance.pdf, id=982, 597.73312pt x 845.40843pt>
-File: pdfs/acceptance.pdf Graphic file (type pdf)
-<use pdfs/acceptance.pdf>
-Package pdftex.def Info: pdfs/acceptance.pdf  used on input line 12.
-(pdftex.def)             Requested size: 597.73166pt x 845.40636pt.
-<pdfs/acceptance.pdf, id=984, page=1, 597.73312pt x 845.40843pt>
-File: pdfs/acceptance.pdf Graphic file (type pdf)
-<use pdfs/acceptance.pdf, page 1>
-Package pdftex.def Info: pdfs/acceptance.pdf , page1 used on input line 12.
-(pdftex.def)             Requested size: 597.73166pt x 845.40636pt.
-File: pdfs/acceptance.pdf Graphic file (type pdf)
-<use pdfs/acceptance.pdf, page 1>
-Package pdftex.def Info: pdfs/acceptance.pdf , page1 used on input line 12.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-File: pdfs/acceptance.pdf Graphic file (type pdf)
-<use pdfs/acceptance.pdf, page 1>
-Package pdftex.def Info: pdfs/acceptance.pdf , page1 used on input line 12.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-File: pdfs/acceptance.pdf Graphic file (type pdf)
-<use pdfs/acceptance.pdf, page 1>
-Package pdftex.def Info: pdfs/acceptance.pdf , page1 used on input line 12.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-
-
-File: pdfs/acceptance.pdf Graphic file (type pdf)
-<use pdfs/acceptance.pdf, page 1>
-Package pdftex.def Info: pdfs/acceptance.pdf , page1 used on input line 12.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-[83
-
- <./pdfs/acceptance.pdf>]
-<pdfs/certificate.pdf, id=997, 597.73312pt x 845.40843pt>
-File: pdfs/certificate.pdf Graphic file (type pdf)
-<use pdfs/certificate.pdf>
-Package pdftex.def Info: pdfs/certificate.pdf  used on input line 13.
-(pdftex.def)             Requested size: 597.73166pt x 845.40636pt.
-<pdfs/certificate.pdf, id=999, page=1, 597.73312pt x 845.40843pt>
-File: pdfs/certificate.pdf Graphic file (type pdf)
-<use pdfs/certificate.pdf, page 1>
-Package pdftex.def Info: pdfs/certificate.pdf , page1 used on input line 13.
-(pdftex.def)             Requested size: 597.73166pt x 845.40636pt.
-File: pdfs/certificate.pdf Graphic file (type pdf)
-<use pdfs/certificate.pdf, page 1>
-Package pdftex.def Info: pdfs/certificate.pdf , page1 used on input line 13.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-File: pdfs/certificate.pdf Graphic file (type pdf)
-<use pdfs/certificate.pdf, page 1>
-Package pdftex.def Info: pdfs/certificate.pdf , page1 used on input line 13.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-File: pdfs/certificate.pdf Graphic file (type pdf)
-<use pdfs/certificate.pdf, page 1>
-Package pdftex.def Info: pdfs/certificate.pdf , page1 used on input line 13.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-
-
-File: pdfs/certificate.pdf Graphic file (type pdf)
-<use pdfs/certificate.pdf, page 1>
-Package pdftex.def Info: pdfs/certificate.pdf , page1 used on input line 13.
-(pdftex.def)             Requested size: 597.75902pt x 845.44505pt.
-[84
-
- <./pdfs/certificate.pdf>]) (./main.aux)
+[1] (./main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-03-26>
  ***********
 
 
-LaTeX Warning: There were undefined references.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
  ) 
 Here is how much of TeX's memory you used:
- 30157 strings out of 469626
- 542758 string characters out of 5446523
- 1006769 words of memory out of 5000000
- 55846 multiletter control sequences out of 15000+600000
- 642819 words of font info for 193 fonts, out of 8000000 for 9000
+ 30001 strings out of 469626
+ 539078 string characters out of 5446523
+ 1006988 words of memory out of 5000000
+ 55737 multiletter control sequences out of 15000+600000
+ 642218 words of font info for 190 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 120i,17n,113p,1489b,660s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
-Output written on main.pdf (94 pages, 692876 bytes).
+ 120i,15n,113p,1489b,660s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi12.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></opt/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1200.pfb>
+Output written on main.pdf (81 pages, 875170 bytes).
 PDF statistics:
- 1384 PDF objects out of 1440 (max. 8388607)
- 1229 compressed objects within 13 object streams
- 345 named destinations out of 1000 (max. 500000)
- 35534 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 1156 PDF objects out of 1200 (max. 8388607)
+ 1038 compressed objects within 11 object streams
+ 331 named destinations out of 1000 (max. 500000)
+ 33370 words of extra memory for PDF output out of 35830 (max. 10000000)
 

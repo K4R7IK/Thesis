@@ -3,26 +3,18 @@
 
 This chapter presents a comprehensive methodology for adaptive detection of fileless and polymorphic malware through an integrated approach combining memory forensics, computer vision, and machine learning techniques. The proposed framework addresses the fundamental limitations of traditional signature-based detection systems by analyzing memory-resident patterns and employing advanced dimensional reduction techniques to enhance unknown malware identification capabilities.
 
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\textwidth]{figures/methodology.png}
+    \caption{Comprehensive workflow of the proposed malware detection framework, showing the four main phases: Memory Analysis, Feature Extraction, Multi-Class Classification, and Unknown Malware Detection.}
+    \label{fig:methodology-overview}
+\end{figure}
+
 \section{Overview of the Proposed Framework}
 \label{sec:methodology-overview}
 
 The methodology encompasses a multi-phase approach designed to capture, analyze, and classify malware behavior through memory-based analysis. Figure~\ref{fig:methodology-overview} illustrates the complete workflow of our proposed detection framework.
-
-% \begin{figure}[!htbp]
-% \centering
-% % Simpler mermaid diagram placeholder - you can replace this with actual mermaid code later
-% \fbox{\parbox{0.9\textwidth}{
-%     \centering
-%     \textbf{Mermaid Diagram Placeholder} \\
-%     A comprehensive workflow diagram showing the four phases: \\
-%     1. Memory Analysis (Collection → Dump Files → RGB Conversion → Standardized Images) \\
-%     2. Feature Extraction (GIST → 960-D Vector, HOG → 1764-D Vector → Feature Fusion → 2724-D Vector) \\
-%     3. Multi-Class Classification (Machine Learning Models → Linear SVM/SMO/XGBoost/RF/J48 → Classification) \\
-%     4. Unknown Malware Detection (Dataset Reconfiguration → UMAP → 4-D Embeddings → Binary Classification)
-% }}
-% \caption{Comprehensive workflow of the proposed malware detection framework}
-% \label{fig:methodology-overview}
-% \end{figure}
 
 The proposed framework consists of four main phases:
 
