@@ -3,12 +3,12 @@
 \section{Dataset, Experimental Setup, and Feature Engineering Results}
 \label{sec:dataset-setup-features}
 
-This section presents the foundational experimental results that establish the effectiveness of our memory forensics and computer vision approach to malware detection. Our evaluation employed the "Poly10" dataset, comprising 4,294 memory dump samples across 11 distinct classes, spanning fileless and polymorphic malware families.
+This section presents the foundational experimental results that establish the effectiveness of our memory forensics and computer vision approach to malware detection. Our evaluation employed the "Poly10" dataset, comprising 3,953 memory dump samples across 11 distinct classes, spanning fileless and polymorphic malware families.
 
 \subsection{Dataset Composition and Experimental Environment}
 \label{subsec:dataset-composition-env}
 
-Our experimental evaluation employs the "Poly10" dataset, comprising 4,294 memory dump samples across 11 distinct classes. This dataset represents a carefully curated collection that spans both fileless and polymorphic malware families, providing comprehensive coverage of modern evasive malware techniques. Table~\ref{tab:dataset-composition} presents the detailed distribution of samples across malware families and benign executables.
+Our experimental evaluation employs the "Poly10" dataset, comprising 3,953 memory dump samples across 11 distinct classes. This dataset represents a carefully curated collection that spans both fileless and polymorphic malware families, providing comprehensive coverage of modern evasive malware techniques. Table~\ref{tab:dataset-composition} presents the detailed distribution of samples across malware families and benign executables.
 
 \begin{table}[!htbp]
 \centering
@@ -35,7 +35,7 @@ Benign Files & - & 238 & 29 \\
 \end{tabular}
 \end{table}
 
-Our experimental environment utilized an Intel Core i7 processor, 16GB RAM, and NVIDIA T1000 GPU with 4GB VRAM. The Ubuntu WSL environment provided consistent reproducibility across experimental runs. Our framework achieved an average processing time of 3.56 seconds per sample, demonstrating practical viability for real-time deployment scenarios.
+Our experimental environment utilized an Intel Core i7 processor, 16GB RAM, and NVIDIA T1000 GPU with 4GB VRAM. The Ubuntu WSL environment provided consistent reproducibility across experimental runs. Our framework achieved an average processing time of 3.77 seconds per sample, demonstrating practical viability for real-time deployment scenarios.
 
 \subsection{RGB Image Conversion and Column Width Optimization}
 \label{subsec:rgb-conversion-results}
@@ -305,7 +305,7 @@ Table~\ref{tab:baseline-comparison} presents the comprehensive performance compa
 Static Analysis Baseline & 78.94\% & 0.791 & 0.789 & 0.790 & 0.45 \\
 Dynamic Analysis Baseline & 82.67\% & 0.828 & 0.827 & 0.827 & 187.32 \\
 Grayscale Image Baseline & 89.23\% & 0.894 & 0.892 & 0.893 & 2.18 \\
-\textbf{Our Proposed Method} & \textbf{97.49\%} & \textbf{0.975} & \textbf{0.975} & \textbf{0.975} & \textbf{3.56} \\
+\textbf{Our Proposed Method} & \textbf{97.49\%} & \textbf{0.975} & \textbf{0.975} & \textbf{0.975} & \textbf{3.77} \\
 \hline
 \textbf{\makecell{Improvement vs.\\Best Baseline}} & \textbf{+8.26\%} & \textbf{+0.081} & \textbf{+0.083} & \textbf{+0.082} & \textbf{+1.38s} \\
 \hline
