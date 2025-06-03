@@ -1,10 +1,23 @@
 \addvspace {10\p@ }
 \addvspace {10\p@ }
 \addvspace {10\p@ }
-\contentsline {table}{\numberline {3.1}{\ignorespaces Comparison of Grayscale vs RGB Encoding for Memory Visualization}}{51}{table.3.1}%
-\contentsline {table}{\numberline {3.2}{\ignorespaces Classification Performance with Different Feature Types}}{60}{table.3.2}%
-\contentsline {table}{\numberline {3.3}{\ignorespaces Classification Performance Results on Test Set}}{65}{table.3.3}%
-\contentsline {table}{\numberline {3.4}{\ignorespaces Accuracy Improvement with UMAP for Unknown Malware Detection}}{73}{table.3.4}%
-\contentsline {table}{\numberline {3.5}{\ignorespaces Dataset Split for Training and Testing}}{77}{table.3.5}%
+\contentsline {table}{\numberline {3.1}{\ignorespaces Comparison of Grayscale vs RGB Encoding for Memory Visualization}}{31}{table.3.1}%
+\contentsline {table}{\numberline {3.2}{\ignorespaces Classification Performance with Different Feature Types}}{40}{table.3.2}%
+\contentsline {table}{\numberline {3.3}{\ignorespaces Classification Performance Results on Test Set}}{45}{table.3.3}%
+\contentsline {table}{\numberline {3.4}{\ignorespaces Accuracy Improvement with UMAP for Unknown Malware Detection}}{53}{table.3.4}%
+\contentsline {table}{\numberline {3.5}{\ignorespaces Dataset Split for Training and Testing}}{57}{table.3.5}%
 \addvspace {10\p@ }
+\contentsline {table}{\numberline {4.1}{\ignorespaces DISTRIBUTION OF SAMPLES IN THE POLY10 DATASET}}{63}{table.4.1}%
+\contentsline {table}{\numberline {4.2}{\ignorespaces Classification Accuracy by Column Width Configuration}}{63}{table.4.2}%
+\contentsline {table}{\numberline {4.3}{\ignorespaces Feature Ablation Study Results}}{64}{table.4.3}%
+\contentsline {table}{\numberline {4.4}{\ignorespaces Phase 1 Multi-Class Classification Performance Results}}{65}{table.4.4}%
+\contentsline {table}{\numberline {4.5}{\ignorespaces Per-Class Performance Analysis (Linear SVM)}}{66}{table.4.5}%
+\contentsline {table}{\numberline {4.6}{\ignorespaces Fold Configuration for Unknown Malware Detection}}{67}{table.4.6}%
+\contentsline {table}{\numberline {4.7}{\ignorespaces Baseline Binary Classification Performance (Without UMAP)}}{67}{table.4.7}%
+\contentsline {table}{\numberline {4.8}{\ignorespaces UMAP Parameter Optimization Results}}{68}{table.4.8}%
+\contentsline {table}{\numberline {4.9}{\ignorespaces Performance Improvements with UMAP Enhancement}}{68}{table.4.9}%
+\contentsline {table}{\numberline {4.10}{\ignorespaces Benign Software Detection Performance Analysis}}{69}{table.4.10}%
+\contentsline {table}{\numberline {4.11}{\ignorespaces Malware Detection Performance Analysis}}{69}{table.4.11}%
+\contentsline {table}{\numberline {4.12}{\ignorespaces Performance Comparison with State-of-the-Art Baseline Methods}}{70}{table.4.12}%
+\contentsline {table}{\numberline {4.13}{\ignorespaces Processing Time Breakdown by Pipeline Component}}{71}{table.4.13}%
 \addvspace {10\p@ }

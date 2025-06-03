@@ -35,6 +35,12 @@ INPUT /opt/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty
+INPUT /opt/texlive/2025/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /opt/texlive/2025/texmf-dist/tex/latex/makecell/makecell.sty
+INPUT /opt/texlive/2025/texmf-dist/tex/latex/tools/array.sty
+INPUT /opt/texlive/2025/texmf-dist/tex/latex/tools/array.sty
+INPUT /opt/texlive/2025/texmf-dist/tex/latex/multirow/multirow.sty
+INPUT /opt/texlive/2025/texmf-dist/tex/latex/multirow/multirow.sty
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/bookmark/bookmark.sty
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/bookmark/bookmark.sty
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
@@ -282,12 +288,8 @@ INPUT /opt/texlive/2025/texmf-dist/tex/latex/microtype/microtype-pdftex.def
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/microtype/microtype.cfg
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/microtype/microtype.cfg
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/microtype/microtype.cfg
-INPUT /opt/texlive/2025/texmf-dist/tex/latex/tools/array.sty
-INPUT /opt/texlive/2025/texmf-dist/tex/latex/tools/array.sty
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/booktabs/booktabs.sty
-INPUT /opt/texlive/2025/texmf-dist/tex/latex/multirow/multirow.sty
-INPUT /opt/texlive/2025/texmf-dist/tex/latex/multirow/multirow.sty
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/tools/longtable.sty
 INPUT /opt/texlive/2025/texmf-dist/tex/latex/tools/longtable.sty
 OUTPUT main.nlo

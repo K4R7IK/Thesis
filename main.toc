@@ -7,95 +7,99 @@
 \contentsline {chapter}{LIST OF TABLES}{ix}{section*.3}%
 \contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Background and Motivation}{1}{section.1.1}%
-\contentsline {subsection}{\numberline {1.1.1}The Evolution of Cyber Threats}{1}{subsection.1.1.1}%
-\contentsline {subsection}{\numberline {1.1.2}Understanding Fileless Malware}{2}{subsection.1.1.2}%
-\contentsline {subsection}{\numberline {1.1.3}The Polymorphic Malware Challenge}{3}{subsection.1.1.3}%
-\contentsline {subsection}{\numberline {1.1.4}The Convergence of Fileless and Polymorphic Techniques}{5}{subsection.1.1.4}%
-\contentsline {section}{\numberline {1.2}The Challenge of Memory-Based Detection}{6}{section.1.2}%
-\contentsline {subsection}{\numberline {1.2.1}Fundamental Principles of Memory Forensics}{6}{subsection.1.2.1}%
-\contentsline {subsection}{\numberline {1.2.2}Technical Challenges in Memory Analysis}{7}{subsection.1.2.2}%
-\contentsline {subsection}{\numberline {1.2.3}Anti-Forensic Techniques and Countermeasures}{8}{subsection.1.2.3}%
-\contentsline {section}{\numberline {1.3}Vision-Based Approach to Malware Detection}{10}{section.1.3}%
-\contentsline {subsection}{\numberline {1.3.1}Theoretical Foundation of Memory Visualization}{10}{subsection.1.3.1}%
-\contentsline {subsection}{\numberline {1.3.2}From Bytes to Pixels: The Conversion Process}{11}{subsection.1.3.2}%
-\contentsline {subsection}{\numberline {1.3.3}Visual Patterns in Malware}{12}{subsection.1.3.3}%
-\contentsline {section}{\numberline {1.4}Research Objectives}{13}{section.1.4}%
-\contentsline {subsection}{\numberline {1.4.1}Primary Research Goals}{13}{subsection.1.4.1}%
-\contentsline {subsection}{\numberline {1.4.2}Secondary Research Objectives}{16}{subsection.1.4.2}%
-\contentsline {section}{\numberline {1.5}Research Contributions}{18}{section.1.5}%
-\contentsline {subsection}{\numberline {1.5.1}Theoretical Contributions}{18}{subsection.1.5.1}%
-\contentsline {subsection}{\numberline {1.5.2}Practical Contributions}{20}{subsection.1.5.2}%
-\contentsline {subsection}{\numberline {1.5.3}Broader Impact on Cybersecurity}{22}{subsection.1.5.3}%
-\contentsline {section}{\numberline {1.6}Thesis Organization}{23}{section.1.6}%
-\contentsline {section}{\numberline {1.7}Summary}{28}{section.1.7}%
-\contentsline {chapter}{\numberline {2}Literature Survey}{31}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Introduction}{31}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Existing Approaches}{32}{section.2.2}%
-\contentsline {subsection}{\numberline {2.2.1}Memory Forensics for Malware Detection}{32}{subsection.2.2.1}%
-\contentsline {subsection}{\numberline {2.2.2}Vision-Based Approaches to Malware Analysis}{34}{subsection.2.2.2}%
-\contentsline {subsection}{\numberline {2.2.3}Feature Extraction Techniques for Malware Classification}{36}{subsection.2.2.3}%
-\contentsline {subsection}{\numberline {2.2.4}Machine Learning for Fileless and Polymorphic Malware Detection}{37}{subsection.2.2.4}%
-\contentsline {subsection}{\numberline {2.2.5}Dimension Reduction and Manifold Learning in Malware Analysis}{39}{subsection.2.2.5}%
-\contentsline {section}{\numberline {2.3}Research Gaps}{41}{section.2.3}%
-\contentsline {chapter}{\numberline {3}Methodology}{44}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Overview of the Proposed Framework}{44}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Memory Dump Collection and Processing}{45}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Virtualized Environment Configuration}{46}{subsection.3.2.1}%
-\contentsline {subsubsection}{Hypervisor Selection and Configuration}{46}{subsection.3.2.1}%
-\contentsline {subsubsection}{Guest Operating System Preparation}{46}{algorithm.1}%
-\contentsline {subsection}{\numberline {3.2.2}Memory Dump Acquisition Process}{47}{subsection.3.2.2}%
-\contentsline {subsubsection}{Timing and Trigger Mechanisms}{47}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}Platform-Specific Dump Acquisition}{49}{subsection.3.2.3}%
-\contentsline {subsubsection}{Windows Memory Acquisition}{49}{subsection.3.2.3}%
-\contentsline {subsubsection}{Linux Memory Acquisition}{49}{subsection.3.2.3}%
-\contentsline {section}{\numberline {3.3}Memory Dump to RGB Image Conversion}{50}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}RGB Encoding Rationale and Advantages}{51}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Image Rendering Process}{52}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}Column Width Optimization}{53}{subsection.3.3.3}%
-\contentsline {subsubsection}{Column Width Schemes Evaluation}{53}{subsection.3.3.3}%
-\contentsline {subsection}{\numberline {3.3.4}Standardization and Quality Preservation}{54}{subsection.3.3.4}%
-\contentsline {section}{\numberline {3.4}Feature Extraction Using Image Descriptors}{55}{section.3.4}%
-\contentsline {subsection}{\numberline {3.4.1}GIST Feature Extraction}{55}{subsection.3.4.1}%
-\contentsline {subsubsection}{GIST Descriptor Principles}{55}{subsection.3.4.1}%
-\contentsline {subsubsection}{Custom GIST Implementation}{56}{Item.23}%
-\contentsline {subsection}{\numberline {3.4.2}Histogram of Oriented Gradients (HOG) Feature Extraction}{57}{subsection.3.4.2}%
-\contentsline {subsubsection}{HOG Descriptor Principles}{57}{subsection.3.4.2}%
-\contentsline {subsubsection}{Enhanced HOG Implementation}{57}{Item.28}%
-\contentsline {subsection}{\numberline {3.4.3}Feature Fusion Methodology}{59}{subsection.3.4.3}%
-\contentsline {subsubsection}{Complementary Nature of Features}{59}{subsection.3.4.3}%
-\contentsline {subsubsection}{Feature Fusion Approach}{59}{subsection.3.4.3}%
-\contentsline {subsubsection}{Fusion Performance Improvement}{60}{algorithm.8}%
-\contentsline {subsection}{\numberline {3.4.4}Dimensionality Considerations}{60}{subsection.3.4.4}%
-\contentsline {section}{\numberline {3.5}Classification Algorithms}{61}{section.3.5}%
-\contentsline {subsection}{\numberline {3.5.1}Multi-Algorithm Classification Framework}{61}{subsection.3.5.1}%
-\contentsline {subsection}{\numberline {3.5.2}Algorithm Selection and Configuration}{62}{subsection.3.5.2}%
-\contentsline {subsection}{\numberline {3.5.3}Model Training and Evaluation}{64}{subsection.3.5.3}%
-\contentsline {subsection}{\numberline {3.5.4}Confusion Matrix Analysis}{65}{subsection.3.5.4}%
-\contentsline {subsection}{\numberline {3.5.5}Feature Importance Analysis}{66}{subsection.3.5.5}%
-\contentsline {section}{\numberline {3.6}Unknown Malware Detection Using UMAP}{67}{section.3.6}%
-\contentsline {subsection}{\numberline {3.6.1}UMAP Theoretical Foundation}{67}{subsection.3.6.1}%
-\contentsline {subsection}{\numberline {3.6.2}Binary Classification Framework for Unknown Malware}{68}{subsection.3.6.2}%
-\contentsline {subsubsection}{Problem Reformulation}{68}{subsection.3.6.2}%
-\contentsline {subsection}{\numberline {3.6.3}Fold Creation Strategy}{68}{subsection.3.6.3}%
-\contentsline {subsubsection}{Systematic Family Exclusion}{68}{subsection.3.6.3}%
-\contentsline {subsection}{\numberline {3.6.4}UMAP Configuration and Parameter Optimization}{71}{subsection.3.6.4}%
-\contentsline {subsubsection}{Parameter Exploration}{71}{subsection.3.6.4}%
-\contentsline {subsection}{\numberline {3.6.5}Performance Evaluation for Unknown Malware Detection}{73}{subsection.3.6.5}%
-\contentsline {subsubsection}{Classification Performance with and without UMAP}{73}{subsection.3.6.5}%
-\contentsline {subsubsection}{Class-Specific Performance Analysis}{74}{table.3.4}%
-\contentsline {subsubsection}{Visual Analysis of UMAP Embeddings}{74}{Item.66}%
-\contentsline {section}{\numberline {3.7}Experimental Design and Validation}{75}{section.3.7}%
-\contentsline {subsection}{\numberline {3.7.1}Dataset Composition and Preparation}{75}{subsection.3.7.1}%
-\contentsline {subsubsection}{Malware Family Distribution}{75}{subsection.3.7.1}%
-\contentsline {subsubsection}{Data Preparation Process}{76}{subsection.3.7.1}%
-\contentsline {subsection}{\numberline {3.7.2}Performance Evaluation Metrics}{77}{subsection.3.7.2}%
-\contentsline {subsubsection}{Primary Evaluation Metrics}{77}{subsection.3.7.2}%
-\contentsline {subsubsection}{Specialized Metrics for Unknown Malware Detection}{78}{Item.75}%
-\contentsline {subsection}{\numberline {3.7.3}Experimental Setup}{79}{subsection.3.7.3}%
-\contentsline {subsubsection}{Timing and Efficiency Analysis}{79}{algorithm.13}%
-\contentsline {subsubsection}{Ablation Studies}{81}{Item.85}%
-\contentsline {chapter}{\numberline {4}Results and Discussion}{83}{chapter.4}%
-\contentsline {section}{\numberline {4.1}This is a section}{83}{section.4.1}%
-\contentsline {chapter}{\numberline {5}Conclusion and Future Work}{84}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Summary of Findings}{84}{section.5.1}%
-\contentsline {chapter}{REFERENCES}{85}{chapter*.4}%
+\contentsline {subsection}{\numberline {1.1.1}Fileless and Polymorphic Malware}{1}{subsection.1.1.1}%
+\contentsline {section}{\numberline {1.2}The Challenge of Memory-Based Detection}{4}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Vision-Based Approach to Malware Detection}{5}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Research Objectives}{6}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Research Contributions}{7}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Thesis Organization}{8}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Summary}{9}{section.1.7}%
+\contentsline {chapter}{\numberline {2}Literature Survey}{10}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Introduction}{10}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Existing Approaches}{11}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Memory Forensics for Malware Detection}{11}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Vision-Based Approaches to Malware Analysis}{13}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Feature Extraction Techniques for Malware Classification}{15}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}Machine Learning for Fileless and Polymorphic Malware Detection}{16}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}Dimension Reduction and Manifold Learning in Malware Analysis}{18}{subsection.2.2.5}%
+\contentsline {section}{\numberline {2.3}Research Gaps}{20}{section.2.3}%
+\contentsline {chapter}{\numberline {3}Methodology}{23}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Overview of the Proposed Framework}{23}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Memory Dump Collection and Processing}{24}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Virtualized Environment Configuration}{24}{subsection.3.2.1}%
+\contentsline {subsubsection}{Hypervisor Selection and Configuration}{24}{subsection.3.2.1}%
+\contentsline {subsubsection}{Guest Operating System Preparation}{25}{algorithm.1}%
+\contentsline {subsection}{\numberline {3.2.2}Memory Dump Acquisition Process}{26}{subsection.3.2.2}%
+\contentsline {subsubsection}{Timing and Trigger Mechanisms}{26}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Platform-Specific Dump Acquisition}{26}{subsection.3.2.3}%
+\contentsline {subsubsection}{Windows Memory Acquisition}{26}{subsection.3.2.3}%
+\contentsline {subsubsection}{Linux Memory Acquisition}{28}{subsection.3.2.3}%
+\contentsline {section}{\numberline {3.3}Memory Dump to RGB Image Conversion}{30}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}RGB Encoding Rationale and Advantages}{30}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}Image Rendering Process}{31}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Column Width Optimization}{31}{subsection.3.3.3}%
+\contentsline {subsubsection}{Column Width Schemes Evaluation}{31}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}Standardization and Quality Preservation}{33}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Feature Extraction Using Image Descriptors}{34}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}GIST Feature Extraction}{35}{subsection.3.4.1}%
+\contentsline {subsubsection}{GIST Descriptor Principles}{35}{subsection.3.4.1}%
+\contentsline {subsubsection}{Custom GIST Implementation}{35}{Item.27}%
+\contentsline {subsection}{\numberline {3.4.2}Histogram of Oriented Gradients (HOG) Feature Extraction}{37}{subsection.3.4.2}%
+\contentsline {subsubsection}{HOG Descriptor Principles}{37}{subsection.3.4.2}%
+\contentsline {subsubsection}{Enhanced HOG Implementation}{37}{Item.32}%
+\contentsline {subsection}{\numberline {3.4.3}Feature Fusion Methodology}{37}{subsection.3.4.3}%
+\contentsline {subsubsection}{Complementary Nature of Features}{39}{subsection.3.4.3}%
+\contentsline {subsubsection}{Feature Fusion Approach}{39}{subsection.3.4.3}%
+\contentsline {subsubsection}{Fusion Performance Improvement}{39}{algorithm.8}%
+\contentsline {subsection}{\numberline {3.4.4}Dimensionality Considerations}{40}{subsection.3.4.4}%
+\contentsline {section}{\numberline {3.5}Classification Algorithms}{41}{section.3.5}%
+\contentsline {subsection}{\numberline {3.5.1}Multi-Algorithm Classification Framework}{41}{subsection.3.5.1}%
+\contentsline {subsection}{\numberline {3.5.2}Algorithm Selection and Configuration}{42}{subsection.3.5.2}%
+\contentsline {subsection}{\numberline {3.5.3}Model Training and Evaluation}{44}{subsection.3.5.3}%
+\contentsline {subsection}{\numberline {3.5.4}Confusion Matrix Analysis}{45}{subsection.3.5.4}%
+\contentsline {subsection}{\numberline {3.5.5}Feature Importance Analysis}{46}{subsection.3.5.5}%
+\contentsline {section}{\numberline {3.6}Unknown Malware Detection Using UMAP}{47}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}UMAP Theoretical Foundation}{47}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Binary Classification Framework for Unknown Malware}{48}{subsection.3.6.2}%
+\contentsline {subsubsection}{Problem Reformulation}{48}{subsection.3.6.2}%
+\contentsline {subsection}{\numberline {3.6.3}Fold Creation Strategy}{48}{subsection.3.6.3}%
+\contentsline {subsubsection}{Systematic Family Exclusion}{48}{subsection.3.6.3}%
+\contentsline {subsection}{\numberline {3.6.4}UMAP Configuration and Parameter Optimization}{51}{subsection.3.6.4}%
+\contentsline {subsubsection}{Parameter Exploration}{51}{subsection.3.6.4}%
+\contentsline {subsection}{\numberline {3.6.5}Performance Evaluation for Unknown Malware Detection}{53}{subsection.3.6.5}%
+\contentsline {subsubsection}{Classification Performance with and without UMAP}{53}{subsection.3.6.5}%
+\contentsline {subsubsection}{Class-Specific Performance Analysis}{53}{table.3.4}%
+\contentsline {subsubsection}{Visual Analysis of UMAP Embeddings}{54}{Item.70}%
+\contentsline {section}{\numberline {3.7}Experimental Design and Validation}{55}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Dataset Composition and Preparation}{55}{subsection.3.7.1}%
+\contentsline {subsubsection}{Malware Family Distribution}{55}{subsection.3.7.1}%
+\contentsline {subsubsection}{Data Preparation Process}{56}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Performance Evaluation Metrics}{57}{subsection.3.7.2}%
+\contentsline {subsubsection}{Primary Evaluation Metrics}{57}{subsection.3.7.2}%
+\contentsline {subsubsection}{Specialized Metrics for Unknown Malware Detection}{58}{Item.79}%
+\contentsline {subsection}{\numberline {3.7.3}Experimental Setup}{58}{subsection.3.7.3}%
+\contentsline {subsubsection}{Timing and Efficiency Analysis}{59}{algorithm.13}%
+\contentsline {subsubsection}{Ablation Studies}{61}{Item.89}%
+\contentsline {chapter}{\numberline {4}Results and Discussion}{62}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Dataset, Experimental Setup, and Feature Engineering Results}{62}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Dataset Composition and Experimental Environment}{62}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}RGB Image Conversion and Column Width Optimization}{62}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Feature Extraction Performance Analysis}{64}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Multi-Class Classification Results (Phase 1)}{64}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Algorithm Performance Comparison and Statistical Analysis}{64}{subsection.4.2.1}%
+\contentsline {subsection}{\numberline {4.2.2}Detailed Performance Analysis by Malware Family}{65}{subsection.4.2.2}%
+\contentsline {section}{\numberline {4.3}Unknown Malware Detection Results (Phase 2)}{66}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Binary Classification Framework and Fold Analysis}{66}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}UMAP Implementation and Performance Improvement}{68}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Class-Specific Performance Analysis}{69}{subsection.4.3.3}%
+\contentsline {section}{\numberline {4.4}Comparison with State-of-the-Art Methods and Computational Efficiency}{70}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Comparison with State-of-the-Art Methods}{70}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Computational Efficiency and Scalability Analysis}{70}{subsection.4.4.2}%
+\contentsline {section}{\numberline {4.5}Summary of Key Findings}{71}{section.4.5}%
+\contentsline {chapter}{\numberline {5}Conclusion and Future Work}{73}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Summary of Research Contributions}{73}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Implications and Significance}{74}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Limitations and Challenges}{75}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Future Research Directions}{76}{section.5.4}%
+\contentsline {section}{\numberline {5.5}Concluding Remarks}{77}{section.5.5}%
+\contentsline {chapter}{REFERENCES}{78}{chapter*.4}%
